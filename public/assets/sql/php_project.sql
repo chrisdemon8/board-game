@@ -63,7 +63,7 @@ CREATE TABLE `answer` (
   `id_answer` int(11) NOT NULL AUTO_INCREMENT,
   `label_answer` varchar(255) NOT NULL,
   `id_question` int(2) NOT NULL,
-  `valid` BOOLEAN NOT NULL, 
+  `valid` BOOLEAN NOT NULL,
   PRIMARY KEY (`id_answer`),
   CONSTRAINT FK_AnswerId FOREIGN KEY (`id_question`)
     REFERENCES `question`(`id_question`)

@@ -1,0 +1,20 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ parent()}} - Accueil {% endblock %}
+
+{% block body %}
+<h1>{{ username }}</h1>
+
+<ul>
+        <li>email : {{ email }}</li>
+        <li>role : {{ role }}</li>
+        <li>firstname : {{ firstname }}</li>
+        <li>lastname : {{ lastname }}</li>
+        <li>createdAt : {{ createdAt }}</li>
+</ul>
+
+{% endblock %}
+
+{% block bottom_js %}
+       
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ parent()}} - Accueil {% endblock %}
+
+{% block body %}
+<h1>Liste des utilisateur</h1>
+
+        {% for user in users %}
+    <h1>{{user.getUsername()}} </h1>
+    <ul>
+
+            <li>email : {{ user.getEmail() }}</li>
+            <li>role : {{ user.getRole() }}</li>
+            <li>firstname : {{ user.getFirstname() }}</li>
+            <li>lastname : {{ user.getLastname() }}</li>
+            <li>createdAt : {{ user.getCreatedAt().format('Y-m-d H:i:s') }}</li>
+
+    </ul>
+        {% else %}
+                <li>Aucun users</li>
+        {% endfor %}
+
+{% endblock %}
+
+{% block bottom_js %}
+       
+{% endblock %}

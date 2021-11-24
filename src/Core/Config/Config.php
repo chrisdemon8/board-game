@@ -17,7 +17,6 @@ class Config
         }
 
         $config = $configOverload + $configBase;
-
         return $config[$name] ?? $default;
     }
 }

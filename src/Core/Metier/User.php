@@ -3,20 +3,38 @@
 namespace Framework\Metier;
 
 use \DateTime;
+use \Exception;
 
 class User
 {
-    private int $id_role;
+    private int $id_user;
     private string $username;
     private string  $password;
     private string $email;
-    private int $roles;
+    private int $role;
     private string $firstName;
     private string $lastName;
+    private Datetime $createdAt;
 
-    public function __construct($data)
+    public function __construct()
     {
-        $this->hydrate($data);
+
+    }
+
+    public static function create($data){
+        $user = new User();
+
+        if($data == NULL)
+            throw new Exception("Données non conforme !");
+        $user->hydrate($data);
+        //set de base a user
+        $user->setRole(2);
+        //set automatique de la date
+        date_default_timezone_set('Europe/Paris');
+        $date = new DateTime();
+        $user->setCreatedAt(date_format($date,"Y-m-j H:m:s"));
+    
+        return $user;
     }
 
     public function hydrate($data)
@@ -32,17 +50,17 @@ class User
     /**
      * @return int
      */
-    public function getid_role(): int
+    public function getIdUser(): int
     {
-        return $this->id_role;
+        return $this->id_user;
     }
 
     /**
-     * @param int $id_role
+     * @param int $id_user
      */
-    public function setid_role(int $id_role): void
+    private function setIdUser(int $id_user): void
     {
-        $this->id_role = $id_role;
+        $this->id_user = $id_user;
     }
 
     /**
@@ -96,17 +114,17 @@ class User
     /**
      * @return int
      */
-    public function getRoles(): int
+    public function getRole(): int
     {
-        return $this->roles;
+        return $this->role;
     }
 
     /**
-     * @param int $roles
+     * @param int $role
      */
-    public function setRoles(int $roles): void
+    public function setRole(int $role): void
     {
-        $this->roles = $roles;
+        $this->role = $role;
     }
 
     /**
@@ -141,6 +159,7 @@ class User
         $this->lastName = $lastName;
     }
 
+
     /**
      * @return DateTime
      */
@@ -149,14 +168,16 @@ class User
         return $this->createdAt;
     }
 
+
     /**
-     * @param DateTime $createdAt
+     * @param string $createdAt
      */
-    public function setCreatedAt(DateTime $createdAt): void
+    private function setCreatedAt(string $createdAt): void
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = date_create_from_format('Y-m-d H:i:s', $createdAt);
+        $this->createdAt->getTimestamp();
     }
-    private Datetime $createdAt;
+
 
 
 }

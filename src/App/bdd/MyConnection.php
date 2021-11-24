@@ -23,8 +23,9 @@ class MyConnection extends PDO
  
         if(is_null(self::$connection)) {
           self::$connection = new PDO ('mysql:host=localhost;dbname='.Config::get('DBNAME'),Config::get('USERNAME'), Config::get('PASSWORD'));
+          self::$connection->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
         }
-    
+
         return self::$connection;
       }
 

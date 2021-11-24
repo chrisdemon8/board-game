@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 24-11-2021
 
+- Ajout des users / users controller
+- Ajout des gestion basique de base de bdd
+- Ajout d'exception basique
+- Ajout des template basique d'affichage des users
+
+## 24-11-2021
+
 - Ajout de la structure de la base de donnée en script SQL dans assets/sql/php_project.sql
 
 ## 22-11-2021
