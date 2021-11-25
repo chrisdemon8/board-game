@@ -20,8 +20,8 @@ class addUser extends AbstractController
                 'error' => $e->getMessage(),
             ]);
         }
+        
         var_dump($user);
-
 
         return $this->render('home.html.twig');
     }

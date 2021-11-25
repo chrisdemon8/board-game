@@ -1,0 +1,33 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %} {{ parent()}} - Accueil {% endblock %}
+
+{% block body %}
+<h1>Liste des questions</h1>
+
+        {% for question in questions %}
+    <ul>
+
+          <li>Label : {{ question.getLabelQuestion() }}</li>
+          <li>Level : {{ question.getLevel() }}</li>
+          <li>Réponse possible :</li>
+                     {% for answer in question.getAnswers() %}
+                     <ul>
+                        <li>{{ answer.getLabelAnswer() }}</li>
+                     </ul>
+                     {% else %}
+                     <ul>
+                        <li>Aucune réponse</li>
+                     </ul>
+
+                    {% endfor %}
+    </ul>
+        {% else %}
+                <li>Aucun users</li>
+        {% endfor %}
+
+{% endblock %}
+
+{% block bottom_js %}
+       
+{% endblock %}

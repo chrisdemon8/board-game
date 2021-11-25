@@ -15,7 +15,7 @@ class ShowAllUsers extends AbstractController
     {
         try {
             $this->userCont = new UsersController();
-            $users = $this->userCont->getAllUser();
+            $users = $this->userCont->getAllUsers();
 
             return $this->render('/user/users.html.twig', [
                 'users' => $users,

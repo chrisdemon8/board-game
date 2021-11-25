@@ -2,10 +2,12 @@
 
 namespace Framework\Metier;
 
+use Framework\Controller\Objectify;
+use Framework\Controller\Create;
 use \DateTime;
 use \Exception;
 
-class User
+class User implements Objectify, Create
 {
     private int $id_user;
     private string $username;
@@ -18,13 +20,13 @@ class User
 
     public function __construct()
     {
-
     }
 
-    public static function create($data){
+    public static function create($data): User
+    {
         $user = new User();
 
-        if($data == NULL)
+        if ($data == NULL)
             throw new Exception("Données non conforme !");
         $user->hydrate($data);
         //set de base a user
@@ -32,15 +34,22 @@ class User
         //set automatique de la date
         date_default_timezone_set('Europe/Paris');
         $date = new DateTime();
-        $user->setCreatedAt(date_format($date,"Y-m-j H:m:s"));
-    
+        $user->setCreatedAt(date_format($date, "Y-m-j H:m:s"));
+
         return $user;
     }
 
-    public function hydrate($data)
+    public static function Objectify($data): User
+    {
+        $user = new User();
+        $user->hydrate($data);
+        return $user;
+    }
+
+    public function hydrate($data): void
     {
         foreach ($data as $attribute => $value) {
-            $method = 'set'.str_replace(' ', '', ucwords(str_replace('_', ' ', $attribute)));
+            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribute)));
             if (is_callable(array($this, $method))) {
                 $this->$method($value);
             }
@@ -177,7 +186,4 @@ class User
         $this->createdAt = date_create_from_format('Y-m-d H:i:s', $createdAt);
         $this->createdAt->getTimestamp();
     }
-
-
-
 }

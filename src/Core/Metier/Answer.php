@@ -1,0 +1,100 @@
+<?php
+
+namespace Framework\Metier;
+
+use \Exception;
+use Framework\Controller\Objectify;
+
+class Answer implements Objectify
+{
+    private int $id_answer;
+    private string $label_answer;
+    private int  $id_question;
+    private bool $valid;
+
+    
+    public static function Objectify($data):Answer{
+        $Answer = new Answer();
+
+        if($data == NULL)
+            throw new Exception("Données non conforme !");
+        $Answer->hydrate($data);
+        return $Answer;
+    }
+
+
+    public function hydrate($data):void
+    {
+        foreach ($data as $attribute => $value) {
+            $method = 'set'.str_replace(' ', '', ucwords(str_replace('_', ' ', $attribute)));
+            if (is_callable(array($this, $method))) {
+                $this->$method($value);
+            }
+        }
+    }
+    
+    /**
+     * @return int
+     */
+    public function getIdAnswer(): int
+    {
+        return $this->id_answer;
+    }
+
+    /**
+     * @param int $id_answer
+     */
+    public function setIdAnswer(int $id_answer): void
+    {
+        $this->id_answer = $id_answer;
+    }
+
+    /**
+     * @return string
+     */
+    public function getLabelAnswer(): string
+    {
+        return $this->label_answer;
+    }
+
+    /**
+     * @param string $label_answer
+     */
+    public function setLabelAnswer(string $label_answer): void
+    {
+        $this->label_answer = $label_answer;
+    }
+
+    /**
+     * @return int
+     */
+    public function getIdQuestion(): int
+    {
+        return $this->id_question;
+    }
+
+    /**
+     * @param int $id_question
+     */
+    public function setIdQuestion(int $id_question): void
+    {
+        $this->id_question = $id_question;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isValid(): bool
+    {
+        return $this->valid;
+    }
+
+    /**
+     * @param bool $valid
+     */
+    public function setValid(int $valid): void
+    {
+        $this->valid = ($valid==1);
+    }
+
+}
