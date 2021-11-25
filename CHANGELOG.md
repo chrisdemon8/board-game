@@ -4,6 +4,16 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 25-11-2021
+
+- Ajout des answer / answer controller
+- Ajout des question / question controller
+- Ajout des templates basique pour question
+- Mise en place d'ErrorManager
+- Mise en place des restrictions sur user lors de l'inscription en back (pas de check en avant l'envoi du formulaire)
+- et je ne sais plus le reste
+
+
 ## 24-11-2021
 
 - Ajout des users / users controller
