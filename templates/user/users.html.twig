@@ -2,23 +2,65 @@
 
 {% block title %} {{ parent()}} - Accueil {% endblock %}
 
+
 {% block body %}
+
+<style>
+table { 
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+ 
 <h1>Liste des utilisateur</h1>
 
+
+<div style="overflow-x:auto;">
+<table>
+<tr>
+        <th>Username</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Firstname</th>
+        <th>Lastname</th>
+        <th>Creation date</th>
+</tr>
+
+
         {% for user in users %}
-    <h1>{{user.getUsername()}} </h1>
-    <ul>
 
-            <li>email : {{ user.getEmail() }}</li>
-            <li>role : {{ user.getRole() }}</li>
-            <li>firstname : {{ user.getFirstname() }}</li>
-            <li>lastname : {{ user.getLastname() }}</li>
-            <li>createdAt : {{ user.getCreatedAt().format('Y-m-d H:i:s') }}</li>
-
-    </ul>
+        <tr>
+                <td>{{user.getUsername()}}</td>
+                <td>{{ user.getEmail() }}</td>
+                <td>{{ user.getRole() }}</td>
+                <td>{{ user.getFirstname() }}</td>
+                <td>{{ user.getLastname() }}</td>
+                <td>{{ user.getCreatedAt().format('Y-m-d H:i:s') }}</td>
+        </tr>
+ 
         {% else %}
-                <li>Aucun users</li>
+        <tr>
+                <td>Aucun utilisateur</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+        </tr>
         {% endfor %}
+</table>
+</div>
 
 {% endblock %}
 

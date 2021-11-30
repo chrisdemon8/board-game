@@ -60,17 +60,28 @@ class UsersController
         $messageError = '';
 
         //le 0 est la pour match le nombre d'arguement , il n'est pas mis dans la bdd
-        $request = $this->connection->prepare('SELECT * FROM user WHERE email = :email');
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email = :email');
         $request->bindValue(':email', $user->getEmail());
-        $emailUnique = $request->execute();
+        
+        if(!$request->execute()){
+            $messageError .= "ERROR SQL 1"; 
+        };
+        
+        $emailUnique = $request->fetch(); 
 
-        $request = $this->connection->prepare('SELECT * FROM user WHERE username = :username');
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE username = :username');
         $request->bindValue(':username', $user->getUsername());
-        $usernameUnique = $request->execute();
 
-        if ($emailUnique != NULL)
+
+        if(!$request->execute()){
+            $messageError .= "ERROR SQL 2"; 
+        };
+ 
+        $usernameUnique = $request->fetch();
+
+        if ($emailUnique["exist"] > 0)
             $messageError .= 'ERROR_MAIL';
-        if ($usernameUnique != NULL)
+        if ($usernameUnique["exist"] > 0)
             $messageError .= '/ERROR_USERNAME';
 
 

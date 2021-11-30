@@ -4,6 +4,14 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 30-11-2021
+## Added 
+- Ajout de l'affichage d'une question / style liste utilisateurs
+
+## Fixed 
+- Correction de la vérification de l'utilisateur unique et de l'email unique
+- Correction templates chemin pour une question
+
 ## 25-11-2021
 
 - Ajout des answer / answer controller

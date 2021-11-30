@@ -18,7 +18,7 @@ class QuestionController
 
     public function getQuestionById(int $id): Question
     {
-        $request = $this->connection->prepare('SELECT * FROM question WHERE id_Question = :id');
+        $request = $this->connection->prepare('SELECT * FROM question WHERE id_question = :id');
 
         $request->bindValue(':id', $id, PDO::PARAM_INT);
 
@@ -52,6 +52,7 @@ class QuestionController
             array_push($Questions, $Question);
   
         }
+ 
 
         return $Questions;
     }

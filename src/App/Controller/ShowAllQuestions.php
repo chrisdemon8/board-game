@@ -15,7 +15,7 @@ class ShowAllQuestions extends AbstractController
         try {
             $this->questionCont = new QuestionController();
             $questions = $this->questionCont->getAllQuestions();
-            var_dump($questions[1]->getAnswers());
+            //var_dump($questions[1]->getAnswers());
             return $this->render('/question/questions.html.twig', [
                 'questions' => $questions,
             ]);
