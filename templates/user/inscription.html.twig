@@ -1,51 +1,60 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %} Inscription {% endblock %}
+{% block title %}
+	Inscription
+{% endblock %}
+  
 
 {% block body %}
-<form action="addUser" method="get">
 
-  
-  <div>
-    <label for="username">Enter your username: </label>
-    <input type="text" name="username" id="username" required>
-  </div>
+	<div class="basicForm">
+		<form action="addUser" method="get">
 
-  <div>
-    <label for="lastname">Enter your lastname: </label>
-    <input type="text" name="lastname" id="lastname" required>
-  </div>
 
-  <div>
-    <label for="firstname">Enter your firstname: </label>
-    <input type="text" name="firstname" id="firstname" required>
-  </div>
+			<div>
+				<label for="username">pseudo :
+				</label>
+				<input type="text" name="username" id="username" required>
+			</div>
 
-  <div>
-    <label for="email">Enter your email: </label>
-    <input type="email" name="email" id="email" required>
-  </div>
+			<div>
+				<label for="lastname">Nom de famille :
+				</label>
+				<input type="text" name="lastname" id="lastname" required>
+			</div>
 
-   <div>
-    <label for="password">Enter your password: </label>
-    <input type="password" name="password" id="password" required>
-  </div>
+			<div>
+				<label for="firstname">Prénom :
+				</label>
+				<input type="text" name="firstname" id="firstname" required>
+			</div>
 
-   <div>
-    <label for="passwordBis">Verify password: </label>
-    <input type="password" name="passwordBis" id="password" required>
-  </div>
+			<div>
+				<label for="email">Email :
+				</label>
+				<input type="email" name="email" id="email" required>
+			</div>
 
-  <div>
-    <input type="submit" value="Subscribe!">
-  </div>
+			<div>
+				<label for="password">Mot de passe :
+				</label>
+				<input type="password" name="password" id="password" required>
+			</div>
 
-</form>
+			<div>
+				<label for="passwordBis">Vérification mot de passe :
+				</label>
+				<input type="password" name="passwordBis" id="password" required>
+			</div>
 
+			<div>
+				<input type="submit" value="Subscribe!">
+			</div>
+
+		</form>
+	</div>
 
 
 {% endblock %}
 
-{% block bottom_js %}
-       
-{% endblock %}
+{% block bottom_js %}{% endblock %}

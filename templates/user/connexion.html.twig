@@ -1,0 +1,35 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+	Connexion
+{% endblock %}
+  
+
+{% block body %}
+
+	<div class="basicForm">
+		<form action="checkUser" method="get">
+ 
+			<div>
+				<label for="email">Email :
+				</label>
+				<input type="email" name="email" id="email" required>
+			</div>
+
+			<div>
+				<label for="password">Mot de passe :
+				</label>
+				<input type="password" name="password" id="password" required>
+			</div> 
+
+			<div>
+				<input type="submit" value="S'identifier">
+			</div>
+
+		</form>
+	</div>
+
+
+{% endblock %}
+
+{% block bottom_js %}{% endblock %}

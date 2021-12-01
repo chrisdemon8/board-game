@@ -1,16 +1,26 @@
 <!DOCTYPE html>
 <html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="assets/css/app.css" />
-    {% block css %}{% endblock %}
-    {% block js %}{% endblock %}
-</head>
-<body>
-    {% block body %}{% endblock %}
-    {% block bottom_js %}{% endblock %}
-</body>
-</html>
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Document</title>
+		<link rel="stylesheet" href="assets/css/app.css"/> {% block css %}{% endblock %}{% block js %}{% endblock %}
+		</head>
+		<body>
+			<div class="nav" id="nav">
+				<a href="/" class="active">Accueil</a>
+				<a href="/allUsers">Utilisateurs</a>
+				<a href="/allQuestions">Questions</a> 
+                <a href="/connexion">Connexion</a> 
+                <a href="/inscription">Inscription</a> 
+				<a href="javascript:void(0);" class="icon" onclick="functionMenu()">
+                    <img class="burgerMenu" src="assets/css/menu.png" alt="menu">
+				</a>
+			</div>
+
+			{% block body %}{% endblock %}
+			{% block bottom_js %}{% endblock %}
+            <script type="text/javascript" src="assets/js/app.js"></script>
+		</body>
+	</html>

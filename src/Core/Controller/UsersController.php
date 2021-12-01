@@ -41,7 +41,22 @@ class UsersController
         }
         return $users;
     }
-//TODO: a testé
+
+    public function checkUser(string $email, string $password): bool
+    {
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email = :email AND password = :password');
+
+        $request->bindValue(':email', $email);
+        $request->bindValue(':password', $password);
+
+        $request->execute(); 
+        $user = $request->fetch();
+        if ($user["exist"] < 1) { 
+            return false;
+        }
+        return true;
+    }
+    //TODO: a testé
     public function updateUser(User $user): void
     {
         $request = $this->connection->prepare('UPDATE user SET username = :username,password = :password,email = :email,role = :role, lastname = :lastname WHERE id_user = :id');
@@ -62,21 +77,21 @@ class UsersController
         //le 0 est la pour match le nombre d'arguement , il n'est pas mis dans la bdd
         $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email = :email');
         $request->bindValue(':email', $user->getEmail());
-        
-        if(!$request->execute()){
-            $messageError .= "ERROR SQL 1"; 
+
+        if (!$request->execute()) {
+            $messageError .= "ERROR SQL 1";
         };
-        
-        $emailUnique = $request->fetch(); 
+
+        $emailUnique = $request->fetch();
 
         $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE username = :username');
         $request->bindValue(':username', $user->getUsername());
 
 
-        if(!$request->execute()){
-            $messageError .= "ERROR SQL 2"; 
+        if (!$request->execute()) {
+            $messageError .= "ERROR SQL 2";
         };
- 
+
         $usernameUnique = $request->fetch();
 
         if ($emailUnique["exist"] > 0)

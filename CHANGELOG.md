@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 30-11-2021
 ## Added 
 - Ajout de l'affichage d'une question / style liste utilisateurs
+- Ajout du formulaire de connexion / connexion controller et requête SQL
 
 ## Fixed 
 - Correction de la vérification de l'utilisateur unique et de l'email unique
