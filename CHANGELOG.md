@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 01-12-2021
 ## Added 
 - Ajout des sessions 
+- Ajout du système de connexion et de déconnexion
+- Ajout du hash du password 
+
+## Changed
+- vérification compte avec username possible 
 
 ## 30-11-2021
 ## Added 
