@@ -25,7 +25,7 @@ class checkUser extends AbstractController
         // Faire ce traitement dans une classe
         $_SESSION['user'] = $user;
         
-
+        
         header('Location: /');
     }
 }

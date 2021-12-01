@@ -5,4 +5,8 @@
     flex-direction: column;
     margin-top: 20px;
 }
+
+.changePasswordArea{
+    display: none;
+}
  

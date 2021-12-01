@@ -31,6 +31,7 @@ class User implements Objectify, Create
         $user->hydrate($data);
         //set de base a user
         $user->setRole(2);
+
         //set automatique de la date
         date_default_timezone_set('Europe/Paris');
         $date = new DateTime();

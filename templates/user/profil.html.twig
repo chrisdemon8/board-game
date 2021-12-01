@@ -1,0 +1,84 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+	Profil
+{% endblock %}
+
+{% block css %}
+	<link rel="stylesheet" href="assets/css/inscription.css"/>
+{% endblock %}
+ 
+
+{% block body %}
+
+
+	{% if session.user is defined %}
+
+
+		<div class="basicForm">
+			<form action="updateUser" method="post">
+
+
+				<div>
+					<label for="username">pseudo :
+					</label>
+					<input type="text" name="username" id="username" value={{ session.user.username }} required>
+				</div>
+
+				<div>
+					<label for="lastname">Nom de famille :
+					</label>
+					<input type="text" name="lastname" id="lastname" value={{ session.user.lastname }} required>
+				</div>
+
+				<div>
+					<label for="firstname">Prénom :
+					</label>
+					<input type="text" name="firstname" id="firstname" value={{ session.user.firstname }} required>
+				</div>
+
+				<div>
+					<label for="email">Email :
+					</label>
+					<input type="email" name="email" id="email" value={{ session.user.email }} required>
+				</div>
+
+
+				<div>
+					<input type="checkbox" id="changePassword" name="changePassword" onclick="checkChangePassword()">
+					<label for="changePassword">Changer votre mot de passe</label>
+				</div>
+
+				<div class="changePasswordArea" id="changePasswordArea">
+					<div>
+						<label for="passwordNew">Nouveau mot de passe :
+						</label>
+						<input type="password" name="passwordNew" id="passwordNew">
+					</div>
+
+					<div>
+						<label for="passwordNewBis">Vérification nouveau mot de passe :
+						</label>
+						<input type="password" name="passwordNewBis" id="passwordNewBis">
+					</div>
+				</div>
+
+				<div>
+					<label for="password">Tapez votre mot de passe pour actualiser vos données :
+					</label>
+					<input type="password" name="password" id="password" required>
+				</div>
+
+
+				<div>
+					<input type="submit" value="Mettre à jour">
+				</div>
+
+			</form>
+		</div>
+	{% endif %}
+
+{% endblock %} 
+			
+
+{% block bottom_js %}<script type="text/javascript" src="assets/js/formulaire.js"></script>{% endblock %}
