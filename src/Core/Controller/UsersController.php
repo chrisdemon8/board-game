@@ -44,17 +44,28 @@ class UsersController
 
     public function checkUser(string $email, string $password): bool
     {
-        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email = :email AND password = :password');
+        $request = $this->connection->prepare('SELECT id_user as exist, password FROM user WHERE email = :email OR username =:email');
 
         $request->bindValue(':email', $email);
-        $request->bindValue(':password', $password);
 
-        $request->execute(); 
+        $request->execute();
         $user = $request->fetch();
-        if ($user["exist"] < 1) { 
+
+
+
+        if (!$user) {
+            $messageError = 'Identifiant incorrect';
+            ErrorManager::CustomError($messageError);
             return false;
         }
-        return true;
+
+        if (!password_verify($password, $user["password"])) {
+            $messageError = 'Mot de passe incorrect';
+            ErrorManager::CustomError($messageError);
+            return false;
+        };
+
+        return $user["exist"];
     }
     //TODO: a testé
     public function updateUser(User $user): void
@@ -104,7 +115,7 @@ class UsersController
             $request = $this->connection->prepare('INSERT INTO user VALUES (0,:username,:password,:email,:role,:firstname,:lastname,:createdAt)');
 
             $request->bindValue(':username', $user->getUsername());
-            $request->bindValue(':password', $user->getPassword());
+            $request->bindValue(':password', password_hash($user->getPassword(), PASSWORD_DEFAULT));
             $request->bindValue(':email', $user->getEmail());
             $request->bindValue(':role', $user->getRole());
             $request->bindValue(':firstname', $user->getFirstName());

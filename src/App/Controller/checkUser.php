@@ -6,23 +6,26 @@ use Exception;
 use Framework\Controller\AbstractController;
 use Framework\Controller\UsersController;
 use Framework\Metier\User;
-
+  
 class checkUser extends AbstractController
 {
     public function __invoke(): string
-    { 
+    {
         $userCont = new UsersController();
         try {
-            $bool = $userCont->checkUser($_GET['email'], $_GET['password']);
+            $usernameId = $userCont->checkUser($_POST['email'], $_POST['password']);
+ 
+            $user = $userCont->getUserById($usernameId);
         } catch (Exception $e) {
-            return $this->render('error.html.twig', [
+            return $this->render('user/connexion.html.twig', [
                 'error' => $e->getMessage(),
             ]);
         }
 
-        if ($bool) {
-            return $this->render('home.html.twig');
-        } else
-            return $this->render('user/connexion.html.twig');
+        // Faire ce traitement dans une classe
+        $_SESSION['user'] = $user;
+        
+
+        header('Location: /');
     }
 }

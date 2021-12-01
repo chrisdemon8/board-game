@@ -3,32 +3,37 @@
 {% block title %}
 	Connexion
 {% endblock %}
-  
+
+{% block css %}
+	<link rel="stylesheet" href="assets/css/inscription.css"/>
+{% endblock %}
+
 
 {% block body %}
 
 	<div class="basicForm">
-		<form action="checkUser" method="get">
- 
+		<form action="checkUser" method="post">
+
 			<div>
-				<label for="email">Email :
+				<label for="email">Email / Username :
 				</label>
-				<input type="email" name="email" id="email" required>
+				<input type="text" name="email" id="email" required>
 			</div>
 
 			<div>
 				<label for="password">Mot de passe :
 				</label>
 				<input type="password" name="password" id="password" required>
-			</div> 
+			</div>
 
 			<div>
 				<input type="submit" value="S'identifier">
 			</div>
 
 		</form>
-	</div>
 
+		<p>{{error}}</p>
+	</div>
 
 {% endblock %}
 
