@@ -42,16 +42,29 @@ class UsersController
         return $users;
     }
 
-    public function checkUser(string $email, string $password): bool
+    public function verifyUniqueEmail($email): bool
     {
-        $request = $this->connection->prepare('SELECT id_user as exist, password FROM user WHERE email = :email OR username =:email');
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email =:email');
+        $request->bindValue(':email', $email);
+        $request->execute();
+        $user = $request->fetch();
+
+        if ($user['exist'] > 0) {
+            $messageError = 'email deja utilise';
+            ErrorManager::CustomError($messageError);
+            return false;
+        }
+        return true;
+    }
+
+    public function checkUser(string $email, string $password): int
+    {
+        $request = $this->connection->prepare('SELECT id_user, password FROM user WHERE email = :email OR username =:email');
 
         $request->bindValue(':email', $email);
 
         $request->execute();
         $user = $request->fetch();
-
-
 
         if (!$user) {
             $messageError = 'Identifiant incorrect';
@@ -65,18 +78,37 @@ class UsersController
             return false;
         };
 
-        return $user["exist"];
+        return $user["id_user"];
     }
     //TODO: a testé
-    public function updateUser(User $user): void
+    public function updateUser(User $user, int $role, bool $changePassword): void
     {
-        $request = $this->connection->prepare('UPDATE user SET username = :username,password = :password,email = :email,role = :role, lastname = :lastname WHERE id_user = :id');
+        
+
+        if ($role === 1) {
+            $sql = "UPDATE user SET email = :email,role = :role, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
+        } else if ($changePassword && $role == 2) {
+            $sql = "UPDATE user SET password = :password,email = :email, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
+        } else {
+            $sql = "UPDATE user SET email = :email, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
+        }
+
+        $request = $this->connection->prepare($sql);
 
         $request->bindValue(':id', $user->getIdUser(), PDO::PARAM_INT);
-        $request->bindValue(':username', $user->getUsername());
-        $request->bindValue(':password', $user->getPassword());
         $request->bindValue(':email', $user->getEmail());
-        $request->bindValue(':role', $user->getRole());
+        $request->bindValue(':firstname', $user->getFirstName());
+        $request->bindValue(':lastname', $user->getLastName());
+
+        if ($role === 1)
+            $request->bindValue(':role', $user->getRole());
+        else {
+            if ($changePassword && $role === 2)
+                $request->bindValue(':password', password_hash($user->getPassword(), PASSWORD_DEFAULT));
+        }
+
+
+
 
         $request->execute();
     }

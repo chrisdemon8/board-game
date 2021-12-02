@@ -14,17 +14,14 @@ class checkUser extends AbstractController
         $userCont = new UsersController();
         try {
             $usernameId = $userCont->checkUser($_POST['email'], $_POST['password']);
- 
             $user = $userCont->getUserById($usernameId);
         } catch (Exception $e) {
             return $this->render('user/connexion.html.twig', [
                 'error' => $e->getMessage(),
             ]);
         }
-
-        // Faire ce traitement dans une classe
+ 
         $_SESSION['user'] = $user;
-        
         
         header('Location: /');
     }

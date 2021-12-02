@@ -19,11 +19,7 @@
 			<form action="updateUser" method="post">
 
 
-				<div>
-					<label for="username">pseudo :
-					</label>
-					<input type="text" name="username" id="username" value={{ session.user.username }} required>
-				</div>
+				 
 
 				<div>
 					<label for="lastname">Nom de famille :
@@ -51,9 +47,9 @@
 
 				<div class="changePasswordArea" id="changePasswordArea">
 					<div>
-						<label for="passwordNew">Nouveau mot de passe :
+						<label for="password">Nouveau mot de passe :
 						</label>
-						<input type="password" name="passwordNew" id="passwordNew">
+						<input type="password" name="password" id="password">
 					</div>
 
 					<div>
@@ -64,9 +60,9 @@
 				</div>
 
 				<div>
-					<label for="password">Tapez votre mot de passe pour actualiser vos données :
+					<label for="passwordCheck">Tapez votre mot de passe pour actualiser vos données :
 					</label>
-					<input type="password" name="password" id="password" required>
+					<input type="passwordCheck" name="passwordCheck" id="passwordCheck" required>
 				</div>
 
 
