@@ -1,6 +1,4 @@
 const buttonDelete = document.querySelectorAll('.delete');
-
-
 const buttonModify = document.querySelectorAll('.modify');
 
 
@@ -21,35 +19,58 @@ buttonDelete.forEach(el => el.addEventListener('click', event => {
 
 buttonModify.forEach(el => el.addEventListener('click', event => {
 
+    let idUser = event.target.id;
+
     let tr = document.getElementById(event.target.id);
-
-
+ 
     event.target.style.display = 'none';
 
 
     var children = tr.children;
+ 
     for (let i = 0; i < children.length - 2; i++) {
-        console.log(children[i].innerHTML);
-
 
         var x = document.createElement("INPUT");
         x.setAttribute("type", "text");
         x.setAttribute("value", children[i].innerHTML);
         children[i].innerHTML = "";
         children[i].appendChild(x);
-        console.log(children[i].innerHTML);
     }
 
     function cancelAction() {
         event.target.style.display = "inline";
 
+        fetch("/GetUser", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                },
+                body: `idUser=${idUser}`,
+            })
+            .then((response) => response.text())
+            .then((res) => {
+                res = JSON.parse(res);
+                for (let i = 0; i < children.length - 2; i++) {
 
-        for (let i = 0; i < children.length - 2; i++) {
-            console.log(children[i].innerHTML);
+                    /*        console.log(children[i].id);
+                           console.log((res));
 
+                           console.log(res[children[i].id]); */
+                    let dataText
+                    if (children[i].id == "createdAt")
+                        dataText = res[children[i].id].date;
+                    else
+                        dataText = res[children[i].id];
+                    var x = document.createElement("INPUT");
+                    x.setAttribute("type", "text");
+                    x.setAttribute("value", children[i].innerHTML);
 
-            children[i].innerHTML = "DATA AVANT(pas encore fait)";
-        }
+                    children[i].innerHTML = dataText;
+                }
+
+            });
+
+ 
     }
 
     function validAction() {
@@ -58,8 +79,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
 
         for (let i = 0; i < children.length - 2; i++) {
             console.log(children[i].innerHTML);
-
-
+ 
             children[i].innerHTML = "DATA APRES(pas encore fait)";
         }
     }

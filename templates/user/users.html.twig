@@ -49,12 +49,12 @@
 			{% for user in users %}
 
 				<tr id='{{user.getIdUser()}}'>
-					<td>{{user.getUsername()}}</td>
-					<td>{{ user.getEmail() }}</td>
-					<td>{{ user.getRole() }}</td>
-					<td>{{ user.getFirstname() }}</td>
-					<td>{{ user.getLastname() }}</td>
-					<td>{{ user.getCreatedAt().format('Y-m-d H:i:s') }}</td>
+					<td id="username">{{user.getUsername()}}</td>
+					<td id="email">{{ user.getEmail() }}</td>
+					<td  id="role">{{ user.getRole() }}</td>
+					<td id="firstName">{{ user.getFirstname() }}</td>
+					<td id="lastName">{{ user.getLastname() }}</td>
+					<td id="createdAt">{{ user.getCreatedAt().format('Y-m-d H:i:s') }}</td>
 					{% if session.user.role == 1 %}
 						<td><button class="modify" id='{{user.getIdUser()}}'>Modifier</button></td>
 						<td><button class="delete" id='{{user.getIdUser()}}'>Supprimer</button></td>

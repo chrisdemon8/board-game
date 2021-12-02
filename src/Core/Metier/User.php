@@ -22,6 +22,19 @@ class User implements Objectify, Create
     {
     }
 
+    public function jsonSerialize() {
+        return [
+            'idUser' => $this->getIdUser(),
+            'username' => $this->getUsername(),
+            'email' => $this->getEmail(),
+            'role' => $this->getRole(),
+            'firstName' => $this->getFirstName(),
+            'lastName' => $this->getLastName(), 
+            'createdAt' => $this->getCreatedAt(),
+        ];
+    }
+
+
     public static function create($data): User
     {
         $user = new User();
