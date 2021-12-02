@@ -12,6 +12,7 @@ use App\Controller\connexion;
 use App\Controller\Disconnected;
 use App\Controller\Profil;
 use App\Controller\UpdateUser;
+use App\Controller\DeleteUser; 
 
 use Framework\Routing\Route;
 
@@ -25,6 +26,7 @@ return [
     new Route('GET', '/addUser', addUser::class),
     new Route('POST', '/checkUser', checkUser::class),
     new Route('GET', '/profil', Profil::class),
+    new Route('POST', '/deleteUser', DeleteUser::class), 
     new Route('POST', '/updateUser', UpdateUser::class),
     new Route('GET', '/inscription', inscription::class),
     new Route('GET', '/connexion', connexion::class),

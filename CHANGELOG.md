@@ -7,7 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 02-12-2021
 ## Added
 - Ajout du javascript qui gère l'affichage des modifications dans le tableau liste des utilisateur (juste front pas d'action back)
-- Ajout des boutons pour modifier et supprimer lorsque vous êtes admin (juste front pas d'action back)
+- Ajout des boutons pour modifier et supprimer lorsque vous êtes admin
+- Ajout des fonctions pour supprimer dans la base de données au moment du clique sur supprimer
 - Ajout de l'update du profil et changement de mot de passe pour un utilisateur
 
 

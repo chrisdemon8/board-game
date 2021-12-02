@@ -8,7 +8,7 @@ buttonDelete.forEach(el => el.addEventListener('click', event => {
 
     let idUser = event.target.id;
 
-    fetch("deleteUser.php", {
+    fetch("/deleteUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

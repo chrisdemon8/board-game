@@ -83,7 +83,7 @@ class UsersController
     //TODO: a testé
     public function updateUser(User $user, int $role, bool $changePassword): void
     {
-        
+
 
         if ($role === 1) {
             $sql = "UPDATE user SET email = :email,role = :role, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
@@ -107,11 +107,17 @@ class UsersController
                 $request->bindValue(':password', password_hash($user->getPassword(), PASSWORD_DEFAULT));
         }
 
-
-
-
+ 
         $request->execute();
     }
+
+    public function deleteUser(int $idUser): void
+    {
+        $request = $this->connection->prepare('DELETE FROM `user` WHERE id_user = :id');
+        $request->bindValue(':id', $idUser);
+        $request->execute();
+    }
+
 
     public function addUser(User $user): void
     {
