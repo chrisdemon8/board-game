@@ -28,7 +28,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
 
     var children = tr.children;
 
-    for (let i = 0; i < children.length - 2; i++) {
+    for (let i = 1; i < children.length - 3; i++) {
 
         var x = document.createElement("INPUT");
         x.setAttribute("type", "text");
@@ -50,7 +50,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
             .then((response) => response.text())
             .then((res) => {
                 res = JSON.parse(res);
-                for (let i = 0; i < children.length - 2; i++) {
+                for (let i = 0; i < children.length - 3; i++) {
 
                     /*        console.log(children[i].id);
                            console.log((res));
@@ -75,7 +75,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
 
         let jsonData = {};
 
-        for (let i = 0; i < children.length - 2; i++) {
+        for (let i = 0; i < children.length - 3; i++) {
             jsonData[children[i].id] = children[i].children[0].value;
         }
 
