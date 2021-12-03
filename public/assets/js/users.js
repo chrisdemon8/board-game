@@ -4,14 +4,14 @@ const buttonModify = document.querySelectorAll('.modify');
 
 buttonDelete.forEach(el => el.addEventListener('click', event => {
 
-    let idUser = event.target.id;
+    let id_user = event.target.id;
 
     fetch("/deleteUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
             },
-            body: `idUser=${idUser}`,
+            body: `id_user=${id_user}`,
         })
         .then((response) => response.text())
         .then((res) => location.reload());
@@ -19,15 +19,15 @@ buttonDelete.forEach(el => el.addEventListener('click', event => {
 
 buttonModify.forEach(el => el.addEventListener('click', event => {
 
-    let idUser = event.target.id;
+    let id_user = event.target.id;
 
     let tr = document.getElementById(event.target.id);
- 
+
     event.target.style.display = 'none';
 
 
     var children = tr.children;
- 
+
     for (let i = 0; i < children.length - 2; i++) {
 
         var x = document.createElement("INPUT");
@@ -45,7 +45,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                 },
-                body: `idUser=${idUser}`,
+                body: `id_user=${id_user}`,
             })
             .then((response) => response.text())
             .then((res) => {
@@ -61,27 +61,39 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
                         dataText = res[children[i].id].date;
                     else
                         dataText = res[children[i].id];
-                    var x = document.createElement("INPUT");
-                    x.setAttribute("type", "text");
-                    x.setAttribute("value", children[i].innerHTML);
 
                     children[i].innerHTML = dataText;
                 }
 
             });
 
- 
+
     }
 
     function validAction() {
         event.target.style.display = "inline";
 
+        let jsonData = {};
 
         for (let i = 0; i < children.length - 2; i++) {
-            console.log(children[i].innerHTML);
- 
-            children[i].innerHTML = "DATA APRES(pas encore fait)";
+            jsonData[children[i].id] = children[i].children[0].value;
         }
+
+        jsonData["id_user"] = id_user; 
+        jsonData = JSON.stringify(jsonData);
+
+        console.log(jsonData);
+        fetch("/updateUser", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                },
+                body: `jsonData=${jsonData}`,
+            })
+            .then((response) => response.text())
+            .then((res) => location.reload());
+        /*location.reload()*/
+
     }
 
     let buttonCancel = document.createElement("BUTTON");
@@ -99,16 +111,6 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
         eventValid.target.style.display = 'none';
         buttonCancel.style.display = 'none';
         validAction();
-
-        fetch("updateUser.php", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                },
-                body: `idUser=${idUser}`,
-            })
-            .then((response) => response.text())
-            .then((res) => location.reload());
 
     });
 

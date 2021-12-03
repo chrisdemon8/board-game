@@ -13,7 +13,7 @@ class DeleteUser extends AbstractController
         $userCont = new UsersController();
         if ($_SESSION['user']->getRole() == 1) {
             try {
-                $userCont->deleteUser($_POST['idUser']);
+                $userCont->deleteUser($_POST['id_user']);
             } catch (Exception $e) {
                 return $this->render('user/connexion.html.twig', [
                     'error' => $e->getMessage(),

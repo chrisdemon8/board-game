@@ -15,7 +15,16 @@ class UpdateUser extends AbstractController
 
         $changePassword = false;
 
-        $user = $_SESSION["user"];
+
+        if (isset($_POST["jsonData"])) {
+            $valueJSON = json_decode($_POST["jsonData"]);
+            foreach ($valueJSON as $key => $value) {
+                $_POST[$key] = $value;
+            }
+
+            $user = $userCont->getUserById($_POST['id_user']); 
+        } else 
+            $user = $_SESSION["user"];
 
         if ($_POST['email'] != $user->getEmail()) {
             try {
@@ -29,6 +38,8 @@ class UpdateUser extends AbstractController
 
 
         try {
+            if (!isset($_POST['passwordCheck']))
+                $_POST['passwordCheck'] = "";
             $userCont->checkUser($_POST['email'], $_POST['passwordCheck']);
             $role = 2;
             $user->hydrate($_POST);
