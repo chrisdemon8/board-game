@@ -6,6 +6,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 02-12-2021
 ## Added
+- Ajout design bouton
+
+## Changed
+- Optimisation du fichier users.js pour la partie chargement des données, clique sur le bouton modifier et annulation
+
+## 02-12-2021
+## Added
 - Ajout du bouton pour annuler l'édition d'une ligne
 - Ajout du javascript qui gère l'affichage des modifications dans le tableau liste des utilisateur (rush pour que ça marche mais à opti --')
 - Ajout des boutons pour modifier et supprimer lorsque vous êtes admin

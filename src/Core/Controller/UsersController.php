@@ -111,10 +111,10 @@ class UsersController
         $request->execute();
     }
 
-    public function deleteUser(int $idUser): void
+    public function deleteUser(int $id_user): void
     {
         $request = $this->connection->prepare('DELETE FROM `user` WHERE id_user = :id');
-        $request->bindValue(':id', $idUser);
+        $request->bindValue(':id', $id_user);
         $request->execute();
     }
 

@@ -5,27 +5,13 @@
 	- Accueil
 {% endblock %}
 
+{% block css %}
+	<link rel="stylesheet" href="assets/css/users.css"/>
+{% endblock %}
+
 
 {% block body %}
-
-	<style>
-		table {
-			font-family: arial, sans-serif;
-			border-collapse: collapse;
-			width: 100%;
-		}
-
-		td,
-		th {
-			border: 1px solid #dddddd;
-			text-align: left;
-			padding: 8px;
-		}
-
-		tr:nth-child(even) {
-			background-color: #dddddd;
-		}
-	</style>
+ 
 
 	<h1>Liste des utilisateur</h1>
 
@@ -51,13 +37,17 @@
 				<tr id='{{user.getIdUser()}}'>
 					<td id="username">{{user.getUsername()}}</td>
 					<td id="email">{{ user.getEmail() }}</td>
-					<td  id="role">{{ user.getRole() }}</td>
+					<td id="role">{{ user.getRole() }}</td>
 					<td id="firstName">{{ user.getFirstname() }}</td>
 					<td id="lastName">{{ user.getLastname() }}</td>
 					<td id="createdAt">{{ user.getCreatedAt().format('Y-m-d H:i:s') }}</td>
 					{% if session.user.role == 1 %}
-						<td><button class="modify" id='{{user.getIdUser()}}'>Modifier</button></td>
-						<td><button class="delete" id='{{user.getIdUser()}}'>Supprimer</button></td>
+						<td>
+							<button class="modify" id='{{user.getIdUser()}}'>Modifier</button>
+						</td>
+						<td>
+							<button class="delete" id='{{user.getIdUser()}}'>Supprimer</button>
+						</td>
 					{% endif %}
 				</tr>
 
@@ -73,8 +63,10 @@
 			{% endfor %}
 		</table>
 	</div>
-
+	
 {% endblock %}
- 
-{% block bottom_js %}<script type="text/javascript" src="assets/js/users.js"></script>{% endblock %}
 
+
+{% block bottom_js %}
+	<script type="text/javascript" src="assets/js/users.js"></script>
+{% endblock %}
