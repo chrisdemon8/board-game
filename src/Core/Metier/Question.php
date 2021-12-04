@@ -4,13 +4,14 @@ namespace Framework\Metier;
 
 use \Exception;
 use Framework\Controller\Objectify;
+use Framework\Metier\Modele;
 
-class Question implements Objectify
+class Question  extends Modele implements Objectify
 {
-    private int $id_question;
-    private string $label_question;
-    private string  $level;
-    private array $answers;
+    protected int $id_question;
+    protected string $label_question;
+    protected string  $level;
+    protected array $answers;
 
     
     public function __construct()

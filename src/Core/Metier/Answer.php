@@ -3,14 +3,15 @@
 namespace Framework\Metier;
 
 use \Exception;
+use Framework\Metier\Modele;
 use Framework\Controller\Objectify;
 
-class Answer implements Objectify
+class Answer extends Modele implements Objectify
 {
-    private int $id_answer;
-    private string $label_answer;
-    private int  $id_question;
-    private bool $valid;
+    protected int $id_answer;
+    protected string $label_answer;
+    protected int  $id_question;
+    protected bool $valid;
 
     
     public static function Objectify($data):Answer{

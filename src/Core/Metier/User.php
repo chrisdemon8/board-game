@@ -7,35 +7,20 @@ use Framework\Controller\Create;
 use \DateTime;
 use \Exception;
 
-class User implements Objectify, Create
+class User extends Modele implements Objectify, Create
 {
-    private int $id_user;
-    private string $username;
-    private string  $password;
-    private string $email;
-    private int $role;
-    private string $firstName;
-    private string $lastName;
-    private Datetime $createdAt;
+    protected int $id_user;
+    protected string $username;
+    protected string  $password;
+    protected string $email;
+    protected int $role;
+    protected string $firstName;
+    protected string $lastName;
+    protected Datetime $createdAt;
 
     public function __construct()
     {
     }
-
-    public function jsonSerialize() {
-        $array=get_object_vars($this); 
-        return json_encode($array);
-     /*   return [
-            'idUser' => $this->getIdUser(),
-            'username' => $this->getUsername(),
-            'email' => $this->getEmail(),
-            'role' => $this->getRole(),
-            'firstName' => $this->getFirstName(),
-            'lastName' => $this->getLastName(), 
-            'createdAt' => $this->getCreatedAt(),
-        ];*/
-    }
-
 
     public static function create($data): User
     {
