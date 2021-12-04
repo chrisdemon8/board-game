@@ -23,7 +23,9 @@ class User implements Objectify, Create
     }
 
     public function jsonSerialize() {
-        return [
+        $array=get_object_vars($this); 
+        return json_encode($array);
+     /*   return [
             'idUser' => $this->getIdUser(),
             'username' => $this->getUsername(),
             'email' => $this->getEmail(),
@@ -31,7 +33,7 @@ class User implements Objectify, Create
             'firstName' => $this->getFirstName(),
             'lastName' => $this->getLastName(), 
             'createdAt' => $this->getCreatedAt(),
-        ];
+        ];*/
     }
 
 

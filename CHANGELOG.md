@@ -6,7 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 02-12-2021
 ## Added
-- Ajout design bouton
+- Ajout design bouton et inpu
 
 ## Changed
 - Optimisation du fichier users.js pour la partie chargement des données, clique sur le bouton modifier et annulation

@@ -17,8 +17,8 @@ class GetUser extends AbstractController
         try {
             $this->userCont = new UsersController();
             $user = $this->userCont->getUserById($_POST['id_user']);
-
-            return json_encode($user->jsonSerialize()); 
+            
+            return $user->jsonSerialize(); 
         } catch (Exception $e) {
             return $this->render('error.html.twig', [
                 'error' => $e->getMessage(),
