@@ -1,8 +1,6 @@
 const buttonDelete = document.querySelectorAll('.delete');
 const buttonModify = document.querySelectorAll('.modify');
 
-
-
 buttonDelete.forEach(el => el.addEventListener('click', event => {
     let id_user = event.target.id;
 
@@ -17,7 +15,6 @@ buttonDelete.forEach(el => el.addEventListener('click', event => {
             })
             .then((response) => response.text())
             .then((res) => location.reload());
-
     }
 }));
 
@@ -58,6 +55,11 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
     let buttonCancel = document.createElement("BUTTON");
     buttonCancel.innerHTML = "X";
     buttonCancel.classList.add("delete");
+
+    let buttonValid = document.createElement("BUTTON");
+    buttonValid.innerHTML = "YES";
+
+
 
     fetch("/GetUser", {
             method: "POST",
@@ -107,6 +109,43 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
 
             }
 
+            buttonValid.addEventListener('click', eventValid => {
+                eventValid.target.style.display = 'none';
+                buttonCancel.style.display = 'none';
+                event.target.style.display = "inline";
+
+                let jsonData = {};
+                console.log(res);
+                for (let i = 0; i < children.length; i++) {
+                    console.log(children[i].id);
+                    if (res[children[i].id]) {
+
+                        fieldsEdit.forEach(field => {
+
+                            if (field.field === children[i].id) {
+                                jsonData[children[i].id] = children[i].children[0].value;
+                            }
+                        });
+
+                    }
+                }
+
+                jsonData["id_user"] = id_user;
+                jsonData = JSON.stringify(jsonData);
+
+                fetch("/updateUser", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
+                        },
+                        body: `jsonData=${jsonData}`,
+                    })
+                    .then((response) => response.text())
+                    .then((res) => location.reload());
+
+
+            });
+
             buttonCancel.addEventListener('click', eventCancel => {
                 eventCancel.target.style.display = 'none';
                 buttonValid.style.display = 'none';
@@ -124,46 +163,10 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
                     }
                 }
             });
-        }); 
+        });
 
-    // partie qu'il faut encore optimisé
-    function validAction() {
-        event.target.style.display = "inline";
-
-        let jsonData = {};
-
-        for (let i = 1; i < children.length - 3; i++) {
-            jsonData[children[i].id] = children[i].children[0].value;
-        }
-
-        jsonData["id_user"] = id_user;
-        jsonData = JSON.stringify(jsonData);
-
-        console.log(jsonData);
-
-        fetch("/updateUser", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                },
-                body: `jsonData=${jsonData}`,
-            })
-            .then((response) => response.text())
-            .then((res) => location.reload());
-
-
-    }
- 
-    let buttonValid = document.createElement("BUTTON");
-    buttonValid.innerHTML = "YES";
-    buttonValid.addEventListener('click', eventValid => {
-        eventValid.target.style.display = 'none';
-        buttonCancel.style.display = 'none';
-        validAction();
-
-    });
 
     children[children.length - 2].appendChild(buttonCancel);
     children[children.length - 2].appendChild(buttonValid);
-    
+
 }));
