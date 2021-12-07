@@ -128,7 +128,7 @@ class __TwigTemplate_e00a4e2938ea97e322b0c006160f3fe432424dd9f4cc993b900f3e89d87
     {
         $macros = $this->macros;
         // line 32
-        echo "       
+        echo "\t<script type=\"text/javascript\" src=\"assets/js/questions.js\"></script>
 ";
     }
 
