@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 04-12-2021  
 ## Added 
+- Mise en place de l'affichage pour la liste des questions 
 - Page pour l'admin 
 - Gestion de l'accueil en fonction du role
 - Ajout design pour les formulaires 
