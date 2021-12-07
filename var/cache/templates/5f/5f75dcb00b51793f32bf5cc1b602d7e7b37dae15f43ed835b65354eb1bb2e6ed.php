@@ -12,8 +12,8 @@ use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
 
-/* user/connexion.html.twig */
-class __TwigTemplate_9577f840c2d5c86b6ded6c4fae18f7db4c77666819cb5e94afba0969b7789ea5 extends Template
+/* user/inscription.html.twig */
+class __TwigTemplate_27c121f531c32aa71f51db44413bf2f65a3c1f63cc90a7c8429127ba7c8fda30 extends Template
 {
     private $source;
     private $macros = [];
@@ -41,7 +41,7 @@ class __TwigTemplate_9577f840c2d5c86b6ded6c4fae18f7db4c77666819cb5e94afba0969b77
     protected function doDisplay(array $context, array $blocks = [])
     {
         $macros = $this->macros;
-        $this->parent = $this->loadTemplate("layout.html.twig", "user/connexion.html.twig", 1);
+        $this->parent = $this->loadTemplate("layout.html.twig", "user/inscription.html.twig", 1);
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
@@ -50,7 +50,7 @@ class __TwigTemplate_9577f840c2d5c86b6ded6c4fae18f7db4c77666819cb5e94afba0969b77
     {
         $macros = $this->macros;
         // line 4
-        echo "\tConnexion
+        echo "\tInscription
 ";
     }
 
@@ -70,12 +70,31 @@ class __TwigTemplate_9577f840c2d5c86b6ded6c4fae18f7db4c77666819cb5e94afba0969b77
         // line 13
         echo "
 \t<div class=\"basicForm\">
-\t\t<form action=\"checkUser\" method=\"post\">
+\t\t<form action=\"addUser\" method=\"get\">
+
 
 \t\t\t<div>
-\t\t\t\t<label for=\"email\">Email / Username :
+\t\t\t\t<label for=\"username\">pseudo :
 \t\t\t\t</label>
-\t\t\t\t<input type=\"text\" name=\"email\" id=\"email\" required>
+\t\t\t\t<input type=\"text\" name=\"username\" id=\"username\" required>
+\t\t\t</div>
+
+\t\t\t<div>
+\t\t\t\t<label for=\"lastname\">Nom de famille :
+\t\t\t\t</label>
+\t\t\t\t<input type=\"text\" name=\"lastname\" id=\"lastname\" required>
+\t\t\t</div>
+
+\t\t\t<div>
+\t\t\t\t<label for=\"firstname\">Prénom :
+\t\t\t\t</label>
+\t\t\t\t<input type=\"text\" name=\"firstname\" id=\"firstname\" required>
+\t\t\t</div>
+
+\t\t\t<div>
+\t\t\t\t<label for=\"email\">Email :
+\t\t\t\t</label>
+\t\t\t\t<input type=\"email\" name=\"email\" id=\"email\" required>
 \t\t\t</div>
 
 \t\t\t<div>
@@ -84,22 +103,24 @@ class __TwigTemplate_9577f840c2d5c86b6ded6c4fae18f7db4c77666819cb5e94afba0969b77
 \t\t\t\t<input type=\"password\" name=\"password\" id=\"password\" required>
 \t\t\t</div>
 
+\t\t\t<div>
+\t\t\t\t<label for=\"passwordBis\">Vérification mot de passe :
+\t\t\t\t</label>
+\t\t\t\t<input type=\"password\" name=\"passwordBis\" id=\"password\" required>
+\t\t\t</div>
+
 \t\t\t<div class=\"button\">
-\t\t\t\t<input type=\"submit\" value=\"S'identifier\">
+\t\t\t\t<input type=\"submit\" value=\"S'inscrire\">
 \t\t\t</div>
 
 \t\t</form>
-
-\t\t<p>";
-        // line 35
-        echo twig_escape_filter($this->env, ($context["error"] ?? null), "html", null, true);
-        echo "</p>
 \t</div>
+
 
 ";
     }
 
-    // line 40
+    // line 64
     public function block_bottom_js($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -107,7 +128,7 @@ class __TwigTemplate_9577f840c2d5c86b6ded6c4fae18f7db4c77666819cb5e94afba0969b77
 
     public function getTemplateName()
     {
-        return "user/connexion.html.twig";
+        return "user/inscription.html.twig";
     }
 
     public function isTraitable()
@@ -117,11 +138,11 @@ class __TwigTemplate_9577f840c2d5c86b6ded6c4fae18f7db4c77666819cb5e94afba0969b77
 
     public function getDebugInfo()
     {
-        return array (  103 => 40,  95 => 35,  71 => 13,  67 => 12,  62 => 8,  58 => 7,  53 => 4,  49 => 3,  38 => 1,);
+        return array (  124 => 64,  71 => 13,  67 => 12,  62 => 8,  58 => 7,  53 => 4,  49 => 3,  38 => 1,);
     }
 
     public function getSourceContext()
     {
-        return new Source("", "user/connexion.html.twig", "C:\\wamp64\\www\\MyProject\\board-game\\templates\\user\\connexion.html.twig");
+        return new Source("", "user/inscription.html.twig", "C:\\wamp64\\www\\MyProject\\board-game\\templates\\user\\inscription.html.twig");
     }
 }

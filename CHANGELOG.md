@@ -4,11 +4,15 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 04-12-2021 
+## 07-12-2021 
+## Fixed
+- Host récupéré avec app local
+
+## 07-12-2021 
 ## Fixed
 - jsonSerialize passé en récursif
 
-## 04-12-2021  
+## 07-12-2021  
 ## Added 
 - Mise en place de l'affichage pour la liste des questions 
 - Page pour l'admin 

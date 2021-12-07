@@ -26,6 +26,7 @@ class __TwigTemplate_f305e61d8b5d8482146a5f00c08fab7391e1ae9f216665f5e94ac74c2e7
 
         $this->blocks = [
             'title' => [$this, 'block_title'],
+            'css' => [$this, 'block_css'],
             'body' => [$this, 'block_body'],
             'bottom_js' => [$this, 'block_bottom_js'],
         ];
@@ -48,74 +49,39 @@ class __TwigTemplate_f305e61d8b5d8482146a5f00c08fab7391e1ae9f216665f5e94ac74c2e7
     public function block_title($context, array $blocks = [])
     {
         $macros = $this->macros;
-        echo " ";
+        // line 4
+        echo "\t";
         $this->displayParentBlock("title", $context, $blocks);
-        echo " - Accueil ";
+        echo "
+\t- Accueil
+";
     }
 
-    // line 5
+    // line 8
+    public function block_css($context, array $blocks = [])
+    {
+        $macros = $this->macros;
+        // line 9
+        echo "\t<link rel=\"stylesheet\" href=\"/assets/css/basicpage.css\"/>
+";
+    }
+
+    // line 12
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
-        // line 6
-        echo "<h1>Bonjour ";
-        echo twig_escape_filter($this->env, ($context["firstName"] ?? null), "html", null, true);
-        echo "</h1>
-
-<ul>
-        ";
-        // line 9
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(range(1, ($context["loopUntil"] ?? null)));
-        foreach ($context['_seq'] as $context["_key"] => $context["i"]) {
-            // line 10
-            echo "                <li>";
-            echo twig_escape_filter($this->env, $context["i"], "html", null, true);
-            echo "</li>
-        ";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['i'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 12
-        echo "</ul>
-
-<ul>
-        ";
-        // line 15
-        $context['_parent'] = $context;
-        $context['_seq'] = twig_ensure_traversable(($context["users"] ?? null));
-        $context['_iterated'] = false;
-        foreach ($context['_seq'] as $context["_key"] => $context["user"]) {
-            // line 16
-            echo "                <li>";
-            echo twig_escape_filter($this->env, $context["user"], "html", null, true);
-            echo "</li>
-
-        ";
-            $context['_iterated'] = true;
-        }
-        if (!$context['_iterated']) {
-            // line 19
-            echo "                <li>Aucun users</li>
-        ";
-        }
-        $_parent = $context['_parent'];
-        unset($context['_seq'], $context['_iterated'], $context['_key'], $context['user'], $context['_parent'], $context['loop']);
-        $context = array_intersect_key($context, $_parent) + $_parent;
-        // line 21
-        echo "</ul>
-
+        // line 13
+        echo "
+\t<div class=\"container\">
+\t\t<button>Jouer !</button>
+\t</div>
 ";
     }
 
-    // line 25
+    // line 19
     public function block_bottom_js($context, array $blocks = [])
     {
         $macros = $this->macros;
-        // line 26
-        echo "       
-";
     }
 
     public function getTemplateName()
@@ -130,7 +96,7 @@ class __TwigTemplate_f305e61d8b5d8482146a5f00c08fab7391e1ae9f216665f5e94ac74c2e7
 
     public function getDebugInfo()
     {
-        return array (  117 => 26,  113 => 25,  107 => 21,  100 => 19,  91 => 16,  86 => 15,  81 => 12,  72 => 10,  68 => 9,  61 => 6,  57 => 5,  48 => 3,  37 => 1,);
+        return array (  82 => 19,  74 => 13,  70 => 12,  65 => 9,  61 => 8,  53 => 4,  49 => 3,  38 => 1,);
     }
 
     public function getSourceContext()

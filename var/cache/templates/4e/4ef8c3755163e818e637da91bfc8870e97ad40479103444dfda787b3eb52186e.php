@@ -53,39 +53,53 @@ class __TwigTemplate_2c7811e8638b024721db1092e9dd57cdbb8ee8aede2e652dc61e6112c34
         echo "\t\t</head>
 \t\t<body>
 \t\t\t<div class=\"nav\" id=\"nav\">
-\t\t\t\t<a href=\"/\" class=\"active\">Accueil</a>
+\t\t\t\t";
+        // line 12
+        if ((twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, ($context["session"] ?? null), "user", [], "any", false, false, false, 12), "role", [], "any", false, false, false, 12) == 1)) {
+            // line 13
+            echo "\t\t\t\t\t<a href=\"/Admin\" class=\"active\">Accueil</a>
+\t\t\t\t";
+        }
+        // line 15
+        echo "\t\t\t\t";
+        if ((twig_get_attribute($this->env, $this->source, twig_get_attribute($this->env, $this->source, ($context["session"] ?? null), "user", [], "any", false, false, false, 15), "role", [], "any", false, false, false, 15) == 0)) {
+            // line 16
+            echo "\t\t\t\t\t<a href=\"/\" class=\"active\">Accueil</a>
+\t\t\t\t";
+        }
+        // line 18
+        echo "
 \t\t\t\t<a href=\"/allUsers\">Utilisateurs</a>
 \t\t\t\t<a href=\"/allQuestions\">Questions</a>
 \t\t\t\t";
-        // line 15
-        if (twig_get_attribute($this->env, $this->source, ($context["session"] ?? null), "user", [], "any", true, true, false, 15)) {
-            // line 16
+        // line 21
+        if (twig_get_attribute($this->env, $this->source, ($context["session"] ?? null), "user", [], "any", true, true, false, 21)) {
+            // line 22
             echo "\t\t\t\t\t<a href=\"/profil\">Profil</a>
 \t\t\t\t\t<a href=\"/deconnexion\">Déconnexion</a>
 \t\t\t\t";
         }
-        // line 19
+        // line 25
         echo "\t\t\t\t";
-        if ( !twig_get_attribute($this->env, $this->source, ($context["session"] ?? null), "user", [], "any", true, true, false, 19)) {
-            // line 20
+        if ( !twig_get_attribute($this->env, $this->source, ($context["session"] ?? null), "user", [], "any", true, true, false, 25)) {
+            // line 26
             echo "\t\t\t\t\t<a href=\"/connexion\">Connexion</a>
 \t\t\t\t\t<a href=\"/inscription\">Inscription</a>
 \t\t\t\t";
         }
-        // line 23
+        // line 29
         echo "\t\t\t\t<a href=\"javascript:void(0);\" class=\"icon\" onclick=\"functionMenu()\">
 \t\t\t\t\t<img class=\"burgerMenu\" src=\"assets/css/menu.png\" alt=\"menu\">
 \t\t\t\t</a>
 \t\t\t</div>
- 
 
 \t\t\t";
-        // line 29
+        // line 34
         $this->displayBlock('body', $context, $blocks);
-        // line 30
+        // line 35
         echo "\t\t\t";
         $this->displayBlock('bottom_js', $context, $blocks);
-        // line 31
+        // line 36
         echo "\t\t\t<script type=\"text/javascript\" src=\"assets/js/app.js\"></script>
 \t\t</body>
 \t</html>
@@ -103,13 +117,13 @@ class __TwigTemplate_2c7811e8638b024721db1092e9dd57cdbb8ee8aede2e652dc61e6112c34
         $macros = $this->macros;
     }
 
-    // line 29
+    // line 34
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
     }
 
-    // line 30
+    // line 35
     public function block_bottom_js($context, array $blocks = [])
     {
         $macros = $this->macros;
@@ -127,7 +141,7 @@ class __TwigTemplate_2c7811e8638b024721db1092e9dd57cdbb8ee8aede2e652dc61e6112c34
 
     public function getDebugInfo()
     {
-        return array (  113 => 30,  107 => 29,  96 => 8,  89 => 31,  86 => 30,  84 => 29,  76 => 23,  71 => 20,  68 => 19,  63 => 16,  61 => 15,  53 => 9,  50 => 8,  41 => 1,);
+        return array (  127 => 35,  121 => 34,  110 => 8,  103 => 36,  100 => 35,  98 => 34,  91 => 29,  86 => 26,  83 => 25,  78 => 22,  76 => 21,  71 => 18,  67 => 16,  64 => 15,  60 => 13,  58 => 12,  53 => 9,  50 => 8,  41 => 1,);
     }
 
     public function getSourceContext()
