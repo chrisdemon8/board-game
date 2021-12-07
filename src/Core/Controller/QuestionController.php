@@ -54,7 +54,7 @@ class QuestionController
         return $Questions;
     }
 
-    
+
     public function getAllQuestionsJson(): array
     {
         $request = $this->connection->prepare('SELECT * FROM question ');
@@ -68,6 +68,18 @@ class QuestionController
             array_push($Questions, $Question->jsonSerialize());
         }
         return  $Questions;
+    }
+
+    public function countQuestions(): int
+    {
+        $request = $this->connection->prepare('SELECT COUNT(*) as number FROM question ');
+        $request->execute();
+        $number = $request->fetch();
+
+        if ($number['number'] > 0)
+            return $number['number'];
+
+        return 0;
     }
 
     public function updateQuestion(Question $Question): void

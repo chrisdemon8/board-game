@@ -1,0 +1,29 @@
+{% extends 'layout.html.twig' %}
+
+{% block title %}
+	Profil
+{% endblock %}
+
+{% block css %}
+	<link rel="stylesheet" href="/assets/css/basicpage.css"/>
+{% endblock %}
+ 
+
+{% block body %}
+
+
+	{% if session.user is defined %}
+
+		{% if session.user.role == 1 %}
+			<div class="container">
+				<button class="countQuestion" onclick="location.href='/allQuestions'">Nombre de questions :
+					{{questions}}</button>
+				<button class="countUser" onclick="location.href='/allUsers'">Nombre d'utilisateurs :
+					{{users}}</button>
+				<button  >Jouer</button>
+
+			</div>
+		{% endif %}
+	{% endif %}
+
+{% endblock %}

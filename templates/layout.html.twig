@@ -9,7 +9,13 @@
 		</head>
 		<body>
 			<div class="nav" id="nav">
-				<a href="/" class="active">Accueil</a>
+				{% if session.user.role == 1 %}
+					<a href="/Admin" class="active">Accueil</a>
+				{% endif %}
+				{% if session.user.role == 0 %}
+					<a href="/" class="active">Accueil</a>
+				{% endif %}
+
 				<a href="/allUsers">Utilisateurs</a>
 				<a href="/allQuestions">Questions</a>
 				{% if session.user is defined %}
@@ -24,7 +30,6 @@
 					<img class="burgerMenu" src="assets/css/menu.png" alt="menu">
 				</a>
 			</div>
- 
 
 			{% block body %}{% endblock %}
 			{% block bottom_js %}{% endblock %}

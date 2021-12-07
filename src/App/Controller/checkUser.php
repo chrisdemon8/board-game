@@ -6,7 +6,7 @@ use Exception;
 use Framework\Controller\AbstractController;
 use Framework\Controller\UsersController;
 use Framework\Metier\User;
-  
+
 class checkUser extends AbstractController
 {
     public function __invoke(): string
@@ -20,9 +20,11 @@ class checkUser extends AbstractController
                 'error' => $e->getMessage(),
             ]);
         }
- 
+
         $_SESSION['user'] = $user;
-        
-        header('Location: /');
+        if ($user->getRole() === 1)
+            header('Location: /Admin');
+        else
+            header('Location: /');
     }
 }
