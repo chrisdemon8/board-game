@@ -11,7 +11,7 @@ class User extends Modele implements Objectify, Create
 {
     protected int $id_user;
     protected string $username;
-    protected string  $password;
+    private string  $password;
     protected string $email;
     protected int $role;
     protected string $firstName;

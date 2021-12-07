@@ -49,12 +49,25 @@ class QuestionController
         foreach ($QuestionsData as $QuestionData) {
             $Question = Question::Objectify($QuestionData);
             $Question->setAnswers($this->getAnswers($Question->getIdQuestion()));
-            array_push($Questions, $Question);
-  
+            array_push($Questions, $Questions);
         }
- 
-
         return $Questions;
+    }
+
+    
+    public function getAllQuestionsJson(): array
+    {
+        $request = $this->connection->prepare('SELECT * FROM question ');
+        $request->execute();
+        $QuestionsData = $request->fetchAll();
+        $Questions = [];
+
+        foreach ($QuestionsData as $QuestionData) {
+            $Question = Question::Objectify($QuestionData);
+            $Question->setAnswers($this->getAnswers($Question->getIdQuestion()));
+            array_push($Questions, $Question->jsonSerialize());
+        }
+        return  $Questions;
     }
 
     public function updateQuestion(Question $Question): void

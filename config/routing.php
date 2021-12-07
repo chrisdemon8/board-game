@@ -14,12 +14,17 @@ use App\Controller\Profil;
 use App\Controller\UpdateUser;
 use App\Controller\DeleteUser; 
 use App\Controller\GetUser; 
+use App\Controller\GetQuestions; 
+use App\Controller\GetQuestion; 
+
 
 use Framework\Routing\Route;
 
 return [
     new Route('GET', '/', Homepage::class),
     new Route('POST', '/GetUser', GetUser::class),
+    new Route('GET', '/GetQuestions', GetQuestions::class),
+    new Route('POST', '/GetQuestion', GetQuestion::class),
     new Route('GET', '/deconnexion', Disconnected::class),
     new Route('GET', '/question/{id}', Question::class),
     new Route('GET', '/user/{id}', ShowUser::class),

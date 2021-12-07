@@ -72,6 +72,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
         .then((res) => {
             res = JSON.parse(res);
 
+            console.log(res); 
             for (let i = 0; i < children.length; i++) {
 
                 if (res[children[i].id]) {
