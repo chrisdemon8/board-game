@@ -5,6 +5,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## 04-12-2021 
+## Added 
+- Page pour l'admin 
+- Gestion de l'accueil en fonction du role
+- Ajout design pour les formulaires 
+
+
 ## Changed
 - changement de la fonction jsonSerialize
 

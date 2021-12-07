@@ -111,6 +111,19 @@ class UsersController
         $request->execute();
     }
 
+    public function countUsers(): int
+    {
+        $request = $this->connection->prepare('SELECT COUNT(*) as number FROM user ');
+        $request->execute();
+        $number = $request->fetch();
+
+        if ($number['number'] > 0)
+            return $number['number'];
+
+        return 0;
+    }
+
+
     public function deleteUser(int $id_user): void
     {
         $request = $this->connection->prepare('DELETE FROM `user` WHERE id_user = :id');
@@ -118,6 +131,7 @@ class UsersController
         $request->execute();
     }
 
+    
 
     public function addUser(User $user): void
     {
