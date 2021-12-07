@@ -17,8 +17,8 @@
 				{% endif %}
 
 				<a href="/allUsers">Utilisateurs</a>
-				<a href="/allQuestions">Questions</a>
 				{% if session.user is defined %}
+					<a href="/allQuestions">Questions</a>
 					<a href="/profil">Profil</a>
 					<a href="/deconnexion">Déconnexion</a>
 				{% endif %}

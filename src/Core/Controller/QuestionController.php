@@ -93,6 +93,21 @@ class QuestionController
         $request->execute();
     }
 
+
+    public function deleteQuestion(int $id_question): void
+    {
+        $request = $this->connection->prepare('DELETE FROM `answer` WHERE id_question = :id');
+        $request->bindValue(':id', $id_question);
+        $request->execute();
+        
+        $request = $this->connection->prepare('DELETE FROM `question` WHERE id_question = :id');
+        $request->bindValue(':id', $id_question);
+        $request->execute();
+
+        
+    }
+
+
     public function addQuestion(Question $Question): void
     {
         $messageError = '';

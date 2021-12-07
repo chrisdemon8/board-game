@@ -14,3 +14,47 @@
  tr:nth-child(even) {
      background-color: #dddddd;
  }
+
+ .modify {
+     margin: 0;
+ }
+
+ .delete {
+     margin: 0;
+     background-color: #e44842;
+ }
+
+ .delete:hover {
+     background-color: #c54b47;
+ }
+
+
+ input[type=text],
+ select {
+     width: 100%;
+     padding: 8px 20px;
+     margin: 8px 0;
+     display: inline-block;
+     border: 1px solid #ccc;
+     border-radius: 4px;
+     box-sizing: border-box;
+ }
+
+
+ button {
+     margin: 5px;
+     background-color: #58a700;
+     /* Green */
+     border: none;
+     color: white;
+     padding: 8px 20px;
+     text-align: center;
+     text-decoration: none;
+     display: inline-block;
+     font-size: 16px;
+ }
+
+ button:hover {
+     background-color: #58cc02;
+     cursor: pointer;
+ }
