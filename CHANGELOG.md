@@ -4,21 +4,20 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## 07-12-2021 
-## Fixed
-- Local host pris dans app local
+## 04-12-2021  
+## Added 
+- Mise en place de l'affichage pour la liste des questions 
+- Page pour l'admin 
+- Gestion de l'accueil en fonction du role
+- Ajout design pour les formulaires 
 
-## 07-12-2021 
-## Fixed
-- jsonSerialize passé en récursif
-
-## 04-12-2021 
+ 
 ## Changed
 - changement de la fonction jsonSerialize
 
 ## Fixed
 - pas de mot de passe renvoyé au front au moment du chargement d'un utilisateur 
-
+- jsonSerialize passé en récursif
 
 
 ## 04-12-2021
