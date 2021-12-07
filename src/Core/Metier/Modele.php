@@ -6,22 +6,22 @@ abstract class Modele
 {
     public function jsonSerialize()
     {
-
         $array = get_object_vars($this);
-        $arrayFinal = [];
-        foreach ($array as $key => $value) {
+        return  $this->arrayFy($array);
+    }
 
+    private function arrayFy($data)
+     {
+        $arrayFinal = [];
+        foreach ($data as $key => $value) {
             if (gettype($value) == 'array') {
-                foreach ($value as $keyV => $valueV) {
-                    if (gettype($valueV) == 'object') {
-                        $value[$keyV] = get_object_vars($valueV);
-                    }
-                }
+                $value= $this->arrayFy($value);
+            }
+            if (gettype($value) == 'object') {
+                $value= $this->arrayFy(get_object_vars($value));
             }
             $arrayFinal[$key] = $value;
-        } 
- 
- 
+        }
         return $arrayFinal;
     }
 }

@@ -13,7 +13,7 @@ use Twig\Source;
 use Twig\Template;
 
 /* home.html.twig */
-class __TwigTemplate_7e0d438cd9a141cf5440b74fdf3ec40f8b33773b728c20a76e5cefebf3d0687e extends Template
+class __TwigTemplate_f305e61d8b5d8482146a5f00c08fab7391e1ae9f216665f5e94ac74c2e70bfde extends Template
 {
     private $source;
     private $macros = [];
@@ -135,6 +135,6 @@ class __TwigTemplate_7e0d438cd9a141cf5440b74fdf3ec40f8b33773b728c20a76e5cefebf3d
 
     public function getSourceContext()
     {
-        return new Source("", "home.html.twig", "/home/valentin/Documents/php_proj/board-game/templates/home.html.twig");
+        return new Source("", "home.html.twig", "C:\\wamp64\\www\\MyProject\\board-game\\templates\\home.html.twig");
     }
 }
