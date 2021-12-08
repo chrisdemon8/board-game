@@ -62,7 +62,11 @@ class Question  extends Modele implements Objectify
      */
     public function setLabelQuestion(string $label_question): void
     {
-        $this->label_question = $label_question;
+        if (preg_match("/^[a-zA-Z-' ]*$/",$label_question)) {
+            $this->label_question = $label_question;
+          }else{
+              throw new Exception("INVALID_MAIL");
+          }  
     }
 
     /**
@@ -78,7 +82,11 @@ class Question  extends Modele implements Objectify
      */
     public function setLevel(string $level): void
     {
-        $this->level = $level;
+        if (preg_match("/^[a-zA-Z-' ]*$/",$level)) {
+            $this->label_question = $level;
+          }else{
+              throw new Exception("INVALID_MAIL");
+          }  
     }
 
     /**

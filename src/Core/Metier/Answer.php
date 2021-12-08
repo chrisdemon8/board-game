@@ -41,6 +41,7 @@ class Answer extends Modele implements Objectify
      */
     public function setIdAnswer(int $id_answer): void
     {
+
         $this->id_answer = $id_answer;
     }
 
@@ -57,7 +58,12 @@ class Answer extends Modele implements Objectify
      */
     public function setLabelAnswer(string $label_answer): void
     {
-        $this->label_answer = $label_answer;
+        if (preg_match("/^[a-zA-Z-' ]*$/",$label_answer)) {
+            $this->label_answer = $label_answer;
+          }else{
+              throw new Exception("INVALID_MAIL");
+          }  
+
     }
 
     /**

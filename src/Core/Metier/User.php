@@ -80,9 +80,12 @@ class User extends Modele implements Objectify, Create
      */
     public function setUsername(string $username): void
     {
+        if (!preg_match('/[^A-Za-z0-9]/', $username)) // '/[^a-z\d]/i' should also work.
         $this->username = $username;
+    else    
+        throw new Exception('INVALID_USERNAME');
+  
     }
-
     /**
      * @return string
      */
@@ -96,7 +99,7 @@ class User extends Modele implements Objectify, Create
      */
     public function setPassword(string $password): void
     {
-        $this->password = $password;
+      $this->password = $password;
     }
 
     /**
@@ -112,12 +115,11 @@ class User extends Modele implements Objectify, Create
      */
     public function setEmail(string $email): void
     {
-        if (!preg_match("/^[a-zA-Z-' ]*$/",$email)) {
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->email = $email;
           }else{
               throw new Exception("INVALID_MAIL");
           }
-
     }
 
     /**
@@ -149,7 +151,12 @@ class User extends Modele implements Objectify, Create
      */
     public function setFirstName(string $firstName): void
     {
-        $this->firstName = $firstName;
+        if (preg_match("/^[a-zA-Z-' ]*$/",$firstName)) {
+            $this->firstName = $firstName;
+          }else{
+              throw new Exception("INVALID_FIRST_NAME");
+          }   
+
     }
 
     /**
@@ -165,7 +172,12 @@ class User extends Modele implements Objectify, Create
      */
     public function setLastName(string $lastName): void
     {
-        $this->lastName = $lastName;
+        if (preg_match("/^[a-zA-Z-' ]*$/",$lastName)) {
+            $this->lastName = $lastName;
+          }else{
+              throw new Exception("INVALID_LASTNAME");
+          }  
+
     }
 
 
