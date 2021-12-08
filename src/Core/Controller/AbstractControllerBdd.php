@@ -6,7 +6,6 @@ use Framework\Templating\Twig;
 use Framework\Controller\ErrorManager;
 use Framework\Metier\Modele;
 
-session_start(); 
 
 
 abstract class AbstractControllerBdd
