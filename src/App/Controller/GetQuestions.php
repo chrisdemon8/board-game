@@ -14,7 +14,8 @@ class GetQuestions extends AbstractController
     {
         try {
             $this->questionCont = new QuestionController();
-            $questions = $this->questionCont->getAllQuestionsJson(); 
+            $questions = $this->questionCont->getAllQuestionsJson();
+            header('Content-type: application/json');
             return json_encode($questions);
         } catch (Exception $e) {
             return $this->render('error.html.twig', [

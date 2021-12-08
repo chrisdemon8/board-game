@@ -6,20 +6,23 @@ let td;
 let tableStructure = {
     'id_question': {
         'label': 'id_question',
+        'header': 'ID',
         'editable': 'false'
     },
     'label_question': {
         'label': 'label_question',
+        'header': 'Question',
         'editable': 'true',
         'type': 'input',
 
     },
     'level': {
         'label': 'level',
+        'header': 'Difficulté',
         'type': 'select',
         'editable': 'true',
         'value': {
-            1: 'niveau cp',
+            1: 'Très facile',
             2: 'facile',
             3: 'normal',
             4: 'difficile',
@@ -29,30 +32,157 @@ let tableStructure = {
     },
     'answers': {
         'label': 'answers',
+        'header': 'Réponse',
         'editable': 'true'
     },
     'editer': {
-        'label': 'false'
+        'label': 'false',
+        'header': 'Editer'
     },
     'supprimer': {
-        'label': 'false'
+        'label': 'false',
+        'header': 'Supprimer'
     }
 };
 
 
+function clearTable(table) {
+    table.innerHTML = "";
+}
+
+
+function createHeaderTable(table) {
+    tr = document.createElement("TR");
+    for (const [key, value] of Object.entries(tableStructure)) {
+        td = document.createElement("TD");
+        td.innerHTML = value.header;
+        td.id = value.label;
+        tr.appendChild(td);
+    }
+    table.appendChild(tr);
+}
+
+function insertData(table, data) {
+
+    data.forEach(row => {
+
+        tr = document.createElement("TR");
+
+        let buttonEdit = document.createElement("BUTTON");
+        buttonEdit.innerHTML = "Edit";
+        buttonEdit.classList.add("modify");
+
+        let buttonCancel = document.createElement("BUTTON");
+        buttonCancel.innerHTML = "X";
+        buttonCancel.classList.add("delete");
+        buttonCancel.style.display = "none";
+
+        let buttonValid = document.createElement("BUTTON");
+        buttonValid.innerHTML = "YES";
+        buttonValid.style.display = "none";
+
+
+        let buttonDelete = document.createElement("BUTTON");
+        buttonDelete.innerHTML = "Supprimer";
+        buttonDelete.classList.add("delete");
+
+
+
+
+        headerTable = table.children[0].children;
+
+        for (let i = 0; i < headerTable.length; i++) {
+            td = document.createElement("TD");
+            let field = headerTable[i].id; 
+            if (field != 'false') {
+                dataCell = row[field];
+ 
+                if (field === "answers") {
+                    dataCell.forEach(element => {
+
+                        button = document.createElement("BUTTON");
+                        for (const [key, value] of Object.entries(element)) {
+
+
+                            if (key === 'label_answer') {
+                                button.innerHTML = value;
+                            }
+
+                            if (key === 'valid') {
+
+                                if (value)
+                                    button.style.backgroundColor = "lightgreen";
+                                else
+                                    button.style.backgroundColor = "lightCoral";
+                            }
+
+                        }
+
+                        td.appendChild(button);
+                    });
+
+
+                    button = document.createElement("BUTTON");
+                    button.innerHTML = "+";
+                    td.appendChild(button);
+
+                } else if (field === "level") {
+                    td.innerHTML = tableStructure[field].value[dataCell];
+                } else if (field === "id_question") {
+                    tr.id = "id_question" + dataCell;
+                    td.innerHTML = dataCell;
+                } else {
+                    td.innerHTML = dataCell;
+                }
+            } else { 
+                console.log(field); 
+                if (field['header'] === "Supprimer")
+                    td.appendChild(buttonDelete);
+                else if (field['header'] === "Editer")
+                    td.appendChild(buttonEdit);
+            }
+            tr.appendChild(td);
+        }
+
+        tr.appendChild(td);
+        table.appendChild(tr);
+    });
+}
+
+
 function loadData() {
 
-    questionsTable.innerHTML = "";
+    clearTable(questionsTable);
+    createHeaderTable(questionsTable);
 
     tr = document.createElement("TR");
 
+    url = "/GetQuestions";
 
-    for (const [key, value] of Object.entries(tableStructure)) {
-        td = document.createElement("TD");
-        td.innerHTML = key;
-        tr.appendChild(td);
-    }
-    questionsTable.appendChild(tr);
+    var myHeaders = new Headers();
+
+    var myInit = {
+        method: 'GET',
+        headers: myHeaders,
+        mode: 'cors',
+        cache: 'default'
+    };
+
+    fetch(url, myInit).then(function (response) {
+        var contentType = response.headers.get("content-type");
+        if (contentType && contentType.indexOf("application/json") !== -1) {
+            return response.json().then(function (json) {
+                insertData(questionsTable, json);
+            });
+        } else {
+            console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+        }
+    })
+    /*
+           .catch(function (error) {
+               console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+           });*/
+
 
     fetch("/GetQuestions", {
             method: "GET",
@@ -148,15 +278,13 @@ function loadData() {
                     event.target.style.display = 'none';
                     buttonValid.style.display = "block";
                     buttonCancel.style.display = "block";
-
-                    console.log(event.target.id)
+ 
                     trSelect = document.getElementById("id_question" + event.target.id);
                     children = trSelect.children;
 
 
                     for (let i = 0; i < children.length; i++) {
-
-                        console.log(children[i])
+ 
                         currentStructure = tableStructure[children[i].id];
                         if (children[i].id) {
 
