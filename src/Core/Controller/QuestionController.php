@@ -8,7 +8,7 @@ use Framework\Metier\Question;
 use App\bdd\MyConnection;
 use \PDO;
 
-class QuestionController
+class QuestionController extends AbstractControllerBdd
 {
     public ?\PDO $connection;
     public function __construct()
@@ -84,6 +84,8 @@ class QuestionController
 
     public function updateQuestion(Question $Question): void
     {
+
+        $this->conform($Question);
         $request = $this->connection->prepare('UPDATE question SET label_question = :label,level = :level WHERE id = :id');
 
         $request->bindValue(':level', $Question->getLevel(), PDO::PARAM_INT);
@@ -110,6 +112,7 @@ class QuestionController
 
     public function addQuestion(Question $Question): void
     {
+        $this->conform($Question);
         $messageError = '';
 
         $request = $this->connection->prepare('SELECT * FROM question WHERE label = :label');

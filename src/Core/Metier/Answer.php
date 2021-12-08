@@ -23,7 +23,9 @@ class Answer extends Modele implements Objectify
         return $Answer;
     }
 
-
+    public function allDataSet():bool{
+        return $this->label_answer !=null && $this->valid!=null && $this->id_question!=null;
+    }
   
     
     /**

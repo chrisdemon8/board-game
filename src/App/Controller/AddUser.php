@@ -11,9 +11,10 @@ class AddUser extends AbstractController
 {
     public function __invoke(): string
     {
-        $userCont = new UsersController();
-        $user = user::create($_GET);
+     
         try {
+            $userCont = new UsersController();
+            $user = user::create($_GET);
             $userCont->addUser($user);
         } catch (Exception $e) {
             return $this->render('error.html.twig', [

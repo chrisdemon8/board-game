@@ -34,4 +34,6 @@ abstract class Modele
             }
         }
     }
+
+    public abstract function allDataSet():bool;
 }

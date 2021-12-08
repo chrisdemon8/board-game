@@ -22,6 +22,10 @@ class User extends Modele implements Objectify, Create
     {
     }
 
+    public function allDataSet():bool{
+        return $this->role != null && $this->user != null && $this->password != null && $this->email != null && $this->firstName != null && $this->lastName != null && $this->createdAt != null;
+    }
+
     public static function create($data): User
     {
         $user = new User();
@@ -108,7 +112,12 @@ class User extends Modele implements Objectify, Create
      */
     public function setEmail(string $email): void
     {
-        $this->email = $email;
+        if (!preg_match("/^[a-zA-Z-' ]*$/",$email)) {
+            $this->email = $email;
+          }else{
+              throw new Exception("INVALID_MAIL");
+          }
+
     }
 
     /**

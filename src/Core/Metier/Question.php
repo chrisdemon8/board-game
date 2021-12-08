@@ -27,6 +27,10 @@ class Question  extends Modele implements Objectify
         return $question;
     }
 
+    public function allDataSet():bool{
+        return $this->label_question!=null && $this->answers!=null && $this->level!=null;
+    }
+  
 
 
     /**

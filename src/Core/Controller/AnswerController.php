@@ -7,7 +7,7 @@ use App\bdd\MyConnection;
 use Framework\Controller\ErrorManager;
 use \PDO;
 
-class AnswerController
+class AnswerController extends AbstractControllerBdd
 {
     public ?\PDO $connection;
 
@@ -63,6 +63,8 @@ class AnswerController
 
     public function updateAnswer(Answer $Answer): void
     {
+
+        $this->conform($Answer);
         $request = $this->connection->prepare('UPDATE answer SET label_answer = :label,valid = :valid WHERE id_user = :id');
 
         $request->bindValue(':id', $Answer->getIdAnswer(), PDO::PARAM_INT);
@@ -75,7 +77,7 @@ class AnswerController
     public function addAnswer(Answer $Answer): void
     {
         $messageError = '';
-
+        $this->conform($Answer);
         $request = $this->connection->prepare('SELECT * FROM answer WHERE label = :label');
         $request->bindValue(':label', $Answer->getLabelAnswer());
         $labelUnique = $request->execute();

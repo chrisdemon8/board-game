@@ -7,7 +7,7 @@ use App\bdd\MyConnection;
 use Framework\Controller\ErrorManager;
 use \PDO;
 
-class UsersController
+class UsersController extends AbstractControllerBdd
 {
     public ?\PDO $connection;
     public function __construct()
@@ -83,7 +83,7 @@ class UsersController
     //TODO: a testé
     public function updateUser(User $user, int $role, bool $changePassword): void
     {
-
+        $this->conform($user);
 
         if ($role === 1) {
             $sql = "UPDATE user SET email = :email,role = :role, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
@@ -136,6 +136,8 @@ class UsersController
     public function addUser(User $user): void
     {
         $messageError = '';
+
+        $this->conform($user);
 
         //le 0 est la pour match le nombre d'arguement , il n'est pas mis dans la bdd
         $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email = :email');
