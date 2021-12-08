@@ -24,15 +24,7 @@ class Answer extends Modele implements Objectify
     }
 
 
-    public function hydrate($data):void
-    {
-        foreach ($data as $attribute => $value) {
-            $method = 'set'.str_replace(' ', '', ucwords(str_replace('_', ' ', $attribute)));
-            if (is_callable(array($this, $method))) {
-                $this->$method($value);
-            }
-        }
-    }
+  
     
     /**
      * @return int

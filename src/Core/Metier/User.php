@@ -47,16 +47,6 @@ class User extends Modele implements Objectify, Create
         return $user;
     }
 
-    public function hydrate($data): void
-    {
-        foreach ($data as $attribute => $value) {
-            $method = 'set' . str_replace(' ', '', ucwords(str_replace('_', ' ', $attribute)));
-            if (is_callable(array($this, $method))) {
-                $this->$method($value);
-            }
-        }
-    }
-
     /**
      * @return int
      */
@@ -68,7 +58,7 @@ class User extends Modele implements Objectify, Create
     /**
      * @param int $id_user
      */
-    private function setIdUser(int $id_user): void
+    protected function setIdUser(int $id_user): void
     {
         $this->id_user = $id_user;
     }
@@ -182,7 +172,7 @@ class User extends Modele implements Objectify, Create
     /**
      * @param string $createdAt
      */
-    private function setCreatedAt(string $createdAt): void
+    protected function setCreatedAt(string $createdAt): void
     {
         $this->createdAt = date_create_from_format('Y-m-d H:i:s', $createdAt);
         $this->createdAt->getTimestamp();

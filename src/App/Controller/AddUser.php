@@ -7,7 +7,7 @@ use Framework\Controller\AbstractController;
 use Framework\Controller\UsersController;
 use Framework\Metier\User;
 
-class addUser extends AbstractController
+class AddUser extends AbstractController
 {
     public function __invoke(): string
     {

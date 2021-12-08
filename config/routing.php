@@ -5,10 +5,10 @@ use App\Controller\Question;
 use App\Controller\ShowUser;
 use App\Controller\ShowAllUsers;
 use App\Controller\ShowAllQuestions;
-use App\Controller\addUser;
-use App\Controller\checkUser;
-use App\Controller\inscription;
-use App\Controller\connexion;
+use App\Controller\AddUser;
+use App\Controller\CheckUser;
+use App\Controller\Inscription;
+use App\Controller\Connexion;
 use App\Controller\Disconnected;
 use App\Controller\Profil;
 use App\Controller\UpdateUser;
@@ -34,12 +34,12 @@ return [
     new Route('GET', '/user/{id}', ShowUser::class),
     new Route('GET', '/allUsers', ShowAllUsers::class),
     new Route('GET', '/allQuestions', ShowAllQuestions::class),
-    new Route('GET', '/addUser', addUser::class),
-    new Route('POST', '/checkUser', checkUser::class),
+    new Route('GET', '/addUser', AddUser::class),
+    new Route('POST', '/checkUser', CheckUser::class),
     new Route('GET', '/profil', Profil::class),
     new Route('POST', '/deleteUser', DeleteUser::class), 
     new Route('POST', '/updateUser', UpdateUser::class),
-    new Route('GET', '/inscription', inscription::class),
-    new Route('GET', '/connexion', connexion::class),
+    new Route('GET', '/inscription', Inscription::class),
+    new Route('GET', '/connexion', Connexion::class),
 
 ];
