@@ -68,6 +68,58 @@ function createHeaderTable(table) {
     table.appendChild(tr);
 }
 
+function newModal(reponse) {
+    document.getElementById('myModal').style.display = 'block';
+    let modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = '';
+    let label = document.createElement('label');
+    label.for = 'txtReponse';
+    label.innerHTML = 'Réponse';
+
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Entrer votre réponse';
+    input.name = 'txtReponse';
+    input.id = 'txtReponse';
+    if (reponse)
+        input.value = reponse.label_answer;
+
+
+    let input2 = document.createElement('input');
+    input2.name = 'cbboxValide';
+    input2.id = 'cbboxValide';
+    input2.type = 'checkbox';
+    if (reponse)
+        input2.checked = reponse.valid;
+
+    let label2 = document.createElement('label');
+    label2.for = 'cbboxValide';
+    label2.innerHTML = 'Valide';
+
+    let buttonCancel = document.createElement("button");
+    buttonCancel.classList.add("delete");
+    buttonCancel.name = 'Annuler';
+    buttonCancel.textContent = 'Annuler'
+    buttonCancel.onclick = () => {
+        document.getElementById('myModal').style.display = 'none'
+    }
+
+    let buttonValidate = document.createElement("button");
+    buttonValidate.textContent = 'Valider'
+    buttonValidate.onclick = () => {
+        let reponse = input.value;
+        let valide = input2.checked;
+        document.getElementById('myModal').style.display = 'none'
+        if (reponse) {
+            //TODO : update de la réponse
+        } else {
+            //TODO : ajout de la réponse
+        }
+    }
+
+    modalContent.append(label, input, label2, input2, buttonCancel, buttonValidate);
+}
+
 function insertData(table, data) {
 
 
@@ -111,9 +163,8 @@ function insertData(table, data) {
                     dataCell.forEach(element => {
 
                         button = document.createElement("BUTTON");
+
                         for (const [key, value] of Object.entries(element)) {
-
-
                             if (key === 'label_answer') {
                                 button.innerHTML = value;
                             }
@@ -127,18 +178,24 @@ function insertData(table, data) {
                             }
 
                         }
-
+                        button.onclick = () => {
+                            newModal(element);
+                        }
                         td.appendChild(button);
                     });
 
 
                     button = document.createElement("BUTTON");
                     button.innerHTML = "+";
+                    button.onclick = () => {
+                        newModal();
+                    }
                     td.appendChild(button);
 
                 } else if (field === "level") {
                     td.innerHTML = tableStructure[field].value[dataCell];
-                } else if (field === "id_question") {
+                } else
+                if (field === "id_question") {
                     tr.id = "id_question" + dataCell;
                     currentId = dataCell;
                     td.innerHTML = dataCell;
@@ -224,10 +281,10 @@ function insertData(table, data) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function (response) {
+                }).then(function(response) {
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function (json) {
+                        return response.json().then(function(json) {
 
                             trSelect = document.getElementById("id_question" + currentId);
                             children = trSelect.children;
@@ -304,14 +361,14 @@ function insertData(table, data) {
                                         }),
                                         mode: 'cors',
                                         cache: 'default'
-                                    }).then(function (response) {
+                                    }).then(function(response) {
 
                                         if (response.ok)
-                                            response.text().then(function (res) {
+                                            response.text().then(function(res) {
                                                 loadData();
                                             })
                                     })
-                                    .catch(function (error) {
+                                    .catch(function(error) {
                                         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                                     });
 
@@ -331,7 +388,7 @@ function insertData(table, data) {
                         console.log("Le serveur n'a pas renvoyé le résultat attendu.");
                     }
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
 
@@ -364,16 +421,16 @@ function loadData() {
         cache: 'default'
     };
 
-    fetch(url, myInit).then(function (response) {
+    fetch(url, myInit).then(function(response) {
         var contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
-            return response.json().then(function (json) {
+            return response.json().then(function(json) {
                 insertData(questionsTable, json);
             });
         } else {
             console.log("Le serveur n'a pas renvoyé le résultat attendu.");
         }
-    }).catch(function (error) {
+    }).catch(function(error) {
         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
     });
 

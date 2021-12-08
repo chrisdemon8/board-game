@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## 08-12-2021 
 ## Added
+- Modal pour ajouter et/ou modifier les questions
+
+## 08-12-2021 
+## Added
 - Ajout des fonctions conform/allDataSet afin de vérifier que les objets passer en parametres
     dans les controllers sont remplis;
 - Ajout de la modification d'une question pour les champs niveaux et label
