@@ -58,11 +58,7 @@ class Answer extends Modele implements Objectify
      */
     public function setLabelAnswer(string $label_answer): void
     {
-        if (preg_match("/^[a-zA-Z-' ]*$/",$label_answer)) {
             $this->label_answer = $label_answer;
-          }else{
-              throw new Exception("INVALID_MAIL");
-          }  
 
     }
 
