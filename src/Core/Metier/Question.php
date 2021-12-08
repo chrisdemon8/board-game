@@ -65,7 +65,7 @@ class Question  extends Modele implements Objectify
         if (preg_match("/^[a-zA-Z-' ]*$/",$label_question)) {
             $this->label_question = $label_question;
           }else{
-              throw new Exception("INVALID_MAIL");
+              throw new Exception("INVALID_LABEL");
           }  
     }
 
@@ -85,7 +85,7 @@ class Question  extends Modele implements Objectify
         if (preg_match("/^[a-zA-Z-' ]*$/",$level)) {
             $this->label_question = $level;
           }else{
-              throw new Exception("INVALID_MAIL");
+              throw new Exception("INVALID_LEVEL");
           }  
     }
 
