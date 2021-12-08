@@ -79,7 +79,7 @@ class Question  extends Modele implements Objectify
      */
     public function setLevel(string $level): void
     {
-            $this->label_question = $level;
+            $this->level = $level;
     }
 
     /**
