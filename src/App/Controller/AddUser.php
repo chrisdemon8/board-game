@@ -11,7 +11,8 @@ class AddUser extends AbstractController
 {
     public function __invoke(): string
     {
-     
+     if(isset($_SESSION))
+        header('Location: /');
         try {
             $userCont = new UsersController();
             $user = user::create($_GET);

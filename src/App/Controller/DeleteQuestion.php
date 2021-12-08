@@ -10,6 +10,10 @@ class DeleteQuestion extends AbstractController
 {
     public function __invoke(): string
     {
+
+        if(isset($_SESSION)&& $_SESSION['user']->getRole()!=1)
+            header('Location: /');
+            
         $questCont = new QuestionController();
         if ($_SESSION['user']->getRole() == 1) {
             try {

@@ -136,7 +136,6 @@ class UsersController extends AbstractControllerBdd
     public function addUser(User $user): void
     {
         $messageError = '';
-
         $this->conform($user);
 
         //le 0 est la pour match le nombre d'arguement , il n'est pas mis dans la bdd

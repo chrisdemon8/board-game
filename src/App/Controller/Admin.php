@@ -15,6 +15,9 @@ class Admin extends AbstractController
 
     public function __invoke(): string
     {
+
+        if(isset($_SESSION)&& $_SESSION['user']->getRole()!=1)
+            header('Location: /');
         try {
             $this->questionCont = new QuestionController();
             $this->userCont = new UsersController();

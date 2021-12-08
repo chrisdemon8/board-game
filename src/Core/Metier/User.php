@@ -23,7 +23,7 @@ class User extends Modele implements Objectify, Create
     }
 
     public function allDataSet():bool{
-        return $this->role != null && $this->user != null && $this->password != null && $this->email != null && $this->firstName != null && $this->lastName != null && $this->createdAt != null;
+        return $this->role != null && $this->username != null && $this->password != null && $this->email != null && $this->firstName != null && $this->lastName != null && $this->createdAt != null;
     }
 
     public static function create($data): User
