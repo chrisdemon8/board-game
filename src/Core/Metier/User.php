@@ -80,11 +80,7 @@ class User extends Modele implements Objectify, Create
      */
     public function setUsername(string $username): void
     {
-        if (!preg_match('/[^A-Za-z0-9]/', $username)) // '/[^a-z\d]/i' should also work.
         $this->username = $username;
-    else    
-        throw new Exception('INVALID_USERNAME');
-  
     }
     /**
      * @return string
