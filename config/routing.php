@@ -17,9 +17,8 @@ use App\Controller\GetUser;
 use App\Controller\GetQuestions; 
 use App\Controller\GetQuestion; 
 use App\Controller\Admin; 
-use App\Controller\DeleteQuestion; 
-
-
+use App\Controller\DeleteQuestion;
+use App\Controller\UpdateQuestion;
 use Framework\Routing\Route;
 
 return [
@@ -27,6 +26,7 @@ return [
     new Route('GET', '/Admin', Admin::class),
     new Route('POST', '/GetUser', GetUser::class),
     new Route('POST', '/DeleteQuestion', DeleteQuestion::class),
+    new Route('POST', '/UpdateQuestion', UpdateQuestion::class),
     new Route('GET', '/GetQuestions', GetQuestions::class),
     new Route('POST', '/GetQuestion', GetQuestion::class),
     new Route('GET', '/deconnexion', Disconnected::class),

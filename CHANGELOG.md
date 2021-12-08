@@ -8,9 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Added
 - Ajout des fonctions conform/allDataSet afin de vérifier que les objets passer en parametres
     dans les controllers sont remplis;
+- Ajout de la modification d'une question pour les champs niveaux et label
+- Ajout de la suppression d'une question 
 
-
-## 08-12-2021 
 ## Fixed
 - Hydrate dans la classe abstraite modele
 
@@ -20,12 +20,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 07-12-2021 
 ## Fixed
 - Host récupéré avec app local
-
-## 07-12-2021 
+ 
 ## Fixed
 - jsonSerialize passé en récursif
-
-## 07-12-2021  
+ 
 ## Added 
 - Mise en place de l'affichage pour la liste des questions 
 - Page pour l'admin 

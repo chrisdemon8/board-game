@@ -86,7 +86,7 @@ class QuestionController extends AbstractControllerBdd
     {
 
         $this->conform($Question);
-        $request = $this->connection->prepare('UPDATE question SET label_question = :label,level = :level WHERE id = :id');
+        $request = $this->connection->prepare('UPDATE question SET label_question = :label,level = :level WHERE id_question = :id');
 
         $request->bindValue(':level', $Question->getLevel(), PDO::PARAM_INT);
         $request->bindValue(':label', $Question->getLabelQuestion());

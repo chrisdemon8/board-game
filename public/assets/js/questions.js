@@ -37,7 +37,7 @@ let tableStructure = {
         'data': 'true',
         'label': 'answers',
         'header': 'Réponse',
-        'editable': 'true'
+        'editable': 'false'
     },
     'edit': {
         'data': 'false',
@@ -70,7 +70,7 @@ function createHeaderTable(table) {
 
 function insertData(table, data) {
 
- 
+
     data.forEach(row => {
 
         tr = document.createElement("TR");
@@ -141,7 +141,6 @@ function insertData(table, data) {
                 } else if (field === "id_question") {
                     tr.id = "id_question" + dataCell;
                     currentId = dataCell;
-                    console.log(currentId);
                     td.innerHTML = dataCell;
                 } else {
                     td.innerHTML = dataCell;
@@ -164,7 +163,6 @@ function insertData(table, data) {
 
         buttonDelete.addEventListener('click', event => {
 
-            console.log(currentId)
             var result = confirm("Voulez vous vraiment supprimer la question n°" + currentId + "?");
             if (result) {
                 fetch("/DeleteQuestion", {
@@ -195,56 +193,6 @@ function insertData(table, data) {
             for (var i = 0, len = allButtonModify.length; i < len; i++) {
                 allButtonModify[i].disabled = true;
             }
-
-            buttonValid.addEventListener('click', eventValid => {
-                eventValid.target.style.display = 'none';
-                buttonCancel.style.display = 'none';
-                event.target.style.display = "inline";
-
-                let allButtonModify = document.querySelectorAll(".modify");
-
-                for (var i = 0, len = allButtonModify.length; i < len; i++) {
-                    allButtonModify[i].disabled = false;
-                }
-
-
-                let jsonData = {};
-                console.log(tableStructure);
- 
-  
-                    /*
-                for (let i = 0; i < children.length; i++) {
-                    console.log(children[i].id);
-
-                    if (res[children[i].id]) {
-
-                        fieldsEdit.forEach(field => {
-
-                            if (field.field === children[i].id) {
-                                jsonData[children[i].id] = children[i].children[0].value;
-                            }
-                        });
-
-                    }
-                }*/
-
-                jsonData["id_user"] = currentId;
-                jsonData = JSON.stringify(jsonData);
-
-                console.log(jsonData);
-                /*
-                fetch("/UpdateQuestion", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
-                        },
-                        body: `jsonData=${jsonData}`,
-                    })
-                    .then((response) => response.text())
-                    .then((res) => loadData());
-*/
-
-            });
 
 
             url = "/GetQuestion";
@@ -283,9 +231,6 @@ function insertData(table, data) {
 
                             trSelect = document.getElementById("id_question" + currentId);
                             children = trSelect.children;
-                            console.log(trSelect);
-                            console.log(children);
-                            console.log(json);
                             for (let i = 0; i < children.length; i++) {
 
                                 currentStructure = tableStructure[children[i].id];
@@ -304,6 +249,7 @@ function insertData(table, data) {
                                         for (let key in currentStructure.value) {
                                             let option = document.createElement("option");
                                             option.currentStructure = key;
+                                            option.value = key;
                                             option.text = currentStructure.value[key];
                                             selectList.appendChild(option);
                                         }
@@ -319,11 +265,64 @@ function insertData(table, data) {
 
                             }
 
+
+                            buttonValid.addEventListener('click', eventValid => {
+                                eventValid.target.style.display = 'none';
+                                buttonCancel.style.display = 'none';
+                                event.target.style.display = "inline";
+
+                                let allButtonModify = document.querySelectorAll(".modify");
+
+                                for (var i = 0, len = allButtonModify.length; i < len; i++) {
+                                    allButtonModify[i].disabled = false;
+                                }
+
+
+                                let jsonData = {};
+
+                                for (let i = 0; i < children.length; i++) {
+
+                                    if (tableStructure[children[i].id].editable == "true") {
+
+                                        console.log(children[i].children[0])
+                                        jsonData[children[i].id] = children[i].children[0].value;
+                                    }
+
+
+
+                                }
+
+                                jsonData["id_question"] = currentId;
+
+                                fetch("/UpdateQuestion", {
+                                        method: 'POST',
+                                        headers: {
+                                            "Content-Type": "application/json"
+                                        },
+                                        body: JSON.stringify({
+                                            jsonData
+                                        }),
+                                        mode: 'cors',
+                                        cache: 'default'
+                                    }).then(function (response) {
+
+                                        if (response.ok)
+                                            response.text().then(function (res) {
+                                                loadData();
+                                            })
+                                    })
+                                    .catch(function (error) {
+                                        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                                    });
+
+                            });
+
+
+
                             buttonCancel.addEventListener('click', event => {
                                 event.target.style.display = 'none';
                                 buttonValid.style.display = "none";
                                 buttonEdit.style.display = "block";
-
                                 loadData();
 
                             });
