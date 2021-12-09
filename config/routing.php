@@ -19,12 +19,16 @@ use App\Controller\GetQuestion;
 use App\Controller\Admin; 
 use App\Controller\DeleteQuestion;
 use App\Controller\UpdateQuestion;
+use App\Controller\UpdateAnswer;
+use App\Controller\AddAnswer;
 use Framework\Routing\Route;
 
 return [
     new Route('GET', '/', Homepage::class),
     new Route('GET', '/Admin', Admin::class),
     new Route('POST', '/GetUser', GetUser::class),
+    new Route('POST', '/UpdateAnswer', UpdateAnswer::class),
+    new Route('POST', '/AddAnswer', AddAnswer::class),
     new Route('POST', '/DeleteQuestion', DeleteQuestion::class),
     new Route('POST', '/UpdateQuestion', UpdateQuestion::class),
     new Route('GET', '/GetQuestions', GetQuestions::class),

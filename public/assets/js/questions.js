@@ -68,7 +68,7 @@ function createHeaderTable(table) {
     table.appendChild(tr);
 }
 
-function newModal(reponse) {
+function newModal(response, id) {
     document.getElementById('myModal').style.display = 'block';
     let modalContent = document.getElementById('modalContent');
     modalContent.innerHTML = '';
@@ -81,16 +81,16 @@ function newModal(reponse) {
     input.placeholder = 'Entrer votre réponse';
     input.name = 'txtReponse';
     input.id = 'txtReponse';
-    if (reponse)
-        input.value = reponse.label_answer;
+    if (response)
+        input.value = response.label_answer;
 
 
     let input2 = document.createElement('input');
     input2.name = 'cbboxValide';
     input2.id = 'cbboxValide';
     input2.type = 'checkbox';
-    if (reponse)
-        input2.checked = reponse.valid;
+    if (response)
+        input2.checked = response.valid;
 
     let label2 = document.createElement('label');
     label2.for = 'cbboxValide';
@@ -107,13 +107,68 @@ function newModal(reponse) {
     let buttonValidate = document.createElement("button");
     buttonValidate.textContent = 'Valider'
     buttonValidate.onclick = () => {
-        let reponse = input.value;
+        let valueInput = input.value;
         let valide = input2.checked;
         document.getElementById('myModal').style.display = 'none'
-        if (reponse) {
-            //TODO : update de la réponse
+
+        let jsonData;
+
+        if (response) {
+            // update de la réponse  
+            jsonData = {
+                'id_answer': response.id_answer,
+                'valid': valide,
+                'label_answer': valueInput
+            }
+
+
+            fetch("/UpdateAnswer", {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        jsonData
+                    }),
+                    mode: 'cors',
+                    cache: 'default'
+                }).then(function (response) {
+
+                    if (response.ok)
+                        response.text().then(function (res) {
+                            loadData();
+                        })
+                })
+                .catch(function (error) {
+                    console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                });
         } else {
-            //TODO : ajout de la réponse
+            //TODO : ajout de la réponse 
+            jsonData = {
+                'id_question': id,
+                'valid': valide,
+                'label_answer': valueInput
+            }
+            fetch("/AddAnswer", {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        jsonData
+                    }),
+                    mode: 'cors',
+                    cache: 'default'
+                }).then(function (response) {
+
+                    if (response.ok)
+                        response.text().then(function (res) {
+                            loadData();
+                        })
+                })
+                .catch(function (error) {
+                    console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                });
         }
     }
 
@@ -188,7 +243,7 @@ function insertData(table, data) {
                     button = document.createElement("BUTTON");
                     button.innerHTML = "+";
                     button.onclick = () => {
-                        newModal();
+                        newModal(false, currentId);
                     }
                     td.appendChild(button);
 
@@ -281,10 +336,10 @@ function insertData(table, data) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function(response) {
+                }).then(function (response) {
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function(json) {
+                        return response.json().then(function (json) {
 
                             trSelect = document.getElementById("id_question" + currentId);
                             children = trSelect.children;
@@ -361,14 +416,14 @@ function insertData(table, data) {
                                         }),
                                         mode: 'cors',
                                         cache: 'default'
-                                    }).then(function(response) {
+                                    }).then(function (response) {
 
                                         if (response.ok)
-                                            response.text().then(function(res) {
+                                            response.text().then(function (res) {
                                                 loadData();
                                             })
                                     })
-                                    .catch(function(error) {
+                                    .catch(function (error) {
                                         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                                     });
 
@@ -388,7 +443,7 @@ function insertData(table, data) {
                         console.log("Le serveur n'a pas renvoyé le résultat attendu.");
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
 
@@ -421,16 +476,16 @@ function loadData() {
         cache: 'default'
     };
 
-    fetch(url, myInit).then(function(response) {
+    fetch(url, myInit).then(function (response) {
         var contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
-            return response.json().then(function(json) {
+            return response.json().then(function (json) {
                 insertData(questionsTable, json);
             });
         } else {
             console.log("Le serveur n'a pas renvoyé le résultat attendu.");
         }
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
     });
 

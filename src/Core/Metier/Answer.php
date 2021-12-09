@@ -13,21 +13,23 @@ class Answer extends Modele implements Objectify
     protected int  $id_question;
     protected bool $valid;
 
-    
-    public static function Objectify($data):Answer{
+
+    public static function Objectify($data): Answer
+    {
         $Answer = new Answer();
 
-        if($data == NULL)
+        if ($data == NULL)
             throw new Exception("Données non conforme !");
         $Answer->hydrate($data);
         return $Answer;
     }
 
-    public function allDataSet():bool{
-        return $this->label_answer !=null && $this->valid!=null && $this->id_question!=null;
+    public function allDataSet(): bool
+    { 
+        return $this->label_answer != null && isset($this->valid) && $this->id_question != null;
     }
-  
-    
+
+
     /**
      * @return int
      */
@@ -58,8 +60,7 @@ class Answer extends Modele implements Objectify
      */
     public function setLabelAnswer(string $label_answer): void
     {
-            $this->label_answer = $label_answer;
-
+        $this->label_answer = $label_answer;
     }
 
     /**
@@ -91,7 +92,6 @@ class Answer extends Modele implements Objectify
      */
     public function setValid(int $valid): void
     {
-        $this->valid = ($valid==1);
+        $this->valid = ($valid == 1);
     }
-
 }

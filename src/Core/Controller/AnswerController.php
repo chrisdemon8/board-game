@@ -65,7 +65,7 @@ class AnswerController extends AbstractControllerBdd
     {
 
         $this->conform($Answer);
-        $request = $this->connection->prepare('UPDATE answer SET label_answer = :label,valid = :valid WHERE id_user = :id');
+        $request = $this->connection->prepare('UPDATE answer SET label_answer = :label,valid = :valid WHERE id_answer = :id');
 
         $request->bindValue(':id', $Answer->getIdAnswer(), PDO::PARAM_INT);
         $request->bindValue(':label', $Answer->getLabelAnswer());
@@ -78,7 +78,7 @@ class AnswerController extends AbstractControllerBdd
     {
         $messageError = '';
         $this->conform($Answer);
-        $request = $this->connection->prepare('SELECT * FROM answer WHERE label = :label');
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM answer WHERE label_answer = :label');
         $request->bindValue(':label', $Answer->getLabelAnswer());
         $labelUnique = $request->execute();
 
@@ -86,7 +86,7 @@ class AnswerController extends AbstractControllerBdd
         $request->bindValue(':id', $Answer->getIdQuestion());
         $QuestionExist = $request->execute();
 
-        if ($labelUnique != NULL)
+        if ($labelUnique['exist'] > 0)
             $messageError .= 'ERROR_LABEL';
         if ($QuestionExist == NULL)
             $messageError .= '/ERROR_ID_QUESTION';
@@ -94,9 +94,9 @@ class AnswerController extends AbstractControllerBdd
         if ($messageError == '') {
             //TODO: A testé
             //le 0 est la pour match le nombre d'arguement , il n'est pas mis dans la bdd
-            $request = $this->connection->prepare('INSERT INTO answer VALUES (0,:label,:id_question,:valid)');
+            $request = $this->connection->prepare('INSERT INTO answer (label_answer, id_question, valid) VALUES (:label_answer,:id_question,:valid)');
 
-            $request->bindValue(':label', $Answer->getLabelAnswer());
+            $request->bindValue(':label_answer', $Answer->getLabelAnswer());
             $request->bindValue(':id_question', $Answer->getIdQuestion());
             $request->bindValue(':valid', $Answer->isValid() == 1 ? 1 : 0, PDO::PARAM_STR);
 
