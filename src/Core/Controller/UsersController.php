@@ -71,7 +71,6 @@ class UsersController extends AbstractControllerBdd
             ErrorManager::CustomError($messageError);
             return false;
         }
-
         if (!password_verify($password, $user["password"])) {
             $messageError = 'Mot de passe incorrect';
             ErrorManager::CustomError($messageError);
@@ -83,6 +82,7 @@ class UsersController extends AbstractControllerBdd
     //TODO: a testé
     public function updateUser(User $user, int $role, bool $changePassword): void
     {
+
         $this->conform($user);
 
         if ($role === 1) {
@@ -107,7 +107,7 @@ class UsersController extends AbstractControllerBdd
                 $request->bindValue(':password', password_hash($user->getPassword(), PASSWORD_DEFAULT));
         }
 
- 
+
         $request->execute();
     }
 
@@ -131,7 +131,7 @@ class UsersController extends AbstractControllerBdd
         $request->execute();
     }
 
-    
+
 
     public function addUser(User $user): void
     {
