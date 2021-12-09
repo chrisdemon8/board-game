@@ -358,7 +358,7 @@ function insertData(table, data) {
 
 
 
-        buttonDelete.addEventListener('click', event => {
+        buttonDelete.addEventListener('click', () => {
 
             var result = confirm("Voulez vous vraiment supprimer la question n°" + currentId + "?");
             if (result) {

@@ -12,7 +12,7 @@ class AddQuestion extends AbstractController
 {
     public function __invoke(): string
     {
-        if(!isset($_SESSION['user']) || $_SESSION[ 'user']->getRole()!=1)
+        if(!isset($_SESSION['user']) || $_SESSION['user']->getRole()!=1)
             header('Location: /');
 
         $content = trim(file_get_contents("php://input"));
