@@ -11,12 +11,14 @@ class AddUser extends AbstractController
 {
     public function __invoke(): string
     {
-     if(isset($_SESSION))
-        header('Location: /');
+        if (isset($_SESSION))
+            header('Location: /');
         try {
             $userCont = new UsersController();
             $user = user::create($_GET);
+           // var_dump($user);die;
             $userCont->addUser($user);
+
         } catch (Exception $e) {
             return $this->render('error.html.twig', [
                 'error' => $e->getMessage(),
@@ -24,6 +26,6 @@ class AddUser extends AbstractController
         }
 
 
-        header('Location: /connexion');
+        // header('Location: /connexion');
     }
 }

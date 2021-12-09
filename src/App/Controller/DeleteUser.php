@@ -11,7 +11,7 @@ class DeleteUser extends AbstractController
     public function __invoke(): string
     {
 
-        if(isset($_SESSION)&& $_SESSION['user']->getRole()!=1)
+        if(!isset($_SESSION['user'])&& $_SESSION['user']->getRole()!=1)
             header('Location: /');
             
         $userCont = new UsersController();

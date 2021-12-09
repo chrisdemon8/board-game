@@ -22,7 +22,8 @@ class User extends Modele implements Objectify, Create
     {
     }
 
-    public function allDataSet():bool{
+    public function allDataSet(): bool
+    {
         return $this->role != null && $this->username != null && $this->password != null && $this->email != null && $this->firstName != null && $this->lastName != null && $this->createdAt != null;
     }
 
@@ -95,7 +96,7 @@ class User extends Modele implements Objectify, Create
      */
     public function setPassword(string $password): void
     {
-      $this->password = $password;
+        $this->password = $password;
     }
 
     /**
@@ -113,9 +114,9 @@ class User extends Modele implements Objectify, Create
     {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
             $this->email = $email;
-          }else{
-              throw new Exception("INVALID_MAIL");
-          }
+        } else {
+            throw new Exception("INVALID_MAIL");
+        }
     }
 
     /**
@@ -147,12 +148,18 @@ class User extends Modele implements Objectify, Create
      */
     public function setFirstName(string $firstName): void
     {
-        if (preg_match("/^[a-zA-Z-' ]*$/",$firstName)) {
-            $this->firstName = $firstName;
-          }else{
-              throw new Exception("INVALID_FIRST_NAME");
-          }   
 
+        /* if (preg_match("/^[a-zA-Z-' ]*$/", $firstName)) {
+            $this->firstName = $firstName;
+        } else {
+            throw new Exception("INVALID_FIRST_NAME");
+        }*/
+        if ($this->checkLettersOnly($firstName))
+            $this->firstName = $firstName;
+        else {
+            var_dump($firstName);die;
+            throw new Exception("INVALID_FIRST_NAME");
+        }
     }
 
     /**
@@ -168,12 +175,11 @@ class User extends Modele implements Objectify, Create
      */
     public function setLastName(string $lastName): void
     {
-        if (preg_match("/^[a-zA-Z-' ]*$/",$lastName)) {
+        if ($this->checkLettersOnly($lastName)) {
             $this->lastName = $lastName;
-          }else{
-              throw new Exception("INVALID_LASTNAME");
-          }  
-
+        } else {
+            throw new Exception("INVALID_LASTNAME");
+        }
     }
 
 
