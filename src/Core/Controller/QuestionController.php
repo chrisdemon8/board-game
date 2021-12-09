@@ -101,34 +101,37 @@ class QuestionController extends AbstractControllerBdd
         $request = $this->connection->prepare('DELETE FROM `answer` WHERE id_question = :id');
         $request->bindValue(':id', $id_question);
         $request->execute();
-        
+
         $request = $this->connection->prepare('DELETE FROM `question` WHERE id_question = :id');
         $request->bindValue(':id', $id_question);
         $request->execute();
-
-        
     }
 
 
     public function addQuestion(Question $Question): void
     {
-        $this->conform($Question);
+
+
         $messageError = '';
 
-        $request = $this->connection->prepare('SELECT * FROM question WHERE label = :label');
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM question WHERE label_question = :label');
         $request->bindValue(':label', $Question->getLabelQuestion());
-        $labelUnique = $request->execute();
 
-        if ($labelUnique != NULL)
-            $messageError .= 'ERROR_LABEL';
+        if (!$request->execute()) {
+            $messageError .= "ERROR SQL 1";
+        }
+
+        $lblExiste = $request->fetch();
+
+        if ($lblExiste["exist"] > 0)
+            $messageError .= 'ERROR_LBL';
 
         if ($messageError == '') {
-            //TODO: A testé
-            //le 0 est la pour match le nombre d'arguement , il n'est pas mis dans la bdd
             $request = $this->connection->prepare('INSERT INTO question VALUES (0,:label,:level)');
-
-            $request->bindValue(':level', $Question->getLevel(), PDO::PARAM_INT);
+            // $request = $this->connection->prepare('INSERT INTO user VALUES (0,:username,:password,:email,:role,:firstname,:lastname,:createdAt)');
+            // $request->bindValue(':level', $Question->getLevel(), PDO::PARAM_INT);
             $request->bindValue(':label', $Question->getLabelQuestion());
+            $request->bindValue(':level', $Question->getLevel(), PDO::PARAM_INT);
 
             $request->execute();
         } else

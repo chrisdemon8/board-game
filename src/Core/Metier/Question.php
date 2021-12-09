@@ -3,10 +3,11 @@
 namespace Framework\Metier;
 
 use \Exception;
+use Framework\Controller\Create;
 use Framework\Controller\Objectify;
 use Framework\Metier\Modele;
 
-class Question  extends Modele implements Objectify
+class Question  extends Modele implements Objectify,Create
 {
     protected int $id_question;
     protected string $label_question;
@@ -16,6 +17,18 @@ class Question  extends Modele implements Objectify
     
     public function __construct()
     {}
+
+    public static function Create($data):Question{
+        $question = new Question();
+
+        if ($data == NULL)
+            throw new Exception("Données non conforme !");
+        $question->hydrate($data);
+        //set de base des réponses
+        $question->setAnswers([]);
+
+        return $question;
+    }
 
     
     public static function Objectify($data):Question{

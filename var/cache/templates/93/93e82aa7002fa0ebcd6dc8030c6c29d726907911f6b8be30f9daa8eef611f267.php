@@ -12,8 +12,8 @@ use Twig\Sandbox\SecurityNotAllowedFunctionError;
 use Twig\Source;
 use Twig\Template;
 
-/* home.html.twig */
-class __TwigTemplate_f305e61d8b5d8482146a5f00c08fab7391e1ae9f216665f5e94ac74c2e70bfde extends Template
+/* /question/questions.html.twig */
+class __TwigTemplate_e00a4e2938ea97e322b0c006160f3fe432424dd9f4cc993b900f3e89d877e8ac extends Template
 {
     private $source;
     private $macros = [];
@@ -41,7 +41,7 @@ class __TwigTemplate_f305e61d8b5d8482146a5f00c08fab7391e1ae9f216665f5e94ac74c2e7
     protected function doDisplay(array $context, array $blocks = [])
     {
         $macros = $this->macros;
-        $this->parent = $this->loadTemplate("layout.html.twig", "home.html.twig", 1);
+        $this->parent = $this->loadTemplate("layout.html.twig", "/question/questions.html.twig", 1);
         $this->parent->display($context, array_merge($this->blocks, $blocks));
     }
 
@@ -62,31 +62,48 @@ class __TwigTemplate_f305e61d8b5d8482146a5f00c08fab7391e1ae9f216665f5e94ac74c2e7
     {
         $macros = $this->macros;
         // line 9
-        echo "\t<link rel=\"stylesheet\" href=\"/assets/css/basicpage.css\"/>
+        echo "\t<link rel=\"stylesheet\" href=\"assets/css/questions.css\"/>
 ";
     }
 
-    // line 12
+    // line 13
     public function block_body($context, array $blocks = [])
     {
         $macros = $this->macros;
-        // line 13
-        echo "
-\t<div class=\"container\">
-\t\t<button>Jouer !</button>
+        // line 14
+        echo "\t<h1>Liste des questions</h1>
+
+
+\t<div style=\"overflow-x:auto;\">
+\t\t<table id=\"questionsTable\"></table>
 \t</div>
+\t<button id='addQuestion'></button>
+
+\t<!-- The Modal -->
+\t<div
+\t\tid=\"myModal\" class=\"modal\">
+
+\t\t<!-- Modal content -->
+\t\t<div id=\"modalContent\" class=\"modal-content\">
+\t\t</div>
+
+\t</div>
+
 ";
     }
 
-    // line 19
+    // line 34
     public function block_bottom_js($context, array $blocks = [])
     {
         $macros = $this->macros;
+        // line 35
+        echo "\t<script type=\"text/javascript\" src=\"assets/js/questions.js\"></script>
+";
     }
 
     public function getTemplateName()
     {
-        return "home.html.twig";
+        return "/question/questions.html.twig";
     }
 
     public function isTraitable()
@@ -96,11 +113,11 @@ class __TwigTemplate_f305e61d8b5d8482146a5f00c08fab7391e1ae9f216665f5e94ac74c2e7
 
     public function getDebugInfo()
     {
-        return array (  82 => 19,  74 => 13,  70 => 12,  65 => 9,  61 => 8,  53 => 4,  49 => 3,  38 => 1,);
+        return array (  100 => 35,  96 => 34,  74 => 14,  70 => 13,  65 => 9,  61 => 8,  53 => 4,  49 => 3,  38 => 1,);
     }
 
     public function getSourceContext()
     {
-        return new Source("", "home.html.twig", "C:\\wamp64\\www\\MyProject\\board-game\\templates\\home.html.twig");
+        return new Source("", "/question/questions.html.twig", "C:\\wamp64\\www\\MyProject\\board-game\\templates\\question\\questions.html.twig");
     }
 }

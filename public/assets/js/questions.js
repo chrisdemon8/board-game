@@ -66,6 +66,12 @@ function createHeaderTable(table) {
         tr.appendChild(td);
     }
     table.appendChild(tr);
+    let buttonAddQuestion = document.getElementById('addQuestion');
+    buttonAddQuestion.innerText = '+';
+    buttonAddQuestion.onclick = () => {
+        newModalQuestion();
+    }
+    table.after(buttonAddQuestion);
 }
 
 function newModal(response, id) {
@@ -132,14 +138,14 @@ function newModal(response, id) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function (response) {
+                }).then(function(response) {
 
                     if (response.ok)
-                        response.text().then(function (res) {
+                        response.text().then(function(res) {
                             loadData();
                         })
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         } else {
@@ -159,17 +165,96 @@ function newModal(response, id) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function (response) {
+                }).then(function(response) {
 
                     if (response.ok)
-                        response.text().then(function (res) {
+                        response.text().then(function(res) {
                             loadData();
                         })
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         }
+    }
+
+    modalContent.append(label, input, label2, input2, buttonCancel, buttonValidate);
+}
+
+function newModalQuestion() {
+    document.getElementById('myModal').style.display = 'block';
+    let modalContent = document.getElementById('modalContent');
+    modalContent.innerHTML = '';
+    let label = document.createElement('label');
+    label.for = 'txtQuestion';
+    label.innerHTML = 'Question :';
+
+    let input = document.createElement('input');
+    input.type = 'text';
+    input.placeholder = 'Entrer votre question';
+    input.name = 'txtQuestion';
+    input.id = 'txtQuestion';
+
+    let input2 = document.createElement('select');
+    input2.name = 'Levels';
+    input2.id = 'Levels';
+    input2.type = 'select';
+    for (let i = 1; i <= 6; i++) {
+        let opt = document.createElement("option");
+        opt.value = i;
+        opt.text = "level " + i;
+        input2.add(opt);
+    }
+
+    let label2 = document.createElement('label');
+    label2.for = 'Levels';
+    label2.innerHTML = 'Niveau de difficulté';
+
+    let buttonCancel = document.createElement("button");
+    buttonCancel.classList.add("delete");
+    buttonCancel.name = 'Annuler';
+    buttonCancel.textContent = 'Annuler'
+    buttonCancel.onclick = () => {
+        document.getElementById('myModal').style.display = 'none'
+    }
+
+    let buttonValidate = document.createElement("button");
+    buttonValidate.textContent = 'Valider'
+    buttonValidate.onclick = () => {
+        let valueInput = input.value;
+        let level = input2.value;
+        if (valueInput === '')
+            alert('Veuiller rentrer un label ou annuler .')
+        else {
+            document.getElementById('myModal').style.display = 'none'
+            console.log(valueInput, level);
+            jsonData = {
+                'label_question': valueInput,
+                'level': level,
+            }
+            fetch("AddQuestion", {
+                    method: 'POST',
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        jsonData
+                    }),
+                    mode: 'cors',
+                    cache: 'default'
+                }).then(function(response) {
+
+                    if (response.ok)
+                        response.text().then(function(res) {
+                            console.log(response);
+                            loadData();
+                        })
+                })
+                .catch(function(error) {
+                    console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                });
+        }
+
     }
 
     modalContent.append(label, input, label2, input2, buttonCancel, buttonValidate);
@@ -336,10 +421,10 @@ function insertData(table, data) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function (response) {
+                }).then(function(response) {
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function (json) {
+                        return response.json().then(function(json) {
 
                             trSelect = document.getElementById("id_question" + currentId);
                             children = trSelect.children;
@@ -416,14 +501,14 @@ function insertData(table, data) {
                                         }),
                                         mode: 'cors',
                                         cache: 'default'
-                                    }).then(function (response) {
+                                    }).then(function(response) {
 
                                         if (response.ok)
-                                            response.text().then(function (res) {
+                                            response.text().then(function(res) {
                                                 loadData();
                                             })
                                     })
-                                    .catch(function (error) {
+                                    .catch(function(error) {
                                         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                                     });
 
@@ -443,7 +528,7 @@ function insertData(table, data) {
                         console.log("Le serveur n'a pas renvoyé le résultat attendu.");
                     }
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
 
@@ -463,6 +548,8 @@ function loadData() {
     clearTable(questionsTable);
     createHeaderTable(questionsTable);
 
+
+
     tr = document.createElement("TR");
 
     url = "/GetQuestions";
@@ -476,16 +563,16 @@ function loadData() {
         cache: 'default'
     };
 
-    fetch(url, myInit).then(function (response) {
+    fetch(url, myInit).then(function(response) {
         var contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
-            return response.json().then(function (json) {
+            return response.json().then(function(json) {
                 insertData(questionsTable, json);
             });
         } else {
             console.log("Le serveur n'a pas renvoyé le résultat attendu.");
         }
-    }).catch(function (error) {
+    }).catch(function(error) {
         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
     });
 

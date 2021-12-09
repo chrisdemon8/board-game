@@ -21,6 +21,7 @@ use App\Controller\DeleteQuestion;
 use App\Controller\UpdateQuestion;
 use App\Controller\UpdateAnswer;
 use App\Controller\AddAnswer;
+use App\Controller\AddQuestion;
 use Framework\Routing\Route;
 
 return [
@@ -33,6 +34,7 @@ return [
     new Route('POST', '/UpdateQuestion', UpdateQuestion::class),
     new Route('GET', '/GetQuestions', GetQuestions::class),
     new Route('POST', '/GetQuestion', GetQuestion::class),
+    new Route('POST', '/AddQuestion', AddQuestion::class),
     new Route('GET', '/deconnexion', Disconnected::class),
     new Route('GET', '/question/{id}', Question::class),
     new Route('GET', '/user/{id}', ShowUser::class),

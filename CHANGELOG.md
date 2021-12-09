@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Changed
 - Verification des entrées users ( plus de " ou ' pour noms et prénoms)
 
+## Changed
+- Ajout des questions sur la page même
+
 ## Fixed
 - Bug des modifications de profils
 

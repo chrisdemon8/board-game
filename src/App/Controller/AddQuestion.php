@@ -4,15 +4,17 @@ namespace App\Controller;
 
 use Exception;
 use Framework\Controller\AbstractController;
-use Framework\Controller\AnswerController;
-use Framework\Metier\Answer;
+use Framework\Controller\QuestionController;
+use Framework\Metier\Question;
 
-class AddAnswer extends AbstractController
+
+class AddQuestion extends AbstractController
 {
     public function __invoke(): string
     {
         if(!isset($_SESSION['user']) || $_SESSION[ 'user']->getRole()!=1)
             header('Location: /');
+
         $content = trim(file_get_contents("php://input"));
 
         $data = json_decode($content, true);
@@ -22,9 +24,9 @@ class AddAnswer extends AbstractController
         }
 
         try {
-            $answerController = new AnswerController();
-            $answer = Answer::Objectify($data);
-            $answerController->addAnswer($answer);
+            $QuestionController = new QuestionController();
+            $Question = Question::Create($data);
+            $QuestionController->addQuestion($Question);
         } catch (Exception $e) {
             return $this->render('error.html.twig', [
                 'error' => $e->getMessage(),
@@ -32,4 +34,4 @@ class AddAnswer extends AbstractController
         }
  
     }
-}
+    }
