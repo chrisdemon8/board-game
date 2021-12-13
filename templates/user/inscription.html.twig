@@ -12,47 +12,52 @@
 {% block body %}
 
 	<div class="basicForm">
-		<form action="addUser" method="get">
+		<form onsubmit="return false">
 
 
 			<div>
 				<label for="username">pseudo :
 				</label>
-				<input type="text" name="username" id="username" required>
+				<input type="text" name="username" id="username" minlength="1" maxlength="50" required>
+				<p class="helperText"> </p>
 			</div>
 
 			<div>
 				<label for="lastname">Nom de famille :
 				</label>
-				<input type="text" name="lastname" id="lastname" required>
+				<input type="text" name="lastname" id="lastname" pattern="[a-zA-Z]+" title="Uniquement des lettre" required>
 			</div>
 
 			<div>
 				<label for="firstname">Prénom :
 				</label>
-				<input type="text" name="firstname" id="firstname" required>
+				<input type="text" name="firstname" id="firstname" pattern="[a-zA-Z]+" title="Uniquement des lettre" required>
 			</div>
 
 			<div>
 				<label for="email">Email :
 				</label>
 				<input type="email" name="email" id="email" required>
+				<p class="helperText"> </p>
 			</div>
 
 			<div>
 				<label for="password">Mot de passe :
 				</label>
 				<input type="password" name="password" id="password" required>
+
 			</div>
 
 			<div>
 				<label for="passwordBis">Vérification mot de passe :
 				</label>
-				<input type="password" name="passwordBis" id="password" required>
+				<input type="password" name="passwordBis" id="passwordBis" required>
+				<p class="helperText">
+					Veuillez saisir le même mot de passe</p>
 			</div>
 
 			<div class="button">
-				<input type="submit" value="S'inscrire">
+				<input id="register" type="submit" value="S'inscrire">
 			</div>
 
 		</form>
@@ -61,4 +66,7 @@
 
 {% endblock %}
 
-{% block bottom_js %}{% endblock %}
+{% block bottom_js %}
+	<script type="text/javascript" src="assets/js/inscription.js"></script>
+{% endblock %}
+

@@ -40,7 +40,7 @@ return [
     new Route('GET', '/user/{id}', ShowUser::class),
     new Route('GET', '/allUsers', ShowAllUsers::class),
     new Route('GET', '/allQuestions', ShowAllQuestions::class),
-    new Route('GET', '/addUser', AddUser::class),
+    new Route('POST', '/AddUser', AddUser::class),
     new Route('POST', '/checkUser', CheckUser::class),
     new Route('GET', '/profil', Profil::class),
     new Route('POST', '/deleteUser', DeleteUser::class), 

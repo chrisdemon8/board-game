@@ -6,13 +6,23 @@
     margin-top: 20px;
 }
 
-.changePasswordArea{
+.changePasswordArea {
     display: none;
 }
- 
+
+input:invalid {
+    border: red solid 3px !important;
+  }
+
+.helperText{
+    display: none; 
+    color : red; 
+}
+
+
 input[type=text],
-input[type=password], 
-input[type=email], 
+input[type=password],
+input[type=email],
 select {
     width: 100%;
     padding: 8px 20px;
@@ -23,8 +33,7 @@ select {
     box-sizing: border-box;
 }
 
-input[type=checkbox]
-{
+input[type=checkbox] {
     width: 20px;
     height: 20px;
 }
@@ -46,7 +55,18 @@ input[type=submit]:hover {
     cursor: pointer;
 }
 
-.button{
+
+
+
+input:disabled,
+input[disabled],
+input[disabled]:hover {
+    border: 1px solid #999999;
+    background-color: #cccccc;
+    color: #666666;
+}
+
+.button {
     display: flex;
     justify-content: center;
 }

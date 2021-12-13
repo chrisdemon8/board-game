@@ -133,7 +133,7 @@ class UsersController extends AbstractControllerBdd
 
 
 
-    public function addUser(User $user): void
+    public function AddUser(User $user): void
     {
         $messageError = '';
         $this->conform($user);
