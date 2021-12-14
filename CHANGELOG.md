@@ -4,6 +4,11 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
 
+## 14-12-2021 
+## Added
+- Ajout et implémentation de dataTable librairie JS
+
+
 ## 13-12-2021 
 ## Changed
 - Verification des entrées users et affichages d'informations pour aider l'utilisateur

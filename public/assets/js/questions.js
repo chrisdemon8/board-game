@@ -53,11 +53,23 @@ let tableStructure = {
 
 
 function clearTable(table) {
+
+
+    if ($.fn.dataTable.isDataTable(table)) {
+        $(table).DataTable().clear().destroy();
+    }
+
+
     table.innerHTML = "";
+
+
+
 }
 
 
 function createHeaderTable(table) {
+
+    th = document.createElement("THEAD");
     tr = document.createElement("TR");
     for (const [key, value] of Object.entries(tableStructure)) {
         td = document.createElement("TD");
@@ -65,7 +77,9 @@ function createHeaderTable(table) {
         td.id = value.label;
         tr.appendChild(td);
     }
-    table.appendChild(tr);
+
+    th.appendChild(tr);
+    table.appendChild(th);
     let buttonAddQuestion = document.getElementById('addQuestion');
     buttonAddQuestion.innerText = '+';
     buttonAddQuestion.onclick = () => {
@@ -138,14 +152,14 @@ function newModal(response, id) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function(response) {
+                }).then(function (response) {
 
                     if (response.ok)
-                        response.text().then(function(res) {
+                        response.text().then(function (res) {
                             loadData();
                         })
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         } else {
@@ -165,14 +179,14 @@ function newModal(response, id) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function(response) {
+                }).then(function (response) {
 
                     if (response.ok)
-                        response.text().then(function(res) {
+                        response.text().then(function (res) {
                             loadData();
                         })
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         }
@@ -242,15 +256,15 @@ function newModalQuestion() {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function(response) {
+                }).then(function (response) {
 
                     if (response.ok)
-                        response.text().then(function(res) {
+                        response.text().then(function (res) {
                             console.log(response);
                             loadData();
                         })
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         }
@@ -261,6 +275,8 @@ function newModalQuestion() {
 }
 
 function insertData(table, data) {
+
+    tbody = document.createElement("TBODY");
 
 
     data.forEach(row => {
@@ -289,7 +305,11 @@ function insertData(table, data) {
         let trSelect;
 
 
-        headerTable = table.children[0].children;
+
+        headerTable = table.children[0].firstChild.children;
+
+
+        console.log(table.children[0].firstChild.children);
 
         for (let i = 0; i < headerTable.length; i++) {
             td = document.createElement("TD");
@@ -421,10 +441,10 @@ function insertData(table, data) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function(response) {
+                }).then(function (response) {
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function(json) {
+                        return response.json().then(function (json) {
 
                             trSelect = document.getElementById("id_question" + currentId);
                             children = trSelect.children;
@@ -501,14 +521,14 @@ function insertData(table, data) {
                                         }),
                                         mode: 'cors',
                                         cache: 'default'
-                                    }).then(function(response) {
+                                    }).then(function (response) {
 
                                         if (response.ok)
-                                            response.text().then(function(res) {
+                                            response.text().then(function (res) {
                                                 loadData();
                                             })
                                     })
-                                    .catch(function(error) {
+                                    .catch(function (error) {
                                         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                                     });
 
@@ -528,15 +548,23 @@ function insertData(table, data) {
                         console.log("Le serveur n'a pas renvoyé le résultat attendu.");
                     }
                 })
-                .catch(function(error) {
+                .catch(function (error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
 
         });
-
         tr.appendChild(td);
-        table.appendChild(tr);
+        tbody.appendChild(tr);
+
     });
+
+
+    table.appendChild(tbody);
+
+    let customTable = new DataTable(table, {
+
+    });
+
 }
 
 
@@ -547,10 +575,6 @@ function loadData() {
 
     clearTable(questionsTable);
     createHeaderTable(questionsTable);
-
-
-
-    tr = document.createElement("TR");
 
     url = "/GetQuestions";
 
@@ -563,18 +587,19 @@ function loadData() {
         cache: 'default'
     };
 
-    fetch(url, myInit).then(function(response) {
+    fetch(url, myInit).then(function (response) {
         var contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
-            return response.json().then(function(json) {
+            return response.json().then(function (json) {
                 insertData(questionsTable, json);
             });
         } else {
             console.log("Le serveur n'a pas renvoyé le résultat attendu.");
         }
-    }).catch(function(error) {
+    }).catch(function (error) {
         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
     });
+
 
 }
 
