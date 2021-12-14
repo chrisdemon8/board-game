@@ -48,6 +48,6 @@ return [
     new Route('POST', '/updateUser', UpdateUser::class),
     new Route('GET', '/inscription', Inscription::class),
     new Route('GET', '/connexion', Connexion::class),
-    new Route('GET', '/ChatPage', ChatPage::class),
+    new Route('GET', '/chatpage', ChatPage::class),
 
 ];
