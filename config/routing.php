@@ -22,6 +22,7 @@ use App\Controller\UpdateQuestion;
 use App\Controller\UpdateAnswer;
 use App\Controller\AddAnswer;
 use App\Controller\AddQuestion;
+use App\Controller\ChatPage;
 use Framework\Routing\Route;
 
 return [
@@ -47,5 +48,6 @@ return [
     new Route('POST', '/updateUser', UpdateUser::class),
     new Route('GET', '/inscription', Inscription::class),
     new Route('GET', '/connexion', Connexion::class),
+    new Route('GET', '/ChatPage', ChatPage::class),
 
 ];

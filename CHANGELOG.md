@@ -7,7 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 14-12-2021 
 ## Added
 - Ajout et implémentation de dataTable librairie JS
-
+- Ajout du serveur de websocket
 
 ## 13-12-2021 
 ## Changed
