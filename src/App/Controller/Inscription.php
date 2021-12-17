@@ -8,6 +8,9 @@ class Inscription extends AbstractController
 {
     public function __invoke(): string
     {
-        return $this->render('user/inscription.html.twig');
+        if (isset($_SESSION["user"]))
+            header('Location: /');
+        else
+            return $this->render('user/inscription.html.twig');
     }
 }

@@ -1,14 +1,22 @@
 {% extends 'layout.html.twig' %}
 
-{% block title %} Erreur {% endblock %}
+{% block title %}
+	Erreur
+{% endblock %}
+
+{% block css %}
+	<link rel="stylesheet" href="/assets/css/basicpage.css"/>
+{% endblock %}
 
 {% block body %}
-<h1>Bonjour il semblerait qu'il y ait eu une erreur</h1>
 
-<p>{{error}}<p>
+	<div class="container">
+		<h1>Bonjour il semblerait qu'il y ait eu une erreur</h1>
+
+		<p>{{error}}</p>
+		<p></p>
+	</div>
 
 {% endblock %}
 
-{% block bottom_js %}
-       
-{% endblock %}
+{% block bottom_js %}{% endblock %}

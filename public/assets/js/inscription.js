@@ -51,7 +51,7 @@ function submitForm() {
 
     if (password === passwordBis) {
 
-        fetch("AddUser", {
+        fetch("addUser", {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/json"

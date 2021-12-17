@@ -61,7 +61,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
 
 
 
-    fetch("/GetUser", {
+    fetch("/getUser", {
             method: "POST",
             headers: {
                 "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",

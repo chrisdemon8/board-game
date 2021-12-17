@@ -11,10 +11,13 @@ class UpdateUser extends AbstractController
 {
     public function __invoke(): string
     {
+        if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 1)
+            header('Location: /');
+
         $userCont = new UsersController();
 
         $changePassword = false;
-       // var_dump($_POST);die;
+        // var_dump($_POST);die;
 
         if (isset($_POST["jsonData"])) {
             $valueJSON = json_decode($_POST["jsonData"]);
@@ -43,7 +46,7 @@ class UpdateUser extends AbstractController
             $userCont->checkUser($_POST['email'], $_POST['passwordCheck']);
             $role = 2;
             $user->hydrate($_POST);
-            $user->setPassword(password_hash($_POST['passwordCheck'],PASSWORD_DEFAULT));
+            $user->setPassword(password_hash($_POST['passwordCheck'], PASSWORD_DEFAULT));
         } catch (Exception $e) {
             if ($_SESSION["user"]->getRole() == 1) {
                 $role = 1;

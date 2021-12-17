@@ -16,6 +16,9 @@
 
 		<button  onclick="send()">ENVOYER</button>
 
+        <button  onclick="subscribe('groupe1')">Se joindre au groupe 1</button>
+        <button  onclick="subscribe('groupe2')">Se joindre au groupe 2</button>
+
 	</div>
 
 
@@ -23,22 +26,29 @@
 
         /* ZONE DE TEST NE PAS OUBLIER DE LANCER Le serveur de websocket pour que ça marche */
 		let zonemessage = document.getElementById('zonemessage');
-        var conn = new WebSocket('ws://localhost:8080');
+        let conn = new WebSocket('ws://localhost:8080');
 
         conn.onopen = function (e) {
-        console.log("Connection established!");
+        console.log("Connection established!"); 
         };
         conn.onmessage = function (e) { 
         zonemessage.append(e.data);
         
         };
 
+ 
+        function subscribe(channel) {
+            console.log("join : ", channel)
+            conn.send(JSON.stringify({command: "subscribe", channel: channel}));
+        }
+
+
         function send() {
         msg = document.getElementById("msg").value;
 
         zonemessage.append(msg);
          
-        conn.send(msg);
+        conn.send(JSON.stringify({command: "message", message: msg}));
         }
 	</script>
     

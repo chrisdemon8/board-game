@@ -10,7 +10,7 @@
 		<body>
 			<div class="nav" id="nav">
 				{% if session.user.role == 1 %}
-					<a href="/Admin" class="active">Accueil</a>
+					<a href="/admin" class="active">Accueil</a>
 				{% endif %}
 				{% if session.user.role == 0 %}
 					<a href="/" class="active">Accueil</a>

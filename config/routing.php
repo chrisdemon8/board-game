@@ -23,25 +23,27 @@ use App\Controller\UpdateAnswer;
 use App\Controller\AddAnswer;
 use App\Controller\AddQuestion;
 use App\Controller\ChatPage;
+use App\Controller\NotFound;
 use Framework\Routing\Route;
 
 return [
     new Route('GET', '/', Homepage::class),
-    new Route('GET', '/Admin', Admin::class),
-    new Route('POST', '/GetUser', GetUser::class),
-    new Route('POST', '/UpdateAnswer', UpdateAnswer::class),
-    new Route('POST', '/AddAnswer', AddAnswer::class),
-    new Route('POST', '/DeleteQuestion', DeleteQuestion::class),
-    new Route('POST', '/UpdateQuestion', UpdateQuestion::class),
-    new Route('GET', '/GetQuestions', GetQuestions::class),
-    new Route('POST', '/GetQuestion', GetQuestion::class),
+    new Route('GET', '/404', NotFound::class),
+    new Route('GET', '/admin', Admin::class),
+    new Route('POST', '/getUser', GetUser::class),
+    new Route('POST', '/updateAnswer', UpdateAnswer::class),
+    new Route('POST', '/addAnswer', AddAnswer::class),
+    new Route('POST', '/deleteQuestion', DeleteQuestion::class),
+    new Route('POST', '/updateQuestion', UpdateQuestion::class),
+    new Route('GET', '/getQuestions', GetQuestions::class),
+    new Route('POST', '/getQuestion', GetQuestion::class),
     new Route('POST', '/AddQuestion', AddQuestion::class),
     new Route('GET', '/deconnexion', Disconnected::class),
     new Route('GET', '/question/{id}', Question::class),
     new Route('GET', '/user/{id}', ShowUser::class),
     new Route('GET', '/allUsers', ShowAllUsers::class),
     new Route('GET', '/allQuestions', ShowAllQuestions::class),
-    new Route('POST', '/AddUser', AddUser::class),
+    new Route('POST', '/addUser', AddUser::class),
     new Route('POST', '/checkUser', CheckUser::class),
     new Route('GET', '/profil', Profil::class),
     new Route('POST', '/deleteUser', DeleteUser::class), 

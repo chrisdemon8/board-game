@@ -23,7 +23,7 @@ class CheckUser extends AbstractController
 
         $_SESSION['user'] = $user;
         if ($user->getRole() === 1)
-            header('Location: /Admin');
+            header('Location: /admin');
         else
             header('Location: /');
     }

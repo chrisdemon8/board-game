@@ -142,7 +142,7 @@ function newModal(response, id) {
             }
 
 
-            fetch("/UpdateAnswer", {
+            fetch("/updateAnswer", {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -169,7 +169,7 @@ function newModal(response, id) {
                 'valid': valide,
                 'label_answer': valueInput
             }
-            fetch("/AddAnswer", {
+            fetch("/addAnswer", {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -382,7 +382,7 @@ function insertData(table, data) {
 
             var result = confirm("Voulez vous vraiment supprimer la question n°" + currentId + "?");
             if (result) {
-                fetch("/DeleteQuestion", {
+                fetch("/deleteQuestion", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
@@ -412,7 +412,7 @@ function insertData(table, data) {
             }
 
 
-            url = "/GetQuestion";
+            url = "/getQuestion";
 
 
             data = {
@@ -511,7 +511,7 @@ function insertData(table, data) {
 
                                 jsonData["id_question"] = currentId;
 
-                                fetch("/UpdateQuestion", {
+                                fetch("/updateQuestion", {
                                         method: 'POST',
                                         headers: {
                                             "Content-Type": "application/json"
@@ -562,7 +562,7 @@ function insertData(table, data) {
     table.appendChild(tbody);
 
     let customTable = new DataTable(table, {
-
+        responsive: true
     });
 
 }
@@ -576,7 +576,7 @@ function loadData() {
     clearTable(questionsTable);
     createHeaderTable(questionsTable);
 
-    url = "/GetQuestions";
+    url = "/getQuestions";
 
     var myHeaders = new Headers();
 

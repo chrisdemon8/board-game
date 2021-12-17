@@ -27,11 +27,13 @@ class Routing
 
         switch ($routeInfo[0]) {
             case Dispatcher::NOT_FOUND:
-                echo 'Route non trouvée';die;
+                header('Location: /404');
+                //echo 'Route non trouvée';die;
                 break;
             case Dispatcher::METHOD_NOT_ALLOWED:
                 $allowedMethods = $routeInfo[1];
-                echo 'Route trouvée mais méthode non autorisée !';die;
+                header('Location: /404');
+                //echo 'Route trouvée mais méthode non autorisée !';die;
                 break;
             case Dispatcher::FOUND:
                 $handler = $routeInfo[1];
