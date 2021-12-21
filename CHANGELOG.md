@@ -6,18 +6,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## Problème regex accent à régler
 
-
 ## Mettre des textArea à la place d'input pour écrire une question ?
 ## Meilleur design pour le modal ?
 
 ## 21-12-2021 
 ## Added 
+- Début de la mise en place de la gestion des appels AJAX (A FINIR)
 - Ajout du code SQL pour avoir une base de données avec un jeu de données minimales
 - Ajout de la suppression d'une réponse
 - Amélioration de la gestion du design des tableaux / changement couleur bouton
  
  ## Fixed 
 - Dans les modals affichages des bons niveaux de difficultés
+- Return uniquement les erreurs dans le cas d'appel ajax et non pas du templates twig error 
 
 
 ## 17-12-2021 

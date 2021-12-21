@@ -126,7 +126,7 @@ function newModal(response, id) {
     let buttonDelete = document.createElement("button");
     buttonDelete.textContent = 'Supprimer'
     buttonDelete.classList.add("delete");
-    buttonDelete.onclick = () => { 
+    buttonDelete.onclick = () => {
         document.getElementById('myModal').style.display = 'none'
 
         let jsonData;
@@ -204,6 +204,9 @@ function newModal(response, id) {
                 'valid': valide,
                 'label_answer': valueInput
             }
+
+
+
             fetch("/addAnswer", {
                     method: 'POST',
                     headers: {
@@ -216,10 +219,22 @@ function newModal(response, id) {
                     cache: 'default'
                 }).then(function (response) {
 
-                    if (response.ok)
-                        response.text().then(function (res) {
-                            loadData();
-                        })
+                    var contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json().then(function (json) {
+                            console.log(json);
+                            if (json.status === "success")
+                                loadData();
+                            else {
+                                if (json.exception.includes("ERROR_LABEL"))
+                                    alert("erreur : La réponse existe déjà")
+                                loadData();
+                            }
+
+                        });
+                    } else {
+                        console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+                    }
                 })
                 .catch(function (error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
@@ -549,26 +564,27 @@ function insertData(table, data) {
                                 jsonData["id_question"] = currentId;
 
                                 fetch("/updateQuestion", {
-                                        method: 'POST',
-                                        headers: {
-                                            "Content-Type": "application/json"
-                                        },
-                                        body: JSON.stringify({
-                                            jsonData
-                                        }),
-                                        mode: 'cors',
-                                        cache: 'default'
-                                    }).then(function (response) {
+                                    method: 'POST',
+                                    headers: {
+                                        "Content-Type": "application/json"
+                                    },
+                                    body: JSON.stringify({
+                                        jsonData
+                                    }),
+                                    mode: 'cors',
+                                    cache: 'default'
+                                }).then(function (response) {
 
-                                        if (response.ok)
-                                            response.text().then(function (res) {
-                                                console.log(res)
-                                                loadData();
-                                            })
-                                    })/*
-                                    .catch(function (error) {
-                                        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-                                    });*/
+                                    if (response.ok)
+                                        response.text().then(function (res) {
+                                            console.log(res)
+                                            loadData();
+                                        })
+                                })
+                                /*
+                                                                    .catch(function (error) {
+                                                                        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                                                                    });*/
 
                             });
 

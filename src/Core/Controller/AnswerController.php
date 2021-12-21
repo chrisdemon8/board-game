@@ -87,7 +87,9 @@ class AnswerController extends AbstractControllerBdd
         $this->conform($Answer);
         $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM answer WHERE label_answer = :label');
         $request->bindValue(':label', $Answer->getLabelAnswer());
-        $labelUnique = $request->execute();
+        $labelUnique = $request->execute(); 
+        $labelUnique = $request->fetch();
+
 
         $request = $this->connection->prepare('SELECT * FROM question WHERE id_question = :id');
         $request->bindValue(':id', $Answer->getIdQuestion());
