@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
 
 
+## 21-12-2021 
+## Added 
+- Amélioration de la gestion du design des tableaux / changement couleur bouton
+ 
+ ## Fixed 
+- Dans les modals affichages des bons niveaux de difficultés
+
+
 ## 17-12-2021 
 ## Added 
 - Ajout page 404
@@ -14,10 +22,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sécurisation des routes 
 
 
-
 ## 14-12-2021 
 ## Added
-- Ajout et implémentation de dataTable librairie JS
+- Ajout et implémentation de dataTable librairie JS (juste pour les questions)
 - Ajout du serveur de websocket
 
 ## 13-12-2021 

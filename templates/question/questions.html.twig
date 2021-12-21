@@ -11,14 +11,20 @@
 
 
 {% block body %}
-	<h1>Liste des questions</h1>
+
+	<div class="container">
 
 
-	<div style="overflow-x:auto;">
-		<table id="questionsTable"></table>
+		<h1>Liste des questions</h1>
+
+		<button id='addQuestion'>Ajouter une question</button>
+
+		<div class="tablediv">
+			<table id="questionsTable"></table>
+		</div>
+
+
 	</div>
-	<button id='addQuestion'></button>
-
 	<!-- The Modal -->
 	<div
 		id="myModal" class="modal">

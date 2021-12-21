@@ -1,5 +1,15 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    flex-direction: column;
+
+}
+
+
 button {
-    background-color: #58a700;
+    background-color: #1c961c;
     /* Green */
     border: none;
     color: white;
@@ -11,9 +21,11 @@ button {
 }
 
 button:hover {
-    background-color: #58cc02;
+    background-color: #1c961cc2;
     cursor: pointer;
 }
+
+
 
 
 input[type=text],
@@ -26,7 +38,7 @@ select {
     border-radius: 4px;
     box-sizing: border-box;
 }
- 
+
 
 
 .delete {
@@ -34,14 +46,19 @@ select {
 }
 
 .delete:hover {
-    background-color: #c54b47;
+    background-color: #e44742a9;
 }
 
+
+
+.tablediv {
+    overflow-x: auto;
+    max-width: 90%;
+}
 
 table {
     font-family: arial, sans-serif;
     border-collapse: collapse;
-    width: 100%;
 }
 
 td,

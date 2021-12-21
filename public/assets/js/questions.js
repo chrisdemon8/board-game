@@ -26,9 +26,9 @@ let tableStructure = {
         'editable': 'true',
         'value': {
             1: 'Très facile',
-            2: 'facile',
-            3: 'normal',
-            4: 'difficile',
+            2: 'Facile',
+            3: 'Normal',
+            4: 'Difficile',
             5: 'Très difficile',
             6: 'Impossible'
         }
@@ -81,11 +81,10 @@ function createHeaderTable(table) {
     th.appendChild(tr);
     table.appendChild(th);
     let buttonAddQuestion = document.getElementById('addQuestion');
-    buttonAddQuestion.innerText = '+';
     buttonAddQuestion.onclick = () => {
         newModalQuestion();
     }
-    table.after(buttonAddQuestion);
+    //table.after(buttonAddQuestion);
 }
 
 function newModal(response, id) {
@@ -213,10 +212,12 @@ function newModalQuestion() {
     input2.name = 'Levels';
     input2.id = 'Levels';
     input2.type = 'select';
-    for (let i = 1; i <= 6; i++) {
+
+
+    for (const [key, value] of Object.entries(tableStructure['level']['value'])) {
         let opt = document.createElement("option");
-        opt.value = i;
-        opt.text = "level " + i;
+        opt.value = key;
+        opt.text = value;
         input2.add(opt);
     }
 
@@ -293,7 +294,7 @@ function insertData(table, data) {
         buttonCancel.style.display = "none";
 
         let buttonValid = document.createElement("BUTTON");
-        buttonValid.innerHTML = "YES";
+        buttonValid.innerHTML = "✓";
         buttonValid.style.display = "none";
 
 
@@ -332,9 +333,9 @@ function insertData(table, data) {
                             if (key === 'valid') {
 
                                 if (value)
-                                    button.style.backgroundColor = "lightgreen";
+                                    button.classList.add("valid");
                                 else
-                                    button.style.backgroundColor = "lightCoral";
+                                    button.classList.add("false");
                             }
 
                         }
@@ -561,9 +562,7 @@ function insertData(table, data) {
 
     table.appendChild(tbody);
 
-    let customTable = new DataTable(table, {
-        responsive: true
-    });
+    let customTable = new DataTable(table, {});
 
 }
 

@@ -57,7 +57,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
     buttonCancel.classList.add("delete");
 
     let buttonValid = document.createElement("BUTTON");
-    buttonValid.innerHTML = "YES";
+    buttonValid.innerHTML = "✓";
 
 
 
