@@ -67,11 +67,10 @@ function submitForm() {
                     response.text().then(function (res) {
                         if (res === 1)
                             window.location.href = "/connexion";
-                        else {
-                            console.log(res);
+                        else { 
                             if (res.includes("ERROR_MAIL")) { 
                                 let helperText = emailField.nextElementSibling;
-                                console.log(helperText);
+                                 
                                 helperText.textContent = "Email déjà utilisé";
                                 helperText.style.display = 'block';
                             } else if (res.includes("INVALID_MAIL")) {

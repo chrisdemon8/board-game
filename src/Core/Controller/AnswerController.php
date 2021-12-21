@@ -74,6 +74,13 @@ class AnswerController extends AbstractControllerBdd
         $request->execute();
     }
 
+    public function deleteAnswer(int $id_answer): void
+    {
+        $request = $this->connection->prepare('DELETE FROM `answer` WHERE id_answer = :id');
+        $request->bindValue(':id', $id_answer);
+        $request->execute();
+    }
+
     public function addAnswer(Answer $Answer): void
     {
         $messageError = '';

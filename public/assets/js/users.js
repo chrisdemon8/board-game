@@ -72,7 +72,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
         .then((res) => {
             res = JSON.parse(res);
 
-            console.log(res); 
+            console.log(res);
             for (let i = 0; i < children.length; i++) {
 
                 if (res[children[i].id]) {
@@ -116,9 +116,7 @@ buttonModify.forEach(el => el.addEventListener('click', event => {
                 event.target.style.display = "inline";
 
                 let jsonData = {};
-                console.log(res);
                 for (let i = 0; i < children.length; i++) {
-                    console.log(children[i].id);
                     if (res[children[i].id]) {
 
                         fieldsEdit.forEach(field => {

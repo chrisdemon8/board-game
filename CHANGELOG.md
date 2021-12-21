@@ -4,9 +4,16 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
 
+## Problème regex accent à régler
+
+
+## Mettre des textArea à la place d'input pour écrire une question ?
+## Meilleur design pour le modal ?
 
 ## 21-12-2021 
 ## Added 
+- Ajout du code SQL pour avoir une base de données avec un jeu de données minimales
+- Ajout de la suppression d'une réponse
 - Amélioration de la gestion du design des tableaux / changement couleur bouton
  
  ## Fixed 

@@ -8,6 +8,8 @@ abstract class Modele
 {
 
     protected $RegexLetter = "/^[a-zA-Z-' ]*$/";
+    //protected $RegexLetter = "/^[a-zA-Z\x{00C0}-\x{00FF}]*$/";
+    
 
     public function jsonSerialize()
     {

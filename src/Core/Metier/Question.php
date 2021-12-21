@@ -7,18 +7,20 @@ use Framework\Controller\Create;
 use Framework\Controller\Objectify;
 use Framework\Metier\Modele;
 
-class Question  extends Modele implements Objectify,Create
+class Question  extends Modele implements Objectify, Create
 {
     protected int $id_question;
     protected string $label_question;
     protected string  $level;
     protected array $answers;
 
-    
-    public function __construct()
-    {}
 
-    public static function Create($data):Question{
+    public function __construct()
+    {
+    }
+
+    public static function Create($data): Question
+    {
         $question = new Question();
 
         if ($data == NULL)
@@ -30,20 +32,21 @@ class Question  extends Modele implements Objectify,Create
         return $question;
     }
 
-    
-    public static function Objectify($data):Question{
+
+    public static function Objectify($data): Question
+    {
         $question = new Question();
 
-        if($data == NULL)
+        if ($data == NULL)
             throw new Exception("Données non conforme !");
         $question->hydrate($data);
         return $question;
     }
 
-    public function allDataSet():bool{
-        return $this->label_question!=null && $this->answers!=null && $this->level!=null;
+    public function allDataSet(): bool
+    {
+        return $this->label_question != null && isset($this->answers) && $this->level != null;
     }
-  
 
 
     /**
@@ -76,7 +79,7 @@ class Question  extends Modele implements Objectify,Create
     public function setLabelQuestion(string $label_question): void
     {
 
-            $this->label_question = $label_question;
+        $this->label_question = $label_question;
     }
 
     /**
@@ -92,7 +95,7 @@ class Question  extends Modele implements Objectify,Create
      */
     public function setLevel(string $level): void
     {
-            $this->level = $level;
+        $this->level = $level;
     }
 
     /**
@@ -110,6 +113,4 @@ class Question  extends Modele implements Objectify,Create
     {
         $this->answers = $answers;
     }
-
-
 }

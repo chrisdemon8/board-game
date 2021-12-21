@@ -13,7 +13,7 @@ class UpdateQuestion extends AbstractController
 
     public function __invoke(): string
     {
-        if(!isset($_SESSION['user']) || $_SESSION['user']->getRole()!=1)
+        if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 1)
             header('Location: /');
         try {
             $content = trim(file_get_contents("php://input"));
@@ -29,11 +29,13 @@ class UpdateQuestion extends AbstractController
 
             $question->hydrate($data);
 
+            var_dump($question);
 
             if ($this->questionCont->updateQuestion($question)) {
                 return true;
             } else
                 return false;
+            echo "tesg";
         } catch (Exception $e) {
             return $this->render('error.html.twig', [
                 'error' => $e->getMessage(),

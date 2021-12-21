@@ -24,7 +24,7 @@ class User extends Modele implements Objectify, Create
 
     public function allDataSet(): bool
     {
-        return $this->role != null && $this->username != null && $this->password != null && $this->email != null && $this->firstName != null && $this->lastName != null && $this->createdAt != null;
+        return  isset($this->role) &&  isset($this->username) &&  isset($this->password) &&  isset($this->email) &&  isset($this->firstName) &&  isset($this->lastName) && isset($this->createdAt);
     }
 
     public static function create($data): User
@@ -157,7 +157,8 @@ class User extends Modele implements Objectify, Create
         if ($this->checkLettersOnly($firstName))
             $this->firstName = $firstName;
         else {
-            var_dump($firstName);die;
+            var_dump($firstName);
+            die;
             throw new Exception("INVALID_FIRST_NAME");
         }
     }
