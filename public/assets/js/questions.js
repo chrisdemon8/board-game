@@ -60,6 +60,7 @@ function showSnackBar(time, text, type) {
     snackbar.textContent = text;
     setTimeout(function () {
         snackbar.className = snackbar.className.replace("show", "");
+        snackbar.className = snackbar.className.replace(type, "");
     }, time);
 }
 
@@ -218,9 +219,8 @@ function newModal(response, id) {
                         return response.json().then(function (json) {
                             console.log(json);
                             if (json.status === "success") {
-
-                                loadData();
                                 showSnackBar(3000, "Réponse mise à jour avec succès", "snacksuccess");
+                                loadData(); 
                             } else {
                                 showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
                                 loadData();
