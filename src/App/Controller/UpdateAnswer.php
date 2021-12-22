@@ -15,6 +15,8 @@ class UpdateAnswer extends AbstractController
     {
         if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 1)
             header('Location: /');
+
+        header('Content-type: application/json');
         try {
             $content = trim(file_get_contents("php://input"));
 
@@ -29,15 +31,12 @@ class UpdateAnswer extends AbstractController
 
             $answer->hydrate($data);
 
-            if ($this->answerCont->updateAnswer($answer)) {
-                return true;
-            } else
-                return false;
+            $this->answerCont->updateAnswer($answer);
+            $response_array['status'] = 'success';
         } catch (Exception $e) {
-            return $this->render('error.html.twig', [
-                'error' => $e->getMessage(),
-            ]);
+            $response_array['status'] = 'error';
+            $response_array['exception'] = $e->getMessage();
         }
-        return '';
+        return json_encode($response_array);
     }
 }

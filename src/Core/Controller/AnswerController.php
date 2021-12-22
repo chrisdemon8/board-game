@@ -64,14 +64,28 @@ class AnswerController extends AbstractControllerBdd
     public function updateAnswer(Answer $Answer): void
     {
 
+        $messageError = '';
         $this->conform($Answer);
-        $request = $this->connection->prepare('UPDATE answer SET label_answer = :label,valid = :valid WHERE id_answer = :id');
-
-        $request->bindValue(':id', $Answer->getIdAnswer(), PDO::PARAM_INT);
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM answer WHERE label_answer = :label AND id_question = :id');
         $request->bindValue(':label', $Answer->getLabelAnswer());
-        $request->bindValue(':valid', $Answer->isValid() == 1 ? 1 : 0, PDO::PARAM_STR);
-
+        $request->bindValue(':id', $Answer->getIdQuestion());
         $request->execute();
+        $labelUnique = $request->fetch();
+
+        if ($labelUnique['exist'] > 0)
+            $messageError .= 'ERROR_LABEL';
+
+        if ($messageError == '') {
+
+            $request = $this->connection->prepare('UPDATE answer SET label_answer = :label,valid = :valid WHERE id_answer = :id');
+
+            $request->bindValue(':id', $Answer->getIdAnswer(), PDO::PARAM_INT);
+            $request->bindValue(':label', $Answer->getLabelAnswer());
+            $request->bindValue(':valid', $Answer->isValid() == 1 ? 1 : 0, PDO::PARAM_STR);
+
+            $request->execute();
+        } else
+            ErrorManager::CustomError($messageError);
     }
 
     public function deleteAnswer(int $id_answer): void
@@ -85,9 +99,10 @@ class AnswerController extends AbstractControllerBdd
     {
         $messageError = '';
         $this->conform($Answer);
-        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM answer WHERE label_answer = :label');
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM answer WHERE label_answer = :label AND id_question = :id');
         $request->bindValue(':label', $Answer->getLabelAnswer());
-        $labelUnique = $request->execute(); 
+        $request->bindValue(':id', $Answer->getIdQuestion());
+        $labelUnique = $request->execute();
         $labelUnique = $request->fetch();
 
 

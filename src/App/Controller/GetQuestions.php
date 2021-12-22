@@ -12,16 +12,23 @@ class GetQuestions extends AbstractController
     private QuestionController $questionCont;
     public function __invoke(): string
     {
+
+        if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 1)
+            header('Location: /');
+
+
+        header('Content-type: application/json');
         try {
             $this->questionCont = new QuestionController();
             $questions = $this->questionCont->getAllQuestionsJson();
-            header('Content-type: application/json');
-            return json_encode($questions);
+
+
+            $response_array['status'] = 'success';
+            $response_array['res'] = $questions;
         } catch (Exception $e) {
-            return $this->render('error.html.twig', [
-                'error' => $e->getMessage(),
-            ]);
+            $response_array['status'] = 'error';
+            $response_array['exception'] = $e->getMessage();
         }
-        return '';
+        return json_encode($response_array);
     }
 }

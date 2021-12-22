@@ -11,14 +11,14 @@
 			<div class="nav" id="nav">
 				{% if session.user.role == 1 %}
 					<a href="/admin" class="active">Accueil</a>
+					<a href="/allQuestions">Questions</a>
 				{% endif %}
-				{% if session.user.role == 0 %}
+				{% if session.user.role != 1 %}
 					<a href="/" class="active">Accueil</a>
 				{% endif %}
 
 				<a href="/allUsers">Utilisateurs</a>
 				{% if session.user is defined %}
-					<a href="/allQuestions">Questions</a>
 					<a href="/profil">Profil</a>
 					<a href="/deconnexion">Déconnexion</a>
 				{% endif %}
@@ -33,6 +33,8 @@
 
 			{% block body %}{% endblock %}
 			{% block bottom_js %}{% endblock %}
+			
+
 			<script type="text/javascript" src="assets/js/app.js"></script>
 		</body>
 	</html>

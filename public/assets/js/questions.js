@@ -1,7 +1,7 @@
 let questionsTable = document.getElementById("questionsTable");
 let tr;
 let td;
-
+let snackbar = document.getElementById("snackbar");
 
 let tableStructure = {
     'id_question': {
@@ -51,6 +51,17 @@ let tableStructure = {
     }
 };
 
+
+function showSnackBar(time, text, type) {
+
+    snackbar.classList.add(type);
+
+    snackbar.classList.add("show");
+    snackbar.textContent = text;
+    setTimeout(function () {
+        snackbar.className = snackbar.className.replace("show", "");
+    }, time);
+}
 
 function clearTable(table) {
 
@@ -147,10 +158,23 @@ function newModal(response, id) {
                 cache: 'default'
             }).then(function (response) {
 
-                if (response.ok)
-                    response.text().then(function (res) {
-                        loadData();
-                    })
+                var contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
+                    return response.json().then(function (json) {
+
+                        if (json.status === "success") {
+                            loadData();
+                            showSnackBar(3000, "Réponse supprimée avec succès", "snacksuccess");
+                        } else {
+                            showSnackBar(3000, "Erreur :" + json.exception, "snackerror");
+                            loadData();
+                        }
+
+                    });
+                } else {
+                    console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+                }
+
             })
             .catch(function (error) {
                 console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
@@ -189,16 +213,33 @@ function newModal(response, id) {
                     cache: 'default'
                 }).then(function (response) {
 
-                    if (response.ok)
-                        response.text().then(function (res) {
-                            loadData();
-                        })
+                    var contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json().then(function (json) {
+                            console.log(json);
+                            if (json.status === "success") {
+
+                                loadData();
+                                showSnackBar(3000, "Réponse mise à jour avec succès", "snacksuccess");
+                            } else {
+                                showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
+                                loadData();
+                            }
+
+                        });
+                    } else {
+                        console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+                    }
+                    /* if (response.ok)
+                         response.text().then(function (res) {
+                             loadData();
+                         })*/
                 })
                 .catch(function (error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         } else {
-            //TODO : ajout de la réponse 
+            // ajout de la réponse 
             jsonData = {
                 'id_question': id,
                 'valid': valide,
@@ -223,11 +264,14 @@ function newModal(response, id) {
                     if (contentType && contentType.indexOf("application/json") !== -1) {
                         return response.json().then(function (json) {
                             console.log(json);
-                            if (json.status === "success")
+                            if (json.status === "success") {
+                                showSnackBar(3000, "Réponse ajoutée avec succès", "snacksuccess");
                                 loadData();
-                            else {
+                            } else {
                                 if (json.exception.includes("ERROR_LABEL"))
-                                    alert("erreur : La réponse existe déjà")
+                                    showSnackBar(5000, "Erreur : La réponse existe déjà", "snackerror");
+                                else
+                                    showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
                                 loadData();
                             }
 
@@ -300,7 +344,7 @@ function newModalQuestion() {
                 'label_question': valueInput,
                 'level': level,
             }
-            fetch("AddQuestion", {
+            fetch("addQuestion", {
                     method: 'POST',
                     headers: {
                         "Content-Type": "application/json"
@@ -312,10 +356,29 @@ function newModalQuestion() {
                     cache: 'default'
                 }).then(function (response) {
 
-                    if (response.ok)
+
+                    var contentType = response.headers.get("content-type");
+                    if (contentType && contentType.indexOf("application/json") !== -1) {
+                        return response.json().then(function (json) {
+
+                            if (json.status === "success") {
+                                showSnackBar(3000, "Question ajoutée avec succès", "snacksuccess");
+                                loadData();
+                            } else {
+                                showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
+                                loadData();
+                            }
+
+                        });
+                    } else {
+                        console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+                    }
+
+
+                    /*if (response.ok)
                         response.text().then(function (res) {
                             loadData();
-                        })
+                        })*/
                 })
                 .catch(function (error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
@@ -441,9 +504,29 @@ function insertData(table, data) {
                             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                         },
                         body: `id_question=${currentId}`,
+                    }).then(function (response) {
+
+                        var contentType = response.headers.get("content-type");
+                        if (contentType && contentType.indexOf("application/json") !== -1) {
+                            return response.json().then(function (json) {
+
+                                if (json.status === "success") {
+                                    showSnackBar(3000, "Question supprimée avec succès", "snacksuccess");
+                                    loadData();
+                                } else {
+                                    showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
+                                    loadData();
+                                }
+
+                            });
+                        } else {
+                            console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+                        }
+
                     })
-                    .then((response) => response.text())
-                    .then((res) => loadData());
+                    .catch(function (error) {
+                        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                    });
             }
         });
 
@@ -499,104 +582,123 @@ function insertData(table, data) {
                     if (contentType && contentType.indexOf("application/json") !== -1) {
                         return response.json().then(function (json) {
 
-                            trSelect = document.getElementById("id_question" + currentId);
-                            children = trSelect.children;
-                            for (let i = 0; i < children.length; i++) {
+                            if (json.status === "success") {
 
-                                currentStructure = tableStructure[children[i].id];
-                                if (children[i].id) {
-                                    if (currentStructure.type === "input") {
-                                        let x = document.createElement("INPUT");
-                                        x.setAttribute("type", "text");
-                                        x.setAttribute("value", json[children[i].id]);
+                                json = json.res;
 
-                                        children[i].innerHTML = "";
-                                        children[i].appendChild(x);
-                                    }
-                                    if (currentStructure.type === "select") {
-                                        let selectList = document.createElement("SELECT");
-
-                                        for (let key in currentStructure.value) {
-                                            let option = document.createElement("option");
-                                            option.currentStructure = key;
-                                            option.value = key;
-                                            option.text = currentStructure.value[key];
-                                            selectList.appendChild(option);
-                                        }
-
-                                        selectList.selectedIndex = json[children[i].id] - 1;
-
-                                        children[i].innerHTML = "";
-                                        children[i].appendChild(selectList);
-                                    }
-
-                                }
-
-
-                            }
-
-
-                            buttonValid.addEventListener('click', eventValid => {
-                                eventValid.target.style.display = 'none';
-                                buttonCancel.style.display = 'none';
-                                event.target.style.display = "inline";
-
-                                let allButtonModify = document.querySelectorAll(".modify");
-
-                                for (var i = 0, len = allButtonModify.length; i < len; i++) {
-                                    allButtonModify[i].disabled = false;
-                                }
-
-
-                                let jsonData = {};
-
+                                trSelect = document.getElementById("id_question" + currentId);
+                                children = trSelect.children;
                                 for (let i = 0; i < children.length; i++) {
 
-                                    if (tableStructure[children[i].id].editable == "true") {
+                                    currentStructure = tableStructure[children[i].id];
+                                    if (children[i].id) {
+                                        if (currentStructure.type === "input") {
+                                            let x = document.createElement("INPUT");
+                                            x.setAttribute("type", "text");
+                                            x.setAttribute("value", json[children[i].id]);
 
-                                        jsonData[children[i].id] = children[i].children[0].value;
+                                            children[i].innerHTML = "";
+                                            children[i].appendChild(x);
+                                        }
+                                        if (currentStructure.type === "select") {
+                                            let selectList = document.createElement("SELECT");
+
+                                            for (let key in currentStructure.value) {
+                                                let option = document.createElement("option");
+                                                option.currentStructure = key;
+                                                option.value = key;
+                                                option.text = currentStructure.value[key];
+                                                selectList.appendChild(option);
+                                            }
+
+                                            selectList.selectedIndex = json[children[i].id] - 1;
+
+                                            children[i].innerHTML = "";
+                                            children[i].appendChild(selectList);
+                                        }
+
                                     }
-
 
 
                                 }
 
-                                jsonData["id_question"] = currentId;
 
-                                fetch("/updateQuestion", {
-                                    method: 'POST',
-                                    headers: {
-                                        "Content-Type": "application/json"
-                                    },
-                                    body: JSON.stringify({
-                                        jsonData
-                                    }),
-                                    mode: 'cors',
-                                    cache: 'default'
-                                }).then(function (response) {
+                                buttonValid.addEventListener('click', eventValid => {
+                                    eventValid.target.style.display = 'none';
+                                    buttonCancel.style.display = 'none';
+                                    event.target.style.display = "inline";
 
-                                    if (response.ok)
-                                        response.text().then(function (res) {
-                                            console.log(res)
-                                            loadData();
+                                    let allButtonModify = document.querySelectorAll(".modify");
+
+                                    for (var i = 0, len = allButtonModify.length; i < len; i++) {
+                                        allButtonModify[i].disabled = false;
+                                    }
+
+
+                                    let jsonData = {};
+
+                                    for (let i = 0; i < children.length; i++) {
+
+                                        if (tableStructure[children[i].id].editable == "true") {
+
+                                            jsonData[children[i].id] = children[i].children[0].value;
+                                        }
+
+
+
+                                    }
+
+                                    jsonData["id_question"] = currentId;
+
+                                    fetch("/updateQuestion", {
+                                            method: 'POST',
+                                            headers: {
+                                                "Content-Type": "application/json"
+                                            },
+                                            body: JSON.stringify({
+                                                jsonData
+                                            }),
+                                            mode: 'cors',
+                                            cache: 'default'
+                                        }).then(function (response) {
+
+                                            var contentType = response.headers.get("content-type");
+                                            if (contentType && contentType.indexOf("application/json") !== -1) {
+                                                return response.json().then(function (json) {
+
+                                                    if (json.status === "success") {
+                                                        showSnackBar(3000, "Question mise à jour avec succès", "snacksuccess");
+
+                                                        loadData();
+                                                    } else {
+                                                        showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
+                                                        loadData();
+                                                    }
+
+                                                });
+                                            } else {
+                                                console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+                                            }
+
                                         })
-                                })
-                                /*
-                                                                    .catch(function (error) {
-                                                                        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-                                                                    });*/
+                                        .catch(function (error) {
+                                            console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                                        });
 
-                            });
+                                });
 
 
 
-                            buttonCancel.addEventListener('click', event => {
-                                event.target.style.display = 'none';
-                                buttonValid.style.display = "none";
-                                buttonEdit.style.display = "block";
-                                loadData();
+                                buttonCancel.addEventListener('click', event => {
+                                    event.target.style.display = 'none';
+                                    buttonValid.style.display = "none";
+                                    buttonEdit.style.display = "block";
+                                    loadData();
 
-                            });
+                                });
+
+                            } else
+                                alert(json.exception);
                         });
                     } else {
                         console.log("Le serveur n'a pas renvoyé le résultat attendu.");
@@ -640,10 +742,16 @@ function loadData() {
     };
 
     fetch(url, myInit).then(function (response) {
+
         var contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
             return response.json().then(function (json) {
-                insertData(questionsTable, json);
+
+                if (json.status === "success")
+                    insertData(questionsTable, json.res);
+                else {
+                    showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
+                }
             });
         } else {
             console.log("Le serveur n'a pas renvoyé le résultat attendu.");

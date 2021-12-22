@@ -3,11 +3,19 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
+ 
+## Problème 
+- Problème regex accent à régler (exemple impossible de mettre zoé avec accent dans firstname)
 
-## Problème regex accent à régler
+## Amélioration possible ? 
+- Meilleur agencement des boutons pour le modal
 
-## Mettre des textArea à la place d'input pour écrire une question ?
-## Meilleur design pour le modal ?
+## 22-12-2021
+## Added 
+- Ajout des snackbar pour informer l'utilisateur en cas de succès ou d'erreur
+
+## Changed
+- Meilleur gestion des erreurs dans le cas des appels ajax pour la partie questions
 
 ## 21-12-2021 
 ## Added 

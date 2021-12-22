@@ -39,7 +39,7 @@ return [
     new Route('POST', '/updateQuestion', UpdateQuestion::class),
     new Route('GET', '/getQuestions', GetQuestions::class),
     new Route('POST', '/getQuestion', GetQuestion::class),
-    new Route('POST', '/AddQuestion', AddQuestion::class),
+    new Route('POST', '/addQuestion', AddQuestion::class),
     new Route('GET', '/deconnexion', Disconnected::class),
     new Route('GET', '/question/{id}', Question::class),
     new Route('GET', '/user/{id}', ShowUser::class),

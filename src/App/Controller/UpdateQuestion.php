@@ -15,6 +15,9 @@ class UpdateQuestion extends AbstractController
     {
         if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 1)
             header('Location: /');
+
+
+        header('Content-type: application/json');
         try {
             $content = trim(file_get_contents("php://input"));
 
@@ -29,18 +32,12 @@ class UpdateQuestion extends AbstractController
 
             $question->hydrate($data);
 
-            var_dump($question);
-
-            if ($this->questionCont->updateQuestion($question)) {
-                return true;
-            } else
-                return false;
-            echo "tesg";
+            $this->questionCont->updateQuestion($question);
+            $response_array['status'] = 'success';
         } catch (Exception $e) {
-            return $this->render('error.html.twig', [
-                'error' => $e->getMessage(),
-            ]);
+            $response_array['status'] = 'error';
+            $response_array['exception'] = $e->getMessage();
         }
-        return '';
+        return json_encode($response_array);
     }
 }

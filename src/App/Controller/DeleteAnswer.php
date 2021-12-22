@@ -24,14 +24,17 @@ class DeleteAnswer extends AbstractController
 
 
         $answerCont = new AnswerController();
+        header('Content-type: application/json');
+        
         if ($_SESSION['user']->getRole() === 1) {
             try {
                 $answerCont->deleteAnswer($id_answer);
+                $response_array['status'] = 'success';
             } catch (Exception $e) {
-                return $this->render('user/connexion.html.twig', [
-                    'error' => $e->getMessage(),
-                ]);
+                $response_array['status'] = 'error';
+                $response_array['exception'] = $e->getMessage();
             }
+            return json_encode($response_array);
         } else
             header('Location: /');
         return '';
