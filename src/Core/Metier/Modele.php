@@ -2,6 +2,7 @@
 
 namespace Framework\Metier;
 
+use DateTime;
 use \Exception;
 
 abstract class Modele
@@ -24,7 +25,12 @@ abstract class Modele
             if (gettype($value) == 'array') {
                 $value = $this->arrayFy($value);
             }
-            if (gettype($value) == 'object') {
+
+            if ($value instanceof DateTime) {
+                $value = $value->format('Y-m-d H:i:s'); 
+            }
+            
+            if (gettype($value) == 'object' && !($value instanceof DateTime)) {
                 $value = $this->arrayFy(get_object_vars($value));
             }
             $arrayFinal[$key] = $value;

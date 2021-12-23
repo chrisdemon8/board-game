@@ -203,7 +203,7 @@ class UsersController extends AbstractControllerBdd
             $request->bindValue(':role', $user->getRole());
             $request->bindValue(':firstname', $user->getFirstName());
             $request->bindValue(':lastname', $user->getLastName());
-            $request->bindValue(':createdAt', $user->getCreatedAt(), PDO::PARAM_STR);
+            $request->bindValue(':createdAt', $user->getCreatedAt()->format('Y-m-d H:i:s'), PDO::PARAM_STR);
 
             $request->execute();
         } else

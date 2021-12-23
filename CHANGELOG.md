@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Fixed
 - Ajout des lettres avec accents dans le regex qui vérifie les nom et les prénoms
 - bug page inscription pour les helpertext
+- Résolution problème date  
 
 ## 22-12-2021
 ## Added 

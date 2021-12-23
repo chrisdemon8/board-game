@@ -16,8 +16,8 @@ class User extends Modele implements Objectify, Create
     protected int $role;
     protected string $firstName;
     protected string $lastName;
-    protected string $createdAt;
-    //protected DateTime $createdAt;
+    //protected string $createdAt;
+    protected DateTime $createdAt;
 
     public function __construct()
     {
@@ -41,7 +41,7 @@ class User extends Modele implements Objectify, Create
         //set automatique de la date
         date_default_timezone_set('Europe/Paris');
         $date = new DateTime();
-        $user->setCreatedAt(date_format($date, "j-m-Y H:m:s"));
+        $user->setCreatedAt(date_format($date, "Y-m-d H:m:s"));
 
         return $user;
     }
@@ -178,9 +178,9 @@ class User extends Modele implements Objectify, Create
 
 
     /**
-     * @return string
+     * @return DateTime
      */
-    public function getCreatedAt(): string //DateTime
+    public function getCreatedAt(): DateTime
     {
         return $this->createdAt;
     }
@@ -191,10 +191,7 @@ class User extends Modele implements Objectify, Create
      */
     protected function setCreatedAt(string $createdAt): void
     {
-        $this->createdAt = $createdAt;
-        /* 
-$this->createdAt = date_create_from_format('Y-m-d H:i:s', $createdAt);
+        $this->createdAt = date_create_from_format('Y-m-d H:i:s', $createdAt);
         $this->createdAt->getTimestamp();
-        */
     }
 }
