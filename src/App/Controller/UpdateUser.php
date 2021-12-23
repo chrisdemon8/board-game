@@ -65,8 +65,7 @@ class UpdateUser extends AbstractController
             }
         }
 
-        
-        var_dump($user); 
+         
 
         try {
             $userCont->updateUser($user, $role, $changePassword);

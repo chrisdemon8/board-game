@@ -16,62 +16,59 @@
 		<h1>Liste des utilisateur</h1>
 
 
-		<div class="tablediv">
-			<table>
-				<thead>
-					<tr>
-						<th>Username</th>
-						<th>Email</th>
-						<th>Role</th>
-						<th>Firstname</th>
-						<th>Lastname</th>
-						<th>Creation date</th>
-						{% if session.user.role == 1 %}
-							<th>Modifier</th>
-							<th>Supprimer</th>
-						{% endif %}
-					</tr>
+		{% if session.user.role == 1 %}
+			<div class="tablediv">
+				<table id="usersTable"></table>
+			</div>
+		{% endif %}
 
-				</thead>
-				<tbody>
+		<div id="snackbar"></div>
 
-					{% for user in users %}
-
-						<tr id='{{user.getIdUser()}}'>
-							<td id="username">{{user.getUsername()}}</td>
-							<td id="email">{{ user.getEmail() }}</td>
-							<td id="role">{{ user.getRole() }}</td>
-							<td id="firstName">{{ user.getFirstname() }}</td>
-							<td id="lastName">{{ user.getLastname() }}</td>
-							<td id="createdAt">{{ user.getCreatedAt().format('Y-m-d H:i:s') }}</td>
-							{% if session.user.role == 1 %}
-								<td>
-									<button class="modify" id='{{user.getIdUser()}}'>Modifier</button>
-								</td>
-								<td>
-									<button class="delete" id='{{user.getIdUser()}}'>Supprimer</button>
-								</td>
-							{% endif %}
-						</tr>
-
-					{% else %}
+		{% if session.user.role == 0 %}
+			<div class="tablediv">
+				<table>
+					<thead>
 						<tr>
-							<td>Aucun utilisateur</td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
-							<td></td>
+							<th>Username</th>
+							<th>Email</th>
+							<th>Role</th>
+							<th>Firstname</th>
+							<th>Lastname</th>
 						</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+
+					</thead>
+					<tbody>
+
+						{% for user in users %}
+
+							<tr id='{{user.getIdUser()}}'>
+								<td id="username">{{user.getUsername()}}</td>
+								<td id="email">{{ user.getEmail() }}</td>
+								<td id="role">{{ user.getRole() }}</td>
+								<td id="firstName">{{ user.getFirstname() }}</td>
+								<td id="lastName">{{ user.getLastname() }}</td>
+							</tr>
+
+						{% else %}
+							<tr>
+								<td>Aucun utilisateur</td>
+								<td></td>
+								<td></td>
+								<td></td>
+								<td></td>
+							</tr>
+						{% endfor %}
+					</tbody>
+				</table>
+			</div>
+		{% endif %}
 	</div>
 
 {% endblock %}
 
 
 {% block bottom_js %}
-	<script type="text/javascript" src="assets/js/users.js"></script>
+	{% if session.user.role == 1 %}
+		<script type="text/javascript" src="assets/js/users.js"></script>
+	{% endif %}
 {% endblock %}

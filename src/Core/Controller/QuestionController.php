@@ -65,6 +65,7 @@ class QuestionController extends AbstractControllerBdd
         foreach ($QuestionsData as $QuestionData) {
             $Question = Question::Objectify($QuestionData);
             $Question->setAnswers($this->getAnswers($Question->getIdQuestion()));
+            
             array_push($Questions, $Question->jsonSerialize());
         }
         return  $Questions;

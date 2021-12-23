@@ -24,7 +24,7 @@ class ShowUser extends AbstractController
                 'role' =>$user->getRole(),
                 'firstname' =>$user->getFirstName(),
                 'lastname' =>$user->getLastName(),
-                'createdAt' =>date_format($user->getCreatedAt(),'Y-m-d H:i:s'),
+                'createdAt' => $user->getCreatedAt(),
             ]);
         } catch (Exception $e) {
             return $this->render('error.html.twig', [

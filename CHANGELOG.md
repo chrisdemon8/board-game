@@ -4,11 +4,18 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
  
-## Problème 
-- Problème regex accent à régler (exemple impossible de mettre zoé avec accent dans firstname)
-
 ## Amélioration possible ? 
 - Meilleur agencement des boutons pour le modal
+
+## 23-12-2021
+## Changed
+- Adaptation du la gestion du tableau users comme la partie questions
+- Meilleur gestion des erreurs dans le cas des appels ajax pour la partie users
+- Dans la classe métier la date est passé en string par soucis de convertion avec la fonction jsonSerialize
+
+## Fixed
+- Ajout des lettres avec accents dans le regex qui vérifie les nom et les prénoms
+- bug page inscription pour les helpertext
 
 ## 22-12-2021
 ## Added 
@@ -18,8 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Meilleur gestion des erreurs dans le cas des appels ajax pour la partie questions
 
 ## 21-12-2021 
-## Added 
-- Début de la mise en place de la gestion des appels AJAX (A FINIR)
+## Added  
 - Ajout du code SQL pour avoir une base de données avec un jeu de données minimales
 - Ajout de la suppression d'une réponse
 - Amélioration de la gestion du design des tableaux / changement couleur bouton

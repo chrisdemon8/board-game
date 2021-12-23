@@ -7,8 +7,8 @@ use \Exception;
 abstract class Modele
 {
 
-    protected $RegexLetter = "/^[a-zA-Z-' ]*$/";
-    //protected $RegexLetter = "/^[a-zA-Z\x{00C0}-\x{00FF}]*$/";
+    protected $RegexLetter = "/^[\p{L}-]*$/u";
+   // protected $RegexLetter = "/^[a-zA-Z\x{00C0}-\x{00FF}]*$/";
     
 
     public function jsonSerialize()

@@ -24,7 +24,9 @@ use App\Controller\AddAnswer;
 use App\Controller\AddQuestion;
 use App\Controller\ChatPage;
 use App\Controller\DeleteAnswer;
+use App\Controller\GetUsers;
 use App\Controller\NotFound;
+use App\Controller\UpdateUserAdmin;
 use Framework\Routing\Route;
 
 return [
@@ -37,6 +39,8 @@ return [
     new Route('POST', '/deleteAnswer', DeleteAnswer::class),
     new Route('POST', '/deleteQuestion', DeleteQuestion::class),
     new Route('POST', '/updateQuestion', UpdateQuestion::class),
+    new Route('POST', '/updateUserAdmin', UpdateUserAdmin::class), 
+    new Route('GET', '/getUsers', GetUsers::class),
     new Route('GET', '/getQuestions', GetQuestions::class),
     new Route('POST', '/getQuestion', GetQuestion::class),
     new Route('POST', '/addQuestion', AddQuestion::class),

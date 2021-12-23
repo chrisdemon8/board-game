@@ -66,10 +66,10 @@ function showSnackBar(time, text, type) {
 
 function clearTable(table) {
 
-
+    /*
     if ($.fn.dataTable.isDataTable(table)) {
         $(table).DataTable().clear().destroy();
-    }
+    }*/
 
 
     table.innerHTML = "";
@@ -216,8 +216,7 @@ function newModal(response, id) {
 
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function (json) {
-                            console.log(json);
+                        return response.json().then(function (json) { 
                             if (json.status === "success") {
                                 showSnackBar(3000, "Réponse mise à jour avec succès", "snacksuccess");
                                 loadData(); 
@@ -262,8 +261,7 @@ function newModal(response, id) {
 
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function (json) {
-                            console.log(json);
+                        return response.json().then(function (json) { 
                             if (json.status === "success") {
                                 showSnackBar(3000, "Réponse ajoutée avec succès", "snacksuccess");
                                 loadData();
@@ -716,8 +714,8 @@ function insertData(table, data) {
 
 
     table.appendChild(tbody);
-
-    let customTable = new DataTable(table, {});
+/*
+    let customTable = new DataTable(table, {});*/
 
 }
 

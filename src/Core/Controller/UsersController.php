@@ -42,6 +42,19 @@ class UsersController extends AbstractControllerBdd
         return $users;
     }
 
+    public function getAllUsersJSON(): array
+    {
+        $request = $this->connection->prepare('SELECT * FROM user ');
+        $request->execute();
+        $usersData = $request->fetchAll();
+        $users = [];
+        foreach ($usersData as $userData) {
+            $user = User::Objectify($userData);
+            array_push($users, $user->jsonSerialize());
+        }
+        return $users;
+    }
+
     public function verifyUniqueEmail($email): bool
     {
         $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email =:email');
@@ -85,30 +98,47 @@ class UsersController extends AbstractControllerBdd
 
         $this->conform($user);
 
-        if ($role === 1) {
-            $sql = "UPDATE user SET email = :email,role = :role, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
-        } else if ($changePassword && $role == 2) {
-            $sql = "UPDATE user SET password = :password,email = :email, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
-        } else {
-            $sql = "UPDATE user SET email = :email, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
-        }
-
-        $request = $this->connection->prepare($sql);
-
-        $request->bindValue(':id', $user->getIdUser(), PDO::PARAM_INT);
+        $messageError = "";
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email = :email AND NOT id_user = :id_user');
         $request->bindValue(':email', $user->getEmail());
-        $request->bindValue(':firstname', $user->getFirstName());
-        $request->bindValue(':lastname', $user->getLastName());
+        $request->bindValue(':id_user', $user->getIdUser());
 
-        if ($role === 1)
-            $request->bindValue(':role', $user->getRole());
-        else {
-            if ($changePassword && $role === 2)
-                $request->bindValue(':password', password_hash($user->getPassword(), PASSWORD_DEFAULT));
-        }
+        if (!$request->execute()) {
+            $messageError .= "ERROR SQL 1";
+        };
+
+        $emailUnique = $request->fetch();
+
+        if ($emailUnique["exist"] > 0)
+            $messageError .= 'ERROR_MAIL';
+
+        if ($messageError == '') {
+            if ($role === 1) {
+                $sql = "UPDATE user SET email = :email,role = :role, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
+            } else if ($changePassword && $role == 2) {
+                $sql = "UPDATE user SET password = :password,email = :email, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
+            } else {
+                $sql = "UPDATE user SET email = :email, lastname = :lastname, firstname = :firstname WHERE id_user = :id";
+            }
+
+            $request = $this->connection->prepare($sql);
+
+            $request->bindValue(':id', $user->getIdUser(), PDO::PARAM_INT);
+            $request->bindValue(':email', $user->getEmail());
+            $request->bindValue(':firstname', $user->getFirstName());
+            $request->bindValue(':lastname', $user->getLastName());
+
+            if ($role === 1)
+                $request->bindValue(':role', $user->getRole());
+            else {
+                if ($changePassword && $role === 2)
+                    $request->bindValue(':password', password_hash($user->getPassword(), PASSWORD_DEFAULT));
+            }
 
 
-        $request->execute();
+            $request->execute();
+        } else
+            ErrorManager::CustomError($messageError);
     }
 
     public function countUsers(): int
@@ -173,7 +203,7 @@ class UsersController extends AbstractControllerBdd
             $request->bindValue(':role', $user->getRole());
             $request->bindValue(':firstname', $user->getFirstName());
             $request->bindValue(':lastname', $user->getLastName());
-            $request->bindValue(':createdAt', $user->getCreatedAt()->format('Y-m-d H:i:s'), PDO::PARAM_STR);
+            $request->bindValue(':createdAt', $user->getCreatedAt(), PDO::PARAM_STR);
 
             $request->execute();
         } else

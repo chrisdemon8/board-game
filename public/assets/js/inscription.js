@@ -65,9 +65,10 @@ function submitForm() {
 
                 if (response.ok)
                     response.text().then(function (res) {
-                        if (res === 1)
+                        if (res == 1)
                             window.location.href = "/connexion";
                         else { 
+                            console.log(res); 
                             if (res.includes("ERROR_MAIL")) { 
                                 let helperText = emailField.nextElementSibling;
                                  
@@ -98,15 +99,16 @@ function submitForm() {
                                 helperText.style.display = 'block';
                             } else {
                                 let helperText = firstNameField.nextElementSibling;
+                                console.log(helperText); 
                                 helperText.style.display = 'none';
                             }
 
                             if (res.includes("INVALID_LASTNAME")) {
-                                let helperText = firstNameField.nextElementSibling;
+                                let helperText = lastNameField.nextElementSibling;
                                 helperText.textContent = "Format du nom de famille : uniquement des lettres";
                                 helperText.style.display = 'block';
                             } else {
-                                let helperText = firstNameField.nextElementSibling;
+                                let helperText = lastNameField.nextElementSibling;
                                 helperText.style.display = 'none';
                             }
                         }
