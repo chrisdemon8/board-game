@@ -21,3 +21,6 @@
 - Le site possède une gestion des sessions
 - Le site possède une architecture Modèle (src/Core/Metier) un répertoire Controller (src/Core/Controller) un répertoire service (src/App/Controller) un répertoire pour les vues (/templates) plus un ensemble d'asset pour le bon fonctionnement des vues (/public/assets)
 - Le site possède pour certaine page des appels AJAX.
+
+## Github 
+- https://github.com/chrisdemon8/board-game
