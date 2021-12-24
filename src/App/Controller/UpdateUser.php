@@ -15,9 +15,7 @@ class UpdateUser extends AbstractController
             header('Location: /');
 
         $userCont = new UsersController();
-
-        $updatebyadmin = false;
-
+  
         $changePassword = false;
 
         if (isset($_POST["jsonData"])) {
@@ -39,8 +37,7 @@ class UpdateUser extends AbstractController
                 ]);
             }
         }
-
-
+ 
         try {
             if (!isset($_POST['passwordCheck']))
                 $_POST['passwordCheck'] = "0";
@@ -49,13 +46,9 @@ class UpdateUser extends AbstractController
             $user->hydrate($_POST);
             $user->setPassword(password_hash($_POST['passwordCheck'], PASSWORD_DEFAULT));
         } catch (Exception $e) {
-            if ($_SESSION["user"]->getRole() == 1) {
-                $role = 1;
-                $user->hydrate($_POST);
-                $updatebyadmin = true;
-            } else {
-                header('Location: /');
-            }
+            return $this->render('error.html.twig', [
+                'error' => $e->getMessage(),
+            ]);
         }
 
 
@@ -63,9 +56,7 @@ class UpdateUser extends AbstractController
             if ($_POST['changePassword'] === 'on') {
                 $changePassword = true;
             }
-        }
-
-         
+        } 
 
         try {
             $userCont->updateUser($user, $role, $changePassword);
@@ -75,11 +66,6 @@ class UpdateUser extends AbstractController
             ]);
         }
 
-
-
-        if ($updatebyadmin) {
-            return "true";
-        } else
-            header('Location: /profil');
+        header('Location: /profil');
     }
 }
