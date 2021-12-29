@@ -7,13 +7,75 @@
 
 {% block css %}
 	<link rel="stylesheet" href="/assets/css/basicpage.css"/>
+	<link rel="stylesheet" href="/assets/css/inscription.css"/>
 {% endblock %}
 
 {% block body %}
 
-	<div class="container">
-		<button>Jouer !</button>
-	</div>
+	{% if session.user is not defined %}
+		<div class="container">
+			<button onclick="location.href='/connexion'">Se connecter pour créer une partie !</button>
+		</div>
+	{% endif %}
+
+	{% if session.user is defined %}
+		<div class="basicForm">
+			<form action="createGame" method="post">
+
+
+				<div>
+					<label for="username">pseudo :
+					</label>
+					<input value={{ session.user.username }} type="text" name="username" id="username" minlength="1" maxlength="50" required disabled>
+					<p class="helperText"></p>
+				</div>
+
+				<div>
+					<label for="color">Choix de votre couleur :
+					</label>
+					<select name="color" id="username0" onchange="changeColor(this);">
+						<option value="0">Choisir une couleur</option>
+						<option class="noir" value="noir">noir</option>
+						<option class="bleu" value="bleu">bleu</option>
+						<option class="jaune" value="jaune">jaune</option>
+						<option class="rouge" value="rouge">rouge</option>
+						<option class="violet" value="violet">violet</option>
+						<option class="vert" value="vert">vert</option>
+					</select>
+					<p class="helperText"></p>
+				</div>
+
+				<div>
+					<label for="number">Nombre de joeur :
+					</label>
+					<select name="number" id="number" onchange="change(this.value);">
+						<option value="0">Choisir un nombre de joueurs</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+					</select>
+					<p class="helperText"></p>
+				</div>
+
+				<div id="playerName"></div>
+
+				<div class="button">
+					<input id="register" type="submit" value="Créer une partie">
+				</div>
+
+			</form>
+		</div>
+
+		<div id="snackbar"></div>
+	{% endif %}
+
 {% endblock %}
 
-{% block bottom_js %}{% endblock %}
+
+{% block bottom_js %}
+	{% if session.user is defined %}
+		<script type="text/javascript" src="assets/js/createGame.js"></script>
+	{% endif %}
+{% endblock %}

@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Controller;
+
+use Framework\Controller\AbstractController;
+
+class CreateGame extends AbstractController
+{
+    public function __invoke(): string
+    {
+        if (!isset($_SESSION["user"]))
+            header('Location: /');
+        else
+            return $this->render('game/lobby.html.twig');
+    }
+}

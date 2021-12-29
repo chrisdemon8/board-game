@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Amélioration possible ? 
 - Meilleur agencement des boutons pour le modal
 
+## 29-12-2021
+## Added 
+- Ajout dans la page d'accueil du formulaire pour créer une partie 
+- Gestion complète en js du choix des différents username et couleur
+
 ## 23-12-2021
 ## Changed
 - Adaptation du la gestion du tableau users comme la partie questions
