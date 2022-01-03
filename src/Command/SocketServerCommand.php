@@ -16,7 +16,7 @@ $server = IoServer::factory(
         )
     ),
     8080,
-    'framework.local'
+     
 );
 
 $server->run();

@@ -28,25 +28,47 @@ class ChatController implements MessageComponentInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
- 
-        var_dump($conn->httpRequest->getHeader('Cookie'));
-        // Store the new connection to send messages to later
+        $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
+
+        var_dump($session);
+
+        $alreadyHere = false;
+        // Store the new connection to send messages to later 
+        /*foreach ($this->users as $key => $value) {
+            if ($value['session'] == $session) {
+                $alreadyHere = true;
+            }
+        }*/
+
+        //if (!$alreadyHere) {
         $this->clients->attach($conn);
-        $this->users[$conn->resourceId] = $conn;
+        $this->users[$conn->resourceId] = ['connection' => $conn, 'session' => $session];
+
         echo "New connection! ({$conn->resourceId})\n";
-    } 
+        /*} else
+            echo "Déjà dans la partie";*/
+    }
 
     public function onMessage(ConnectionInterface $conn, $msg)
     {
+        $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
 
+        $sameUser = [];
+        foreach ($this->users as $key => $value) {
+            if ($value['session'] == $session) {
+                $sameUser[] = $value['connection']->resourceId;
+            }
+        }
+ 
         $data = json_decode($msg);
         switch ($data->command) {
             case "subscribe":
                 $this->subscriptions[$conn->resourceId] = $data->channel;
-                $currentGame = $this->games[$data->channel]; 
+                $currentGame = $this->games[$data->channel];
 
-                //if (in_array($_SESSION['user']->getUsername(), $currentGame->jsonDataGame->players)) {
-                $this->number += 1;
+                if (count($sameUser) < 2)
+                    $this->number += 1;
+
                 // on renvoie les info à tout les souscrivants au channel pour actualise l'affichage quand qqun souscrit pour actualiser le nombre de joueur connecté
                 // mieux gérer avec le futur objet game 
                 if (isset($this->subscriptions[$conn->resourceId])) {
@@ -54,18 +76,18 @@ class ChatController implements MessageComponentInterface
                     echo 'partie concernée ' . $target . ' | ';
                     foreach ($this->subscriptions as $id => $channel) {
                         if ($channel == $target) {
- 
+
                             // ICI stock de certaine info de l'objet game
                             $objSend["currentNumberPlayer"] = $this->number;
                             $objSend["numberPlayer"] = 4;
                             $objSend["games"] = $currentGame;
 
-                            $this->users[$id]->send(json_encode($objSend));
+                            $this->users[$id]['connection']->send(json_encode($objSend));
                         }
                     }
                 }
                 //   } 
- 
+
                 break;
             case "message":
                 if (isset($this->subscriptions[$conn->resourceId])) {
@@ -73,7 +95,7 @@ class ChatController implements MessageComponentInterface
                     echo 'partie concernée ' . $target . ' | ';
                     foreach ($this->subscriptions as $id => $channel) {
                         if ($channel == $target && $id != $conn->resourceId) {
-                            $this->users[$id]->send($data->message);
+                            $this->users[$id]['connection']->send($data->message);
                         }
                     }
                 }
@@ -115,5 +137,16 @@ class ChatController implements MessageComponentInterface
         echo "An error has occurred: {$e->getMessage()}\n";
 
         $conn->close();
+    }
+
+    private function getPHPSESSID(array $cookies)
+    {
+        foreach ($cookies as $cookie) :
+            if (strpos($cookie, "PHPSESSID") == 0) :
+                $sess_id = explode('=', $cookie)[1];
+                break;
+            endif;
+        endforeach;
+        return $sess_id;
     }
 }

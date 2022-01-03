@@ -1,21 +1,28 @@
 let conn = new WebSocket('ws://framework.local:8080',
-[],
-{
-    'headers': {
-        'Cookie': getCookie('PHPSESSID')
-    }
-}); 
+    [],
+    {
+        'headers': {
+            'Cookie': getCookie('PHPSESSID')
+        }
+    });
 
-
+/*
+0	CONNECTING	La socket a été créée. La connexion n'est pas encore ouverte.
+1	OPEN	La connexion est ouverte et prête pour la communication.
+2	CLOSING	La connexion est en cours de fermeture.
+3	CLOSED	La connexion est fermée ou n'a pas pu être ouverte.
+*/
 
 
 let partyId = document.getElementById("partyId").innerHTML.trim();
 
 conn.onopen = function (e) {
+    console.log(e);
     console.log("Connection established!");
-    subscribe(partyId);
+    subscribe(partyId); 
 };
 
+  
 conn.onmessage = function (e) {
 
     let numberPlayer = document.getElementById("numberPlayer");
@@ -24,7 +31,7 @@ conn.onmessage = function (e) {
 
     let jsonData = JSON.parse(e.data);
 
-    console.log( jsonData);
+    console.log(jsonData);
     console.log("game" + jsonData["game"]);
 
     let textNumberPlayer = jsonData["numberPlayer"];

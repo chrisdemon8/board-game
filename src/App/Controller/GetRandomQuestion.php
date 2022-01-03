@@ -33,7 +33,7 @@ class GetRandomQuestion extends AbstractController
        // print_r($Question);
 
         print_r($gameCont->getGame());
-         return $this->render('test.html.twig',[
+         return $this->render('testChris.html.twig',[
             'test' => $level,
          ]
         );

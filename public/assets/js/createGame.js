@@ -308,7 +308,7 @@ function submitForm() {
                                 })
                             }));
 
-                            //window.location.href = "/game/" + json.res.partyId;
+                            window.location.href = "/game/" + json.res.partyId;
                         };
 
 
