@@ -284,15 +284,9 @@ function submitForm() {
 
                     if (json.status === "success") {
                         showSnackBar(3000, "Partie créée avec succès", "snacksuccess");
+ 
 
-
-                        let conn = new WebSocket('ws://framework.local:8080',
-                            [],
-                            {
-                                'headers': {
-                                    'Cookie': getCookie('PHPSESSID')
-                                }
-                            });
+                        let conn = new WebSocket('ws://framework.local:8080');
 
                         console.log(getCookie('PHPSESSID'));
                         console.log(json);

@@ -1,10 +1,6 @@
-let conn = new WebSocket('ws://framework.local:8080',
-    [],
-    {
-        'headers': {
-            'Cookie': getCookie('PHPSESSID')
-        }
-    });
+let currentUsername = document.getElementById("fast").innerText; 
+
+let conn = new WebSocket('ws://framework.local:8080');
 
 /*
 0	CONNECTING	La socket a été créée. La connexion n'est pas encore ouverte.

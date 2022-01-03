@@ -11,33 +11,37 @@
 
 
 {% block body %}
+	<div style="display:none;" id="fast">{{ session.user.username }}</div>
+		
 
-	<div class="container">
-		<h1>Party :
-			<span id="partyId">
-				{{ id }}</span>
-		</h1>
+		<div class="container">
+			<h1>Party :
+				<span id="partyId">
+					{{ id }}</span>
+			</h1>
 
-		<div>
-			En attente des joueurs : <span id="currentNumberPlayer"></span> /
-			<span id="numberPlayer"></span>
+			<div>
+				En attente des joueurs :
+				<span id="currentNumberPlayer"></span>
+				/
+				<span id="numberPlayer"></span>
+			</div>
+
+			<div>
+				QRcode
+			</div>
+
+			<button id='lauchGame'>Lancer la partie</button>
+
 		</div>
 
-		<div>
-			QRcode
-		</div>
-
-		<button id='lauchGame'>Lancer la partie</button>
-
-	</div>
-
-	<script></script>
+		<script></script>
 
 
-{% endblock %}
+	{% endblock %}
 
 
-{% block bottom_js %}
-	<script type="text/javascript" src="/assets/js/game.js"></script>
+	{% block bottom_js %}
+		<script type="text/javascript" src="/assets/js/game.js"></script>
 
-{% endblock %}
+	{% endblock %}

@@ -28,25 +28,26 @@ class ChatController implements MessageComponentInterface
 
     public function onOpen(ConnectionInterface $conn)
     {
+        
         $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
-
+        var_dump($conn->httpRequest->getHeader('Cookie'));
         var_dump($session);
-
-        $alreadyHere = false;
-        // Store the new connection to send messages to later 
-        /*foreach ($this->users as $key => $value) {
+        /*$alreadyHere = false; 
+        foreach ($this->users as $key => $value) {
             if ($value['session'] == $session) {
                 $alreadyHere = true;
             }
         }*/
-
         //if (!$alreadyHere) {
+        /*} else
+            echo "Déjà dans la partie";*/
+
+
+        // Store the new connection to send messages to later 
         $this->clients->attach($conn);
         $this->users[$conn->resourceId] = ['connection' => $conn, 'session' => $session];
 
         echo "New connection! ({$conn->resourceId})\n";
-        /*} else
-            echo "Déjà dans la partie";*/
     }
 
     public function onMessage(ConnectionInterface $conn, $msg)
@@ -59,7 +60,10 @@ class ChatController implements MessageComponentInterface
                 $sameUser[] = $value['connection']->resourceId;
             }
         }
- 
+
+
+        var_dump("COUNT ", count($sameUser));
+
         $data = json_decode($msg);
         switch ($data->command) {
             case "subscribe":
@@ -125,6 +129,25 @@ class ChatController implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $conn)
     {
+
+
+        $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
+
+        $sameUser = [];
+        foreach ($this->users as $key => $value) {
+            if ($value['session'] == $session) {
+                $sameUser[] = $value['connection']->resourceId;
+            }
+        }
+
+        /*
+        if (isset($this->subscriptions[$conn->resourceId])) {
+            if (count($sameUser) - 1 < 2)
+                $this->number -= 1;
+        }
+
+        var_dump("COUNT -1 ", count($sameUser) - 1);*/
+
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
         unset($this->users[$conn->resourceId]);
