@@ -14,7 +14,6 @@ class ChatPage extends AbstractController
 {
     public function __invoke(): string
     {
-
         return $this->render('chatbeta.html.twig');
     }
 }
