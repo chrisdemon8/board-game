@@ -16,7 +16,7 @@ class User extends Modele implements Objectify, Create
     protected int $role;
     protected string $firstName;
     protected string $lastName;
-    //protected string $createdAt;
+    protected string $color;
     protected DateTime $createdAt;
 
     public function __construct()
@@ -51,6 +51,23 @@ class User extends Modele implements Objectify, Create
         $user = new User();
         $user->hydrate($data);
         return $user;
+    }
+
+
+    /**
+     * @return string
+     */
+    public function getColor(): string
+    {
+        return $this->color;
+    }
+
+    /**
+     * @param string $color
+     */
+    public function setColor(string $color): void
+    {
+        $this->color = $color;
     }
 
     /**

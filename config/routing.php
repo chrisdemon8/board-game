@@ -29,6 +29,7 @@ use App\Controller\GetUsers;
 use App\Controller\NotFound;
 use App\Controller\UpdateUserAdmin;
 use App\Controller\Game;
+use App\Controller\GetRandomQuestion;
 use Framework\Routing\Route;
 
 return [
@@ -61,5 +62,6 @@ return [
     new Route('GET', '/inscription', Inscription::class),
     new Route('GET', '/connexion', Connexion::class),
     new Route('GET', '/chatpage', ChatPage::class),
+    new Route('GET', '/getRandomQuestion/{level}', GetRandomQuestion::class),
 
 ];

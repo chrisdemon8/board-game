@@ -33,6 +33,19 @@ class QuestionController extends AbstractControllerBdd
         return $object;
     }
 
+    public function getRandomQuestionByLevel(int $level): Question
+    {
+        $request = $this->connection->prepare('SELECT * FROM question WHERE level = :level ');
+        $request->bindValue(':level', $level, PDO::PARAM_INT);
+        $request->execute();
+        $QuestionsData = $request->fetchAll();
+
+        $Question=Question::Objectify($QuestionsData[rand(0,sizeof($QuestionsData)-1)]);
+        $Question->setAnswers($this->getAnswers($Question->getIdQuestion()));
+
+        return  $Question;
+    }
+
     private function getAnswers(int $id_question)
     {
         $AnswerCont = new AnswerController();
@@ -49,7 +62,7 @@ class QuestionController extends AbstractControllerBdd
         foreach ($QuestionsData as $QuestionData) {
             $Question = Question::Objectify($QuestionData);
             $Question->setAnswers($this->getAnswers($Question->getIdQuestion()));
-            array_push($Questions, $Questions);
+            array_push($Questions, $Question);
         }
         return $Questions;
     }
@@ -130,8 +143,6 @@ class QuestionController extends AbstractControllerBdd
 
     public function addQuestion(Question $Question): void
     {
-
-
         $messageError = '';
 
         $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM question WHERE label_question = :label');
