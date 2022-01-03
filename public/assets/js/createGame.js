@@ -283,19 +283,35 @@ function submitForm() {
                 return response.json().then(function (json) {
 
                     if (json.status === "success") {
-                        showSnackBar(3000, "Réponse supprimée avec succès", "snacksuccess");
+                        showSnackBar(3000, "Partie créée avec succès", "snacksuccess");
 
 
-                        let conn = new WebSocket('ws://localhost:8080');
+                        let conn = new WebSocket('ws://framework.local:8080',
+                            [],
+                            {
+                                'headers': {
+                                    'Cookie': getCookie('PHPSESSID')
+                                }
+                            });
+
+                        console.log(getCookie('PHPSESSID'));
+                        console.log(json);
 
                         conn.onopen = function (e) {
                             console.log("Connection established!");
-                            conn.send(JSON.stringify({ command: "create", message: json.numberPlayer }));
+
+                            let jsonDataGame = json.res;
+
+                            conn.send(JSON.stringify({
+                                command: "create", message: JSON.stringify({
+                                    jsonDataGame
+                                })
+                            }));
+
+                            //window.location.href = "/game/" + json.res.partyId;
                         };
 
 
-
-                        window.location.href = "/game/" + json.partyId;
                     } else {
                         showSnackBar(3000, "Erreur :" + json.exception, "snackerror");
                     }
@@ -316,4 +332,16 @@ function submitForm() {
     }
 
 
+}
+
+
+function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for (var i = 0; i < ca.length; i++) {
+        var c = ca[i];
+        while (c.charAt(0) == ' ') c = c.substring(1);
+        if (c.indexOf(name) == 0) return c.substring(name.length, c.length);
+    }
+    return "";
 }

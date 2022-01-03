@@ -4,45 +4,40 @@
 	game
 {% endblock %}
 
-{% block css %} 
+{% block css %}
+	<link rel="stylesheet" href="/assets/css/basicpage.css"/>
+	<link rel="stylesheet" href="/assets/css/lobby.css"/>
 {% endblock %}
- 
+
 
 {% block body %}
 
+	<div class="container">
+		<h1>Party :
+			<span id="partyId">
+				{{ id }}</span>
+		</h1>
 
-	<h1>Party :
-		{{ id }}</h1>
+		<div>
+			En attente des joueurs : <span id="currentNumberPlayer"></span> /
+			<span id="numberPlayer"></span>
+		</div>
 
-	TEST
+		<div>
+			QRcode
+		</div>
 
+		<button id='lauchGame'>Lancer la partie</button>
 
-	<script>
+	</div>
 
-		/* ZONE DE TEST NE PAS OUBLIER DE LANCER Le serveur de websocket pour que ça marche */
-
-		let conn = new WebSocket('ws://localhost:8080');
-
-		conn.onopen = function (e) {
-		console.log("Connection established!");
-
-		subscribe({{ id }});
-		};
-
-		conn.onmessage = function (e) {
-		zonemessage.append(e.data);
-
-		};
-
-		function subscribe(channel) {
-		console.log("join : ", channel)
-		conn.send(JSON.stringify({command: "subscribe", channel: channel}));
-		}
-
-	</script>
+	<script></script>
 
 
 {% endblock %}
 
 
-{% block bottom_js %}{% endblock %}
+{% block bottom_js %}
+	<script type="text/javascript" src="/assets/js/game.js"></script>
+
+{% endblock %}

@@ -43,10 +43,10 @@ class CreateGame extends AbstractController
 
         try {
             $response_array['status'] = 'success';
-            $response_array['partyId'] = $partyId;
-            $response_array['numberPlayer'] = $numberPlayer;
-            $response_array['players'] = $players;
-            $response_array['colors'] = $colors;
+            $response_array['res']['partyId'] = $partyId;
+            $response_array['res']['numberPlayer'] = $numberPlayer;
+            $response_array['res']['players'] = $players;
+            $response_array['res']['colors'] = $colors;
         } catch (Exception $e) {
             $response_array['status'] = 'error';
             $response_array['exception'] = $e->getMessage();
