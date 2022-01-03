@@ -58,7 +58,7 @@ function showSnackBar(time, text, type) {
 
     snackbar.classList.add("show");
     snackbar.textContent = text;
-    setTimeout(function () {
+    setTimeout(function() {
         snackbar.className = snackbar.className.replace("show", "");
         snackbar.className = snackbar.className.replace(type, "");
     }, time);
@@ -94,9 +94,9 @@ function createHeaderTable(table) {
     table.appendChild(th);
     let buttonAddQuestion = document.getElementById('addQuestion');
     buttonAddQuestion.onclick = () => {
-        newModalQuestion();
-    }
-    //table.after(buttonAddQuestion);
+            newModalQuestion();
+        }
+        //table.after(buttonAddQuestion);
 }
 
 function newModal(response, id) {
@@ -157,11 +157,11 @@ function newModal(response, id) {
                 }),
                 mode: 'cors',
                 cache: 'default'
-            }).then(function (response) {
+            }).then(function(response) {
 
                 var contentType = response.headers.get("content-type");
                 if (contentType && contentType.indexOf("application/json") !== -1) {
-                    return response.json().then(function (json) {
+                    return response.json().then(function(json) {
 
                         if (json.status === "success") {
                             loadData();
@@ -177,7 +177,7 @@ function newModal(response, id) {
                 }
 
             })
-            .catch(function (error) {
+            .catch(function(error) {
                 console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
             });
 
@@ -212,14 +212,14 @@ function newModal(response, id) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function (response) {
+                }).then(function(response) {
 
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function (json) { 
+                        return response.json().then(function(json) {
                             if (json.status === "success") {
                                 showSnackBar(3000, "Réponse mise à jour avec succès", "snacksuccess");
-                                loadData(); 
+                                loadData();
                             } else {
                                 showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
                                 loadData();
@@ -234,7 +234,7 @@ function newModal(response, id) {
                              loadData();
                          })*/
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         } else {
@@ -257,11 +257,11 @@ function newModal(response, id) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function (response) {
+                }).then(function(response) {
 
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function (json) { 
+                        return response.json().then(function(json) {
                             if (json.status === "success") {
                                 showSnackBar(3000, "Réponse ajoutée avec succès", "snacksuccess");
                                 loadData();
@@ -278,7 +278,7 @@ function newModal(response, id) {
                         console.log("Le serveur n'a pas renvoyé le résultat attendu.");
                     }
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         }
@@ -352,12 +352,12 @@ function newModalQuestion() {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function (response) {
+                }).then(function(response) {
 
 
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function (json) {
+                        return response.json().then(function(json) {
 
                             if (json.status === "success") {
                                 showSnackBar(3000, "Question ajoutée avec succès", "snacksuccess");
@@ -378,7 +378,7 @@ function newModalQuestion() {
                             loadData();
                         })*/
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
         }
@@ -502,11 +502,11 @@ function insertData(table, data) {
                             "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8",
                         },
                         body: `id_question=${currentId}`,
-                    }).then(function (response) {
+                    }).then(function(response) {
 
                         var contentType = response.headers.get("content-type");
                         if (contentType && contentType.indexOf("application/json") !== -1) {
-                            return response.json().then(function (json) {
+                            return response.json().then(function(json) {
 
                                 if (json.status === "success") {
                                     showSnackBar(3000, "Question supprimée avec succès", "snacksuccess");
@@ -522,7 +522,7 @@ function insertData(table, data) {
                         }
 
                     })
-                    .catch(function (error) {
+                    .catch(function(error) {
                         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                     });
             }
@@ -575,10 +575,10 @@ function insertData(table, data) {
                     }),
                     mode: 'cors',
                     cache: 'default'
-                }).then(function (response) {
+                }).then(function(response) {
                     var contentType = response.headers.get("content-type");
                     if (contentType && contentType.indexOf("application/json") !== -1) {
-                        return response.json().then(function (json) {
+                        return response.json().then(function(json) {
 
                             if (json.status === "success") {
 
@@ -658,11 +658,11 @@ function insertData(table, data) {
                                             }),
                                             mode: 'cors',
                                             cache: 'default'
-                                        }).then(function (response) {
+                                        }).then(function(response) {
 
                                             var contentType = response.headers.get("content-type");
                                             if (contentType && contentType.indexOf("application/json") !== -1) {
-                                                return response.json().then(function (json) {
+                                                return response.json().then(function(json) {
 
                                                     if (json.status === "success") {
                                                         showSnackBar(3000, "Question mise à jour avec succès", "snacksuccess");
@@ -679,7 +679,7 @@ function insertData(table, data) {
                                             }
 
                                         })
-                                        .catch(function (error) {
+                                        .catch(function(error) {
                                             console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                                         });
 
@@ -702,7 +702,7 @@ function insertData(table, data) {
                         console.log("Le serveur n'a pas renvoyé le résultat attendu.");
                     }
                 })
-                .catch(function (error) {
+                .catch(function(error) {
                     console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
                 });
 
@@ -714,8 +714,8 @@ function insertData(table, data) {
 
 
     table.appendChild(tbody);
-/*
-    let customTable = new DataTable(table, {});*/
+    /*
+        let customTable = new DataTable(table, {});*/
 
 }
 
@@ -739,11 +739,11 @@ function loadData() {
         cache: 'default'
     };
 
-    fetch(url, myInit).then(function (response) {
+    fetch(url, myInit).then(function(response) {
 
         var contentType = response.headers.get("content-type");
         if (contentType && contentType.indexOf("application/json") !== -1) {
-            return response.json().then(function (json) {
+            return response.json().then(function(json) {
 
                 if (json.status === "success")
                     insertData(questionsTable, json.res);
@@ -754,7 +754,7 @@ function loadData() {
         } else {
             console.log("Le serveur n'a pas renvoyé le résultat attendu.");
         }
-    }).catch(function (error) {
+    }).catch(function(error) {
         console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
     });
 

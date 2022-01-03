@@ -29,6 +29,8 @@ class UsersController extends AbstractControllerBdd
         return User::Objectify($user);
     }
 
+
+
     public function getAllUsers(): array
     {
         $request = $this->connection->prepare('SELECT * FROM user ');
@@ -64,6 +66,36 @@ class UsersController extends AbstractControllerBdd
 
         if ($user['exist'] > 0) {
             $messageError = 'email deja utilise';
+            ErrorManager::CustomError($messageError);
+            return false;
+        }
+        return true;
+    }
+
+    public function ExistByMail($email): bool
+    {
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE email =:email');
+        $request->bindValue(':email', $email);
+        $request->execute();
+        $user = $request->fetch();
+
+        if ( $user['exist'] != 1 ) {
+            $messageError = 'user non existant';
+            ErrorManager::CustomError($messageError);
+            return false;
+        }
+        return true;
+    }
+
+    public function ExistByUsername($pseudo): bool
+    {
+        $request = $this->connection->prepare('SELECT COUNT(*) as exist FROM user WHERE username =:username');
+        $request->bindValue(':username', $pseudo);
+        $request->execute();
+        $user = $request->fetch();
+
+        if ( $user['exist'] != 1 ) {
+            $messageError = 'user non existant';
             ErrorManager::CustomError($messageError);
             return false;
         }

@@ -27,7 +27,6 @@ class CreateGame extends AbstractController
             $players = $data['jsonData']['players'];
             $colors = $data['jsonData']['colors'];
 
-
             $partyId = $numberPlayer . rand();
 
             // fonction sendMail et QRCODE pour join la party 
