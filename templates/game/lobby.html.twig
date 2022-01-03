@@ -1,15 +1,47 @@
 {% extends 'layout.html.twig' %}
 
 {% block title %}
-	{{ parent()}}
-	- Accueil
+	game
 {% endblock %}
 
-{% block css %}{% endblock %}
+{% block css %} 
+{% endblock %}
+ 
 
 {% block body %}
 
+
+	<h1>Party :
+		{{ id }}</h1>
+
 	TEST
+
+
+	<script>
+
+		/* ZONE DE TEST NE PAS OUBLIER DE LANCER Le serveur de websocket pour que ça marche */
+
+		let conn = new WebSocket('ws://localhost:8080');
+
+		conn.onopen = function (e) {
+		console.log("Connection established!");
+
+		subscribe({{ id }});
+		};
+
+		conn.onmessage = function (e) {
+		zonemessage.append(e.data);
+
+		};
+
+		function subscribe(channel) {
+		console.log("join : ", channel)
+		conn.send(JSON.stringify({command: "subscribe", channel: channel}));
+		}
+
+	</script>
+
+
 {% endblock %}
 
 

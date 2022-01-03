@@ -12,11 +12,11 @@ use App\Controller\Connexion;
 use App\Controller\Disconnected;
 use App\Controller\Profil;
 use App\Controller\UpdateUser;
-use App\Controller\DeleteUser; 
-use App\Controller\GetUser; 
-use App\Controller\GetQuestions; 
-use App\Controller\GetQuestion; 
-use App\Controller\Admin; 
+use App\Controller\DeleteUser;
+use App\Controller\GetUser;
+use App\Controller\GetQuestions;
+use App\Controller\GetQuestion;
+use App\Controller\Admin;
 use App\Controller\DeleteQuestion;
 use App\Controller\UpdateQuestion;
 use App\Controller\UpdateAnswer;
@@ -28,6 +28,7 @@ use App\Controller\DeleteAnswer;
 use App\Controller\GetUsers;
 use App\Controller\NotFound;
 use App\Controller\UpdateUserAdmin;
+use App\Controller\Game;
 use Framework\Routing\Route;
 
 return [
@@ -40,10 +41,11 @@ return [
     new Route('POST', '/deleteAnswer', DeleteAnswer::class),
     new Route('POST', '/deleteQuestion', DeleteQuestion::class),
     new Route('POST', '/updateQuestion', UpdateQuestion::class),
-    new Route('POST', '/updateUserAdmin', UpdateUserAdmin::class), 
+    new Route('POST', '/updateUserAdmin', UpdateUserAdmin::class),
     new Route('GET', '/getUsers', GetUsers::class),
     new Route('POST', '/createGame', CreateGame::class),
     new Route('GET', '/getQuestions', GetQuestions::class),
+    new Route('GET', '/game/{partyId}', Game::class),
     new Route('POST', '/getQuestion', GetQuestion::class),
     new Route('POST', '/addQuestion', AddQuestion::class),
     new Route('GET', '/deconnexion', Disconnected::class),
@@ -54,7 +56,7 @@ return [
     new Route('POST', '/addUser', AddUser::class),
     new Route('POST', '/checkUser', CheckUser::class),
     new Route('GET', '/profil', Profil::class),
-    new Route('POST', '/deleteUser', DeleteUser::class), 
+    new Route('POST', '/deleteUser', DeleteUser::class),
     new Route('POST', '/updateUser', UpdateUser::class),
     new Route('GET', '/inscription', Inscription::class),
     new Route('GET', '/connexion', Connexion::class),

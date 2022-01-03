@@ -6,7 +6,7 @@
 {% endblock %}
 
 {% block css %}
-	<link rel="stylesheet" href="assets/css/users.css"/>
+	<link rel="stylesheet" href="/assets/css/users.css"/>
 {% endblock %}
 
 
@@ -69,6 +69,6 @@
 
 {% block bottom_js %}
 	{% if session.user.role == 1 %}
-		<script type="text/javascript" src="assets/js/users.js"></script>
+		<script type="text/javascript" src="/assets/js/users.js"></script>
 	{% endif %}
 {% endblock %}

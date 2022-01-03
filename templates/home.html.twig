@@ -20,9 +20,7 @@
 
 	{% if session.user is defined %}
 		<div class="basicForm">
-			<form action="createGame" method="post">
-
-
+			<form onsubmit="return false">
 				<div>
 					<label for="username">pseudo :
 					</label>
@@ -31,22 +29,22 @@
 				</div>
 
 				<div>
-					<label for="color">Choix de votre couleur :
+					<label for="color0">Choix de votre couleur :
 					</label>
-					<select name="color" id="username0" onchange="changeColor(this);">
+					<select name="color0" id="color0" onchange="changeColor(this);">
 						<option value="0">Choisir une couleur</option>
-						<option class="noir" value="noir">noir</option>
-						<option class="bleu" value="bleu">bleu</option>
-						<option class="jaune" value="jaune">jaune</option>
-						<option class="rouge" value="rouge">rouge</option>
-						<option class="violet" value="violet">violet</option>
-						<option class="vert" value="vert">vert</option>
+						<option value="noir">noir</option>
+						<option value="bleu">bleu</option>
+						<option value="jaune">jaune</option>
+						<option value="rouge">rouge</option>
+						<option value="violet">violet</option>
+						<option value="vert">vert</option>
 					</select>
 					<p class="helperText"></p>
 				</div>
 
 				<div>
-					<label for="number">Nombre de joeur :
+					<label for="number">Nombre de joueur :
 					</label>
 					<select name="number" id="number" onchange="change(this.value);">
 						<option value="0">Choisir un nombre de joueurs</option>
@@ -62,7 +60,7 @@
 				<div id="playerName"></div>
 
 				<div class="button">
-					<input id="register" type="submit" value="Créer une partie">
+					<input id="createGame" type="submit" value="Créer une partie">
 				</div>
 
 			</form>
@@ -76,6 +74,6 @@
 
 {% block bottom_js %}
 	{% if session.user is defined %}
-		<script type="text/javascript" src="assets/js/createGame.js"></script>
+		<script type="text/javascript" src="/assets/js/createGame.js"></script>
 	{% endif %}
 {% endblock %}

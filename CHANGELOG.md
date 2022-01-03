@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## Amélioration possible ? 
 - Meilleur agencement des boutons pour le modal
 
+
+## 03-01-2022
+## Added 
+- Formatage des données pour que le back puissent avoir les joueurs, les couleurs afin de créer la partie 
+
+## Fixed
+- Fix d'un problème venant des chemins non absolu pour les assets
+
 ## 29-12-2021
 ## Added 
 - Ajout dans la page d'accueil du formulaire pour créer une partie 

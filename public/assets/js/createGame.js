@@ -60,46 +60,34 @@ console.log("test", abc); // you are using async await then no need of .then().
 let listColorObject = {};
 
 let listUserObject = {};
-function disableColor() {
+
+let listColor = ['noir', 'bleu', 'jaune', 'rouge', 'violet', 'vert'];
+
+function disableOption() {
     options = document.getElementsByTagName("option");
     for (let item of options) {
         item.disabled = false;
     }
     for (const [key, value] of Object.entries(listColorObject)) {
-        colorSelected = document.getElementsByClassName(value);
+        colorSelected = document.getElementsByTagName("option");
+
+
         for (let item of colorSelected) {
-            item.disabled = true;
+            if (item.value == value)
+                item.disabled = true;
         }
     }
 }
-
-
-function disableUser() {
-    options = document.getElementsByTagName("option");
-    for (let item of options) {
-        item.disabled = false;
-    }
-    for (const [key, value] of Object.entries(listUserObject)) {
-        userSelected = document.getElementsByClassName(value);
-        for (let item of userSelected) {
-            item.disabled = true;
-        }
-    }
-}
-
 
 function changeColor(color) {
     listColorObject[color.id] = color.value;
-    disableColor();
+    disableOption();
 }
 
 function changeUser(user) {
     listColorObject[user.id] = user.value;
-    disableColor();
+    disableOption();
 }
-
-
-let listColor = ['noir', 'bleu', 'jaune', 'rouge', 'violet', 'vert'];
 
 function change(val) {
     playerName.innerHTML = "";
@@ -115,6 +103,8 @@ function change(val) {
         option.text = "Choisir une couleur";
         selectColor.appendChild(option);
 
+        selectColor.setAttribute('name', 'color' + i);
+
 
         for (let i = 0; i < listColor.length; i++) {
             let option = document.createElement("option");
@@ -123,15 +113,16 @@ function change(val) {
             option.classList.add(listColor[i]);
             selectColor.appendChild(option);
         }
-        selectColor.id = 'username' + i;
+
+        selectColor.id = 'color' + i;
         selectColor.addEventListener(
             'change',
             function () { changeColor(this); },
             false
         );
 
-        label.htmlFor = 'username' + i;
-        label.textContent = 'Joeur ' + i;
+        //label.htmlFor = 'player' + i;
+        label.textContent = 'Joueur ' + i;
 
 
         let selectUser = document.createElement("SELECT");
@@ -159,8 +150,16 @@ function change(val) {
                 return response.json().then(function (json) {
 
                     if (json.status === "success") {
-                        console.log(json.res);
+                        //console.log(json.res);
                         dataUsers = json.res;
+
+
+                        let option = document.createElement("option");
+                        option.value = "0";
+                        option.text = "Choisir un joueur";
+                        selectUser.appendChild(option);
+
+
                         for (let i = 0; i < dataUsers.length; i++) {
 
                             if (dataUsers[i].username != currentUsername) {
@@ -201,6 +200,120 @@ function change(val) {
         div.appendChild(selectColor);
         playerName.appendChild(div);
 
-        disableColor();
+        disableOption();
     }
+}
+
+let createGameButton = document.getElementById("createGame");
+createGameButton.addEventListener("click", submitForm);
+
+
+function submitForm() {
+
+
+    let selectColor0 = document.getElementById("color0");
+    let choice0 = selectColor0.selectedIndex;
+    let color0 = selectColor0.options[choice0].value;
+
+
+
+    let valid = true;
+    let choice = select.selectedIndex;
+    let number = select.options[choice].value;
+
+    let jsonPlayer = {};
+    jsonPlayer[0] = currentUsername;
+
+    let jsonColor = {};
+    jsonColor[0] = color0;
+
+    for (let i = 1; i <= number; i++) {
+        let player = document.getElementById("username" + i);
+        let color = document.getElementById("color" + i);
+
+        if (player.value == "0") {
+            showSnackBar(3000, "Veuillez sélectionner chaques joueurs.", "snackerror");
+            valid = false;
+        }
+        else {
+            jsonPlayer[i] = player.value;
+        }
+
+        if (color.value == "0") {
+            showSnackBar(3000, "Veuillez sélectionner chaques couleurs.", "snackerror");
+            valid = false;
+        }
+        else {
+            jsonColor[i] = color.value;
+        }
+
+    }
+
+
+
+    jsonData = {
+        'numberPlayer': number,
+        'players': jsonPlayer,
+        'colors': jsonColor
+    }
+
+
+    if (valid) {
+
+
+        fetch("/createGame", {
+            method: 'POST',
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                jsonData
+            }),
+            mode: 'cors',
+            cache: 'default'
+        }).then(function (response) {
+
+            var contentType = response.headers.get("content-type");
+            if (contentType && contentType.indexOf("application/json") !== -1) {
+
+                /*return response.text().then(function (res) {
+                    console.log(res);
+                    window.location.href = "/game?partyId=" + res[partyId];
+                })*/
+                return response.json().then(function (json) {
+
+                    if (json.status === "success") {
+                        showSnackBar(3000, "Réponse supprimée avec succès", "snacksuccess");
+
+
+                        let conn = new WebSocket('ws://localhost:8080');
+
+                        conn.onopen = function (e) {
+                            console.log("Connection established!");
+                            conn.send(JSON.stringify({ command: "create", message: json.numberPlayer }));
+                        };
+
+
+
+                        window.location.href = "/game/" + json.partyId;
+                    } else {
+                        showSnackBar(3000, "Erreur :" + json.exception, "snackerror");
+                    }
+
+                });
+            } else {
+                /*return response.text().then(function (res) {
+                    console.log(res);
+                })*/
+                console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+            }
+
+        })/*.catch(function (error) {
+        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+    });*/
+
+
+    }
+
+
 }
