@@ -1,4 +1,4 @@
-let currentUsername = document.getElementById("fast").innerText; 
+let currentUsername = document.getElementById("fast").innerText;
 
 let conn = new WebSocket('ws://framework.local:8080');
 
@@ -13,12 +13,11 @@ let conn = new WebSocket('ws://framework.local:8080');
 let partyId = document.getElementById("partyId").innerHTML.trim();
 
 conn.onopen = function (e) {
-    console.log(e);
     console.log("Connection established!");
-    subscribe(partyId); 
+    subscribe(partyId);
 };
 
-  
+
 conn.onmessage = function (e) {
 
     let numberPlayer = document.getElementById("numberPlayer");
@@ -28,7 +27,6 @@ conn.onmessage = function (e) {
     let jsonData = JSON.parse(e.data);
 
     console.log(jsonData);
-    console.log("game" + jsonData["game"]);
 
     let textNumberPlayer = jsonData["numberPlayer"];
     let textCurrentNumberPlayer = jsonData["currentNumberPlayer"];
@@ -36,9 +34,10 @@ conn.onmessage = function (e) {
     numberPlayer.textContent = textNumberPlayer;
     currentNumberPlayer.textContent = textCurrentNumberPlayer;
 
+    /*
     for (var key in jsonData) {
         console.log(jsonData[key]);
-    }
+    }*/
 };
 
 function subscribe(channel) {
@@ -46,9 +45,7 @@ function subscribe(channel) {
     conn.send(JSON.stringify({ command: "subscribe", channel: channel }));
 }
 
-
-
-
+ 
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');

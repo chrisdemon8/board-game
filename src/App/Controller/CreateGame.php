@@ -4,6 +4,9 @@ namespace App\Controller;
 
 use Exception;
 use Framework\Controller\AbstractController;
+use Framework\Controller\GameController;
+use Framework\Controller\UsersController;
+use Framework\Metier\User;
 
 class CreateGame extends AbstractController
 {
@@ -24,28 +27,44 @@ class CreateGame extends AbstractController
 
         if ($data['success']) {
             $numberPlayer = $data['jsonData']['numberPlayer'];
+
             $players = $data['jsonData']['players'];
             $colors = $data['jsonData']['colors'];
+
+            $userArray = [];
+
+            foreach ($players as $key => $value) {
+                $userController = new UsersController();
+                $user = $userController->getUserByUsername($value);
+
+                if ($user instanceof User) {
+                    $user->setColor($colors[$key]);
+                    $userArray[] = $user;
+                } else
+                    throw new Exception("Données client corrompues");
+            }
 
             $partyId = $numberPlayer . rand();
 
             // fonction sendMail et QRCODE pour join la party 
-
-            /*
-            var_dump($numberPlayer);
-            var_dump($players);
-            var_dump($colors);
-            var_dump($partyId);*/
+ 
         }
+
+
 
         header('Content-type: application/json');
 
-        try {
+        try { 
+            $gameController = new GameController();
+            $game = $gameController->newGame($partyId, $userArray);
+ 
+ 
             $response_array['status'] = 'success';
             $response_array['res']['partyId'] = $partyId;
             $response_array['res']['numberPlayer'] = $numberPlayer;
             $response_array['res']['players'] = $players;
             $response_array['res']['colors'] = $colors;
+            $response_array['res']['game'] = $game->jsonSerialize();
         } catch (Exception $e) {
             $response_array['status'] = 'error';
             $response_array['exception'] = $e->getMessage();

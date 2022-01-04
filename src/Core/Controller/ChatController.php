@@ -3,13 +3,13 @@
 
 namespace Framework\Controller;
 
+use Exception;
+use Framework\Metier\Game;
+use Framework\Metier\User;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
-
-
-session_start();
-
-
+ 
+ 
 class ChatController implements MessageComponentInterface
 {
     protected $clients;
@@ -21,28 +21,14 @@ class ChatController implements MessageComponentInterface
         $this->clients = new \SplObjectStorage;
         $this->subscriptions = [];
         $this->users = [];
-        $this->games = [];
-        // variable test en attendant la classe game
-        $this->number = 0;
+        $this->games = []; 
     }
 
     public function onOpen(ConnectionInterface $conn)
-    {
-        
+    { 
         $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
-        var_dump($conn->httpRequest->getHeader('Cookie'));
-        var_dump($session);
-        /*$alreadyHere = false; 
-        foreach ($this->users as $key => $value) {
-            if ($value['session'] == $session) {
-                $alreadyHere = true;
-            }
-        }*/
-        //if (!$alreadyHere) {
-        /*} else
-            echo "Déjà dans la partie";*/
-
-
+        
+        
         // Store the new connection to send messages to later 
         $this->clients->attach($conn);
         $this->users[$conn->resourceId] = ['connection' => $conn, 'session' => $session];
@@ -54,24 +40,11 @@ class ChatController implements MessageComponentInterface
     {
         $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
 
-        $sameUser = [];
-        foreach ($this->users as $key => $value) {
-            if ($value['session'] == $session) {
-                $sameUser[] = $value['connection']->resourceId;
-            }
-        }
-
-
-        var_dump("COUNT ", count($sameUser));
-
         $data = json_decode($msg);
         switch ($data->command) {
             case "subscribe":
                 $this->subscriptions[$conn->resourceId] = $data->channel;
                 $currentGame = $this->games[$data->channel];
-
-                if (count($sameUser) < 2)
-                    $this->number += 1;
 
                 // on renvoie les info à tout les souscrivants au channel pour actualise l'affichage quand qqun souscrit pour actualiser le nombre de joueur connecté
                 // mieux gérer avec le futur objet game 
@@ -82,9 +55,9 @@ class ChatController implements MessageComponentInterface
                         if ($channel == $target) {
 
                             // ICI stock de certaine info de l'objet game
-                            $objSend["currentNumberPlayer"] = $this->number;
-                            $objSend["numberPlayer"] = 4;
-                            $objSend["games"] = $currentGame;
+                            $objSend["currentNumberPlayer"] =  count($currentGame->getPlayers());
+                            $objSend["numberPlayer"] = count($currentGame->getPlayers());
+                            $objSend["games"] = $currentGame->jsonSerialize();
 
                             $this->users[$id]['connection']->send(json_encode($objSend));
                         }
@@ -105,7 +78,26 @@ class ChatController implements MessageComponentInterface
                 }
             case "create":
                 $jsonDataGame =  json_decode($data->message);
-                $this->games[$jsonDataGame->jsonDataGame->partyId] = $jsonDataGame;
+
+                $players = $jsonDataGame->jsonDataGame->players;
+                $colors = $jsonDataGame->jsonDataGame->colors;
+                $partyId = $jsonDataGame->jsonDataGame->partyId;
+
+                $userArray = [];
+
+                foreach ($players as $key => $value) {
+                    $userController = new UsersController();
+                    $user = $userController->getUserByUsername($value);
+
+                    if ($user instanceof User) {
+                        $user->setColor($colors[$key]);
+                        $userArray[] = $user;
+                    }
+                }
+
+                $gameController = new GameController();
+                $game = $gameController->newGame($partyId, $userArray);
+                $this->games[$jsonDataGame->jsonDataGame->partyId] = $game;
         }
 
 
@@ -129,24 +121,7 @@ class ChatController implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $conn)
     {
-
-
         $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
-
-        $sameUser = [];
-        foreach ($this->users as $key => $value) {
-            if ($value['session'] == $session) {
-                $sameUser[] = $value['connection']->resourceId;
-            }
-        }
-
-        /*
-        if (isset($this->subscriptions[$conn->resourceId])) {
-            if (count($sameUser) - 1 < 2)
-                $this->number -= 1;
-        }
-
-        var_dump("COUNT -1 ", count($sameUser) - 1);*/
 
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);

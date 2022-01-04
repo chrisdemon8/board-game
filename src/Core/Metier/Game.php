@@ -32,6 +32,16 @@ class Game extends Modele
         $this->players = [];
         $this->winners = [];
     }
+  
+    public static function Objectify($data): Game
+    {
+        $Game = new Game(0);
+
+        if ($data == NULL)
+            throw new Exception("Données non conforme !");
+        $Game->hydrate($data);
+        return $Game;
+    }
 
     public function setCurrentQuestion(Question $question){
         $this->currentQuestion=$question;

@@ -30,6 +30,21 @@ class UsersController extends AbstractControllerBdd
     }
 
 
+    public function getUserByUsername(string $username): User
+    {
+        $request = $this->connection->prepare('SELECT * FROM user WHERE username = :username');
+
+        $request->bindValue(':username', $username, PDO::PARAM_INT);
+
+        $request->execute();
+
+        $user = $request->fetch();
+        if ($user == null)
+            ErrorManager::notExist('USERNAME');
+        return User::Objectify($user);
+    }
+
+
 
     public function getAllUsers(): array
     {

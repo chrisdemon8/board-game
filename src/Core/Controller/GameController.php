@@ -24,10 +24,10 @@ class GameController extends AbstractControllerBdd
         $this->usersController = new UsersController();
     }
 
-    public function newGame(int $id, ...$players)
+    public function newGame(int $id, $players): Game
     {
-        $this->game = new Game($id);
-        foreach ($players as $player) {
+        $this->game = new Game($id); 
+        foreach ($players as $player) { 
             if ($player instanceof User)
                 if (!$this->usersController->ExistByUsername($player->getUsername()))
                     ErrorManager::notExist($player->getUsername());
@@ -35,6 +35,7 @@ class GameController extends AbstractControllerBdd
                     $this->game->addPlayer($player);
                 }
         }
+        return $this->game;
     }
 
 
@@ -47,7 +48,6 @@ class GameController extends AbstractControllerBdd
     public function response(Answer $Answer): void
     {
         $this->game->response($Answer);
-
     }
 
     public function responseManual(bool $choice): void
@@ -71,19 +71,11 @@ class GameController extends AbstractControllerBdd
         return $this->game;
     }
 
-       /**
+    /**
      * @void Game
      */
     public function setGame(Game $game): void
     {
-        $this->game=$game;
+        $this->game = $game;
     }
-
-
-
-
-
 }
-
-
-

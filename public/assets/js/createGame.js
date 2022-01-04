@@ -276,15 +276,15 @@ function submitForm() {
             var contentType = response.headers.get("content-type");
             if (contentType && contentType.indexOf("application/json") !== -1) {
 
-                /*return response.text().then(function (res) {
+                /*
+                return response.text().then(function (res) {
                     console.log(res);
-                    window.location.href = "/game?partyId=" + res[partyId];
+                    //window.location.href = "/game?partyId=" + res[partyId];
                 })*/
                 return response.json().then(function (json) {
 
                     if (json.status === "success") {
                         showSnackBar(3000, "Partie créée avec succès", "snacksuccess");
- 
 
                         let conn = new WebSocket('ws://framework.local:8080');
 
