@@ -15,7 +15,7 @@ function showSnackBar(time, text, type) {
 
     snackbar.classList.add("show");
     snackbar.textContent = text;
-    setTimeout(function () {
+    setTimeout(function() {
         snackbar.className = snackbar.className.replace("show", "");
         snackbar.className = snackbar.className.replace(type, "");
     }, time);
@@ -117,7 +117,7 @@ function change(val) {
         selectColor.id = 'color' + i;
         selectColor.addEventListener(
             'change',
-            function () { changeColor(this); },
+            function() { changeColor(this); },
             false
         );
 
@@ -129,7 +129,7 @@ function change(val) {
         selectUser.id = 'username' + i;
         selectUser.addEventListener(
             'change',
-            function () { changeUser(this); },
+            function() { changeUser(this); },
             false
         );
 
@@ -143,11 +143,11 @@ function change(val) {
             cache: 'default'
         };
 
-        fetch("/getUsers", myInit).then(function (response) {
+        fetch("/getUsers", myInit).then(function(response) {
 
             var contentType = response.headers.get("content-type");
             if (contentType && contentType.indexOf("application/json") !== -1) {
-                return response.json().then(function (json) {
+                return response.json().then(function(json) {
 
                     if (json.status === "success") {
                         //console.log(json.res);
@@ -178,12 +178,12 @@ function change(val) {
                 });
             } else {
                 if (response.ok)
-                    response.text().then(function (res) {
+                    response.text().then(function(res) {
                         console.log(res);
                     })
                 console.log("Le serveur n'a pas renvoyé le résultat attendu.");
             }
-        }).catch(function (error) {
+        }).catch(function(error) {
             console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
         });
 
@@ -234,16 +234,14 @@ function submitForm() {
         if (player.value == "0") {
             showSnackBar(3000, "Veuillez sélectionner chaques joueurs.", "snackerror");
             valid = false;
-        }
-        else {
+        } else {
             jsonPlayer[i] = player.value;
         }
 
         if (color.value == "0") {
             showSnackBar(3000, "Veuillez sélectionner chaques couleurs.", "snackerror");
             valid = false;
-        }
-        else {
+        } else {
             jsonColor[i] = color.value;
         }
 
@@ -262,65 +260,67 @@ function submitForm() {
 
 
         fetch("/createGame", {
-            method: 'POST',
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                jsonData
-            }),
-            mode: 'cors',
-            cache: 'default'
-        }).then(function (response) {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    jsonData
+                }),
+                mode: 'cors',
+                cache: 'default'
+            }).then(function(response) {
 
-            var contentType = response.headers.get("content-type");
-            if (contentType && contentType.indexOf("application/json") !== -1) {
+                var contentType = response.headers.get("content-type");
+                if (contentType && contentType.indexOf("application/json") !== -1) {
 
-                /*
-                return response.text().then(function (res) {
-                    console.log(res);
-                    //window.location.href = "/game?partyId=" + res[partyId];
-                })*/
-                return response.json().then(function (json) {
+                    /*
+                    return response.text().then(function (res) {
+                        console.log(res);
+                        //window.location.href = "/game?partyId=" + res[partyId];
+                    })*/
+                    return response.json().then(function(json) {
 
-                    if (json.status === "success") {
-                        showSnackBar(3000, "Partie créée avec succès", "snacksuccess");
+                        if (json.status === "success") {
+                            showSnackBar(3000, "Partie créée avec succès", "snacksuccess");
 
-                        let conn = new WebSocket('ws://framework.local:8080');
+                            let conn = new WebSocket('ws://framework.local:8080');
 
-                        console.log(getCookie('PHPSESSID'));
-                        console.log(json);
+                            console.log(getCookie('PHPSESSID'));
+                            console.log(json);
 
-                        conn.onopen = function (e) {
-                            console.log("Connection established!");
+                            conn.onopen = function(e) {
+                                console.log("Connection established!");
 
-                            let jsonDataGame = json.res;
+                                let jsonDataGame = json.res;
 
-                            conn.send(JSON.stringify({
-                                command: "create", message: JSON.stringify({
-                                    jsonDataGame
-                                })
-                            }));
+                                conn.send(JSON.stringify({
+                                    command: "create",
+                                    message: JSON.stringify({
+                                        jsonDataGame
+                                    })
+                                }));
 
-                            window.location.href = "/game/" + json.res.partyId;
-                        };
+                                window.location.href = "/game/" + json.res.partyId;
+                            };
 
 
-                    } else {
-                        showSnackBar(3000, "Erreur :" + json.exception, "snackerror");
-                    }
+                        } else {
+                            showSnackBar(3000, "Erreur :" + json.exception, "snackerror");
+                        }
 
-                });
-            } else {
-                /*return response.text().then(function (res) {
-                    console.log(res);
-                })*/
-                console.log("Le serveur n'a pas renvoyé le résultat attendu.");
-            }
+                    });
+                } else {
+                    /*return response.text().then(function (res) {
+                        console.log(res);
+                    })*/
+                    console.log("Le serveur n'a pas renvoyé le résultat attendu.");
+                }
 
-        })/*.catch(function (error) {
-        console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
-    });*/
+            })
+            /*.catch(function (error) {
+                    console.log('Il y a eu un problème avec l\'opération fetch: ' + error.message);
+                });*/
 
 
     }

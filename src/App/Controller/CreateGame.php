@@ -6,10 +6,15 @@ use Exception;
 use Framework\Controller\AbstractController;
 use Framework\Controller\GameController;
 use Framework\Controller\UsersController;
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception as Mexcpetion;
+use Framework\Config\Config;
 use Framework\Metier\User;
 
 class CreateGame extends AbstractController
 {
+    public $mailer;
     public function __invoke(): string
     {
 
@@ -18,6 +23,7 @@ class CreateGame extends AbstractController
             header('Location: /');
 
 
+        $this->setupMail();
 
         $content = trim(file_get_contents("php://input"));
 
@@ -31,16 +37,18 @@ class CreateGame extends AbstractController
             $players = $data['jsonData']['players'];
             $colors = $data['jsonData']['colors'];
 
-            $userArray = [];
+            $userArray = [];      
+            $partyId = $numberPlayer . rand();
             foreach ($players as $key => $value) {
                 $userController = new UsersController();
                 $user = $userController->getUserByUsername($value);
-
+                
                     $user->setColor($colors[$key]);
                     array_push($userArray , $user);
+                    $this->sendMailTo($user->getEmail(),$value,$partyId);
             }
 
-            $partyId = $numberPlayer . rand();
+     
 
             // fonction sendMail et QRCODE pour join la party 
  
@@ -66,4 +74,43 @@ class CreateGame extends AbstractController
         }
         return json_encode($response_array);
     }
+
+    public function setupMail(){
+
+    $this->mailer = new PHPMailer(true);
+
+    try {
+        // Server settings
+      //  $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER; // for detailed debug output
+        $this->mailer->isSMTP();
+        $this->mailer->Host = 'smtp.gmail.com';
+        $this->mailer->SMTPAuth = true;
+        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $this->mailer->Port = 587;
+    
+        $this->mailer->Username = Config::get('MAIL'); // YOUR gmail email
+        $this->mailer->Password = Config::get('MAIL_PASSWORD'); // YOUR gmail password
+    } catch (Mexcpetion $e) {
+    //   echo "Error in sending email. Mailer Error: {$mail->ErrorInfo}";
+    }
+}
+
+public function sendMailTo(string $mail,string $receiver,string $msg){
+    try {
+            // Sender and recipient settings
+            $this->mailer->setFrom(Config::get('MAIL'),'Game Master');
+            $this->mailer->addAddress($mail, $receiver);
+        
+            // Setting the email content
+            $this->mailer->IsHTML(true);
+            $this->mailer->Subject = "Your game id";
+            $this->mailer->Body = '<h2>Helllo Good Game</h2> <div>'.$msg.'<div>';
+            $this->mailer->AltBody = 'Your id : '.$msg;
+        
+            $this->mailer->send();
+            //echo "Email message sent.";
+   } catch (Mexcpetion $e) {
+    echo "Error in sending email. Mailer Error: {$this->mailer->ErrorInfo}";
+}
+}
 }
