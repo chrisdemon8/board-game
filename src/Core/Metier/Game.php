@@ -148,7 +148,7 @@ class Game extends Modele
 
     public function increaseConnected(){
         $this->connectedPlayer++;
-        if($this->connectedPlayer>sizeof($this->players))
+        if($this->connectedPlayer>sizeof($this->players)+1)
             throw new Exception('Impossible nombre de joueur');
     }
 
@@ -189,7 +189,7 @@ class Game extends Modele
      */
     public function setMaster(User $Master): void
     {
-       /* try {
+        try {
             if($this->inGame($Master))
             {
                 if (($key = array_search($Master, $this->players)) !== false) {
@@ -201,7 +201,6 @@ class Game extends Modele
         }catch(Exception $e){
             $this->Master=$Master;
         }
-*/
         $this->Master = $Master;
     }
 
