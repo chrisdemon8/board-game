@@ -1,6 +1,22 @@
 .square {
     height: 50px;
     width: 50px;
-    background-color: rgb(128, 128, 128);
     border: 2px solid white;
-  }
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    margin: 0;
+    flex-direction: column;
+}
+
+#board {
+    display: flex;
+}
+
+.player {
+    flex: 1;
+}

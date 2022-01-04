@@ -8,7 +8,9 @@ let board = document.getElementById("board");
 
 let partyId = document.getElementById("partyId").innerHTML.trim();
 
-conn.onopen = function (e) {
+let listColor = { 'noir': "#00131a", 'bleu': '#4dd2ff', 'jaune': '#ffc107', 'rouge': '#b23c17', 'violet': '#8561c5', 'vert': ' #357a38' };
+
+conn.onopen = function(e) {
     console.log("Connection established!");
     subscribe(partyId);
 };
@@ -18,7 +20,7 @@ let createGameButton = document.getElementById("lauchGame");
 createGameButton.disabled = true;
 
 
-conn.onmessage = function (e) {
+conn.onmessage = function(e) {
 
     let webSockeData = JSON.parse(e.data);
 
@@ -47,8 +49,8 @@ function changeLobby(jsonData) {
     currentNumberPlayer.textContent = textCurrentNumberPlayer;
 
     if (textNumberPlayer == textCurrentNumberPlayer) {
-        createGameButton.disabled = false; 
-        createGameButton.addEventListener("click", lauchGame(gameObject)); 
+        createGameButton.disabled = false;
+        createGameButton.addEventListener("click", lauchGame(gameObject));
     }
 
 }
@@ -68,12 +70,17 @@ function lauchGame(gameObject) {
 function createBoard(gameObject) {
     let box;
 
-    for (let player = 0; player < gameObject["players"].length; player++) {
-        ligne = document.createElement("DIV");
 
+
+    for (let player = 0; player < gameObject["players"].length; player++) {
+
+        let colorPlayer = listColor[gameObject["players"][player]["color"]];
+        ligne = document.createElement("DIV");
+        ligne.classList.add("player");
         for (let i = 0; i < 40; i++) {
             box = document.createElement("DIV");
             box.classList.add("square");
+            box.style.backgroundColor = colorPlayer;
             ligne.appendChild(box);
         }
 
