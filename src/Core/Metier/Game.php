@@ -102,7 +102,7 @@ class Game extends Modele
         if (!in_array($player, $this->players))
             if(isset($this->Master))
                 if($player!=$this->Master)
-                    throw new Exception("Ce joueurs n'est pas dans la partie");
+                    throw new Exception("Ce joueurs n'est pas le Master");
             else
                 throw new Exception("Ce joueurs n'est pas dans la partie");
         return true;
