@@ -66,9 +66,11 @@ class ChatController implements MessageComponentInterface
                         foreach ($this->subscriptions as $id => $channel) {
                             if ($channel == $target) {
 
+                                $currentGame->increaseConnected(); 
+
                                 // ICI stock de certaine info de l'objet game
-                                $objSend["currentNumberPlayer"] = $currentGame->increaseConnected();
-                                var_dump($currentGame->getPlayers());
+                                $objSend["currentNumberPlayer"] = $currentGame->getConnectedPlayer();  
+                                var_dump($currentGame->getConnectedPlayer()); 
                                 $objSend["numberPlayer"] = count($currentGame->getPlayers());
                                 $objSend["games"] = $currentGame->jsonSerialize();
 
