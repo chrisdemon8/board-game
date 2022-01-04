@@ -8,8 +8,8 @@ use Framework\Metier\Game;
 use Framework\Metier\User;
 use Ratchet\MessageComponentInterface;
 use Ratchet\ConnectionInterface;
- 
- 
+
+
 class ChatController implements MessageComponentInterface
 {
     protected $clients;
@@ -21,17 +21,16 @@ class ChatController implements MessageComponentInterface
         $this->clients = new \SplObjectStorage;
         $this->subscriptions = [];
         $this->users = [];
-        $this->games = []; 
+        $this->games = [];
     }
 
     public function onOpen(ConnectionInterface $conn)
-    { 
-       // $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
-        
-        
+    {
+        // $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
+
         // Store the new connection to send messages to later 
         $this->clients->attach($conn);
-        $this->users[$conn->resourceId] = ['connection' => $conn];
+
 
         echo "New connection! ({$conn->resourceId})\n";
     }
@@ -41,29 +40,43 @@ class ChatController implements MessageComponentInterface
         //$session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
 
         $data = json_decode($msg);
+
         switch ($data->command) {
             case "subscribe":
-                $this->subscriptions[$conn->resourceId] = $data->channel;
-                $currentGame = $this->games[$data->channel];
+                $this->users[$conn->resourceId] = ['connection' => $conn, 'username' => $data->username];
 
-                // on renvoie les info à tout les souscrivants au channel pour actualise l'affichage quand qqun souscrit pour actualiser le nombre de joueur connecté
-                // mieux gérer avec le futur objet game 
-                if (isset($this->subscriptions[$conn->resourceId])) {
-                    $target = $this->subscriptions[$conn->resourceId];
-                    echo 'partie concernée ' . $target . ' | ';
-                    foreach ($this->subscriptions as $id => $channel) {
-                        if ($channel == $target) {
+                $alreadyExist = false;
 
-                            // ICI stock de certaine info de l'objet game
-                            $objSend["currentNumberPlayer"] =  count($currentGame->getPlayers());
-                            $objSend["numberPlayer"] = count($currentGame->getPlayers());
-                            $objSend["games"] = $currentGame->jsonSerialize();
+                foreach ($this->subscriptions as $key => $value) {
+                    if ($this->users[$key]['username'] === $data->username) {
+                        $alreadyExist = true;
+                    }
+                }
 
-                            $this->users[$id]['connection']->send(json_encode($objSend));
+                if (!$alreadyExist) {
+                    $this->subscriptions[$conn->resourceId] = $data->channel;
+
+                    $currentGame = $this->games[$data->channel];
+
+                    // on renvoie les info à tout les souscrivants au channel pour actualise l'affichage quand qqun souscrit pour actualiser le nombre de joueur connecté
+                    // mieux gérer avec le futur objet game 
+                    if (isset($this->subscriptions[$conn->resourceId])) {
+                        $target = $this->subscriptions[$conn->resourceId];
+                        echo 'partie concernée ' . $target . ' | ';
+                        foreach ($this->subscriptions as $id => $channel) {
+                            if ($channel == $target) {
+
+                                // ICI stock de certaine info de l'objet game
+                                $objSend["currentNumberPlayer"] = $currentGame->increaseConnected();
+                                var_dump($currentGame->getPlayers());
+                                $objSend["numberPlayer"] = count($currentGame->getPlayers());
+                                $objSend["games"] = $currentGame->jsonSerialize();
+
+                                $this->users[$id]['connection']->send(json_encode($objSend));
+                            }
                         }
                     }
                 }
-                //   } 
 
                 break;
             case "message":
@@ -76,10 +89,11 @@ class ChatController implements MessageComponentInterface
                         }
                     }
                 }
+                break;
             case "create":
                 $jsonDataGame =  json_decode($data->message);
-               
-               // echo '<pre>';print_r($jsonDataGame->jsonDataGame);
+
+                // echo '<pre>';print_r($jsonDataGame->jsonDataGame);
                 $players = $jsonDataGame->jsonDataGame->players;
                 $colors = $jsonDataGame->jsonDataGame->colors;
                 $partyId = $jsonDataGame->jsonDataGame->partyId;
@@ -90,10 +104,10 @@ class ChatController implements MessageComponentInterface
                 $GameObj->setWinners($game->winners);
                 $GameObj->setScores($game->scores);
                 $GameObj->setMaster(User::Objectify($game->Master));
-                echo '<pre>';
-                print_r($GameObj);
+                /*echo '<pre>';
+                print_r($GameObj);*/
                 $this->games[$partyId] = $GameObj;
-
+                break;
         }
 
 
@@ -117,10 +131,17 @@ class ChatController implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $conn)
     {
-       // $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
+        // $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
 
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);
+
+        if (isset($this->subscriptions[$conn->resourceId])) {
+            $channel = $this->subscriptions[$conn->resourceId];
+            $currentGame = $this->games[$channel];
+            $currentGame->decreaseConnected();
+        }
+
         unset($this->users[$conn->resourceId]);
         unset($this->subscriptions[$conn->resourceId]);
         echo "Connection {$conn->resourceId} has disconnected\n";

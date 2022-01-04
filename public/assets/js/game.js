@@ -42,7 +42,7 @@ conn.onmessage = function (e) {
 
 function subscribe(channel) {
     console.log("join : ", channel)
-    conn.send(JSON.stringify({ command: "subscribe", channel: channel }));
+    conn.send(JSON.stringify({ command: "subscribe", channel: channel , username: currentUsername}));
 }
 
  
