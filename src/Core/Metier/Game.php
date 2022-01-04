@@ -19,13 +19,14 @@ class Game extends Modele
     protected int $connectedPlayer;
     const winPoint = 48;
 
-    public function nextPlayer():void{
+    public function nextPlayer(): void
+    {
 
-        $temporaryPlayer=next($this->players);
-        if($temporaryPlayer==false)
-            $this->currentPlayer=reset($this->players);
+        $temporaryPlayer = next($this->players);
+        if ($temporaryPlayer == false)
+            $this->currentPlayer = reset($this->players);
         else
-        $this->currentPlayer=$temporaryPlayer;
+            $this->currentPlayer = $temporaryPlayer;
     }
 
     public function __construct(int $id)
@@ -33,7 +34,7 @@ class Game extends Modele
         $this->id = $id;
         $this->players = [];
         $this->winners = [];
-        $this->connectedPlayer=0;
+        $this->connectedPlayer = 0;
     }
 
     public static function Objectify($data): Game
@@ -46,17 +47,19 @@ class Game extends Modele
         return $Game;
     }
 
-    public function setCurrentQuestion(Question $question){
-        $this->currentQuestion=$question;
+    public function setCurrentQuestion(Question $question)
+    {
+        $this->currentQuestion = $question;
     }
 
-    public function getCurrentQuestion(): Question{
+    public function getCurrentQuestion(): Question
+    {
         return $this->currentQuestion;
     }
 
     public function addPlayer(User $player): void
     {
-        if(!$this->notInGame($player))
+        if (!$this->notInGame($player))
             throw new Exception("Ce joueurs est déjà dans la partie");
         else {
         
@@ -71,8 +74,8 @@ class Game extends Modele
 
     public function addPlayersArray(array $players): void
     {
-        foreach ($players as $player){
-            $user= User::Objectify($player);
+        foreach ($players as $player) {
+            $user = User::Objectify($player);
             $this->addPlayer($user);
         }
     }
@@ -98,13 +101,24 @@ class Game extends Modele
             $this->scores[$player->getUsername()] += $nb;
     }
 
+    public function inPlayer(User $player):bool{
+ 
+        foreach ($this->players as $localPlayer) {
+            if($localPlayer->getUsername() ==$player->getUsername()){
+                return true; 
+            }
+        }
+
+        return false; 
+    }
+
     public function inGame(User $player): bool
-    {
-        if (!in_array($player, $this->players)){
-            if(isset($this->Master))
-                if($player!=$this->Master)
+    { 
+        if (!$this->inPlayer($player))
+            if (isset($this->Master)) {
+                if ($player->getUsername() != $this->Master->getUsername())
                     throw new Exception("Ce joueurs n'est pas le Master");
-        }else
+            } else
                 throw new Exception("Ce joueurs n'est pas dans la partie");
         return true;
     }
@@ -116,50 +130,54 @@ class Game extends Modele
         return true;
     }
 
-    public function inQuestion(Answer $Answer){
+    public function inQuestion(Answer $Answer)
+    {
         if (!in_array($Answer, $this->currentQuestion->getAnswers()))
             throw new Exception("Cet réponse n'est pas dans la question");
         return true;
     }
 
-    public function response(Answer $Answer):void
+    public function response(Answer $Answer): void
     {
-        if ($this->inQuestion($Answer))
-            {
-                if($Answer->isValid())
-                    $this->addPoints((int) $this->currentQuestion->getLevel(),$this->currentPlayer);
-                else
-                    $this->removePoints((int) $this->currentQuestion->getLevel(),$this->currentPlayer);
-            }
-        $this->nextPlayer();    
-    }
-
-    public function addAnswered(Question $question){
-        array_push($this->answeredQuestion,$question);
-    }
-
-    public function inAnswered(Question $question){
-        return in_array($question,$this->answeredQuestion);
-    }
-
-    public function responseManual(bool $choice):void
-    {
-            if($choice)
-                $this->addPoints((int) $this->currentQuestion->getLevel(),$this->currentPlayer);
+        if ($this->inQuestion($Answer)) {
+            if ($Answer->isValid())
+                $this->addPoints((int) $this->currentQuestion->getLevel(), $this->currentPlayer);
             else
-                $this->removePoints((int) $this->currentQuestion->getLevel(),$this->currentPlayer);
-        $this->nextPlayer();    
+                $this->removePoints((int) $this->currentQuestion->getLevel(), $this->currentPlayer);
+        }
+        $this->nextPlayer();
     }
 
-    public function increaseConnected(){
+    public function addAnswered(Question $question)
+    {
+        array_push($this->answeredQuestion, $question);
+    }
+
+    public function inAnswered(Question $question)
+    {
+        return in_array($question, $this->answeredQuestion);
+    }
+
+    public function responseManual(bool $choice): void
+    {
+        if ($choice)
+            $this->addPoints((int) $this->currentQuestion->getLevel(), $this->currentPlayer);
+        else
+            $this->removePoints((int) $this->currentQuestion->getLevel(), $this->currentPlayer);
+        $this->nextPlayer();
+    }
+
+    public function increaseConnected()
+    {
         $this->connectedPlayer++;
-        if($this->connectedPlayer>sizeof($this->players)+1)
+        if ($this->connectedPlayer > sizeof($this->players) + 1)
             throw new Exception('Impossible nombre de joueur');
     }
 
-    public function decreaseConnected(){
+    public function decreaseConnected()
+    {
         $this->connectedPlayer--;
-        if($this->connectedPlayer<0)
+        if ($this->connectedPlayer < 0)
             throw new Exception('Impossible nombre de joueur');
     }
 
@@ -195,16 +213,15 @@ class Game extends Modele
     public function setMaster(User $Master): void
     {
         try {
-            if($this->inGame($Master))
-            {
+            if ($this->inGame($Master)) {
                 if (($key = array_search($Master, $this->players)) !== false) {
                     array_splice($this->players, $key, 1);
                 }
 
-                $this->Master=$Master;
+                $this->Master = $Master;
             }
-        }catch(Exception $e){
-            $this->Master=$Master;
+        } catch (Exception $e) {
+            $this->Master = $Master;
         }
         $this->Master = $Master;
     }
