@@ -46,6 +46,13 @@ class QuestionController extends AbstractControllerBdd
         return  $Question;
     }
 
+    public function getNbLevel(int $level):int{
+        $request = $this->connection->prepare('SELECT COUNT(*) FROM question WHERE level = :level');
+        $request->bindValue(':level', $level);
+        $number = $request->fetch();
+        return $number;
+    }
+
     private function getAnswers(int $id_question)
     {
         $AnswerCont = new AnswerController();

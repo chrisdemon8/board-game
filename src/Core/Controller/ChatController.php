@@ -26,19 +26,19 @@ class ChatController implements MessageComponentInterface
 
     public function onOpen(ConnectionInterface $conn)
     { 
-        $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
+       // $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
         
         
         // Store the new connection to send messages to later 
         $this->clients->attach($conn);
-        $this->users[$conn->resourceId] = ['connection' => $conn, 'session' => $session];
+        $this->users[$conn->resourceId] = ['connection' => $conn];
 
         echo "New connection! ({$conn->resourceId})\n";
     }
 
     public function onMessage(ConnectionInterface $conn, $msg)
     {
-        $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
+        //$session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
 
         $data = json_decode($msg);
         switch ($data->command) {
@@ -78,26 +78,22 @@ class ChatController implements MessageComponentInterface
                 }
             case "create":
                 $jsonDataGame =  json_decode($data->message);
-
+               
+               // echo '<pre>';print_r($jsonDataGame->jsonDataGame);
                 $players = $jsonDataGame->jsonDataGame->players;
                 $colors = $jsonDataGame->jsonDataGame->colors;
                 $partyId = $jsonDataGame->jsonDataGame->partyId;
+                $game = $jsonDataGame->jsonDataGame->game;
 
-                $userArray = [];
+                $GameObj = new Game($partyId);
+                $GameObj->addPlayersArray($game->players);
+                $GameObj->setWinners($game->winners);
+                $GameObj->setScores($game->scores);
+                $GameObj->setMaster(User::Objectify($game->Master));
+                echo '<pre>';
+                print_r($GameObj);
+                $this->games[$partyId] = $GameObj;
 
-                foreach ($players as $key => $value) {
-                    $userController = new UsersController();
-                    $user = $userController->getUserByUsername($value);
-
-                    if ($user instanceof User) {
-                        $user->setColor($colors[$key]);
-                        $userArray[] = $user;
-                    }
-                }
-
-                $gameController = new GameController();
-                $game = $gameController->newGame($partyId, $userArray);
-                $this->games[$jsonDataGame->jsonDataGame->partyId] = $game;
         }
 
 
@@ -121,7 +117,7 @@ class ChatController implements MessageComponentInterface
 
     public function onClose(ConnectionInterface $conn)
     {
-        $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
+       // $session =  $this->getPHPSESSID($conn->httpRequest->getHeader('Cookie'));
 
         // The connection is closed, remove it, as we can no longer send it messages
         $this->clients->detach($conn);

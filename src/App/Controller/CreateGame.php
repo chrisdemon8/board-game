@@ -32,16 +32,12 @@ class CreateGame extends AbstractController
             $colors = $data['jsonData']['colors'];
 
             $userArray = [];
-
             foreach ($players as $key => $value) {
                 $userController = new UsersController();
                 $user = $userController->getUserByUsername($value);
 
-                if ($user instanceof User) {
                     $user->setColor($colors[$key]);
-                    $userArray[] = $user;
-                } else
-                    throw new Exception("Données client corrompues");
+                    array_push($userArray , $user);
             }
 
             $partyId = $numberPlayer . rand();
@@ -54,14 +50,13 @@ class CreateGame extends AbstractController
 
         header('Content-type: application/json');
 
-        try { 
+        try {
             $gameController = new GameController();
             $game = $gameController->newGame($partyId, $userArray);
- 
- 
+            $game->setMaster($userArray[0]);
             $response_array['status'] = 'success';
             $response_array['res']['partyId'] = $partyId;
-            $response_array['res']['numberPlayer'] = $numberPlayer;
+            $response_array['res']['scores'] =$userArray;
             $response_array['res']['players'] = $players;
             $response_array['res']['colors'] = $colors;
             $response_array['res']['game'] = $game->jsonSerialize();

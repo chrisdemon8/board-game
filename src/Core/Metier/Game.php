@@ -13,6 +13,7 @@ class Game extends Modele
     protected array $winners;
     protected array $scores;
     protected User $currentPlayer;
+    protected User $Master;
     protected Question $currentQuestion;
     protected array $answeredQuestion;
     const winPoint = 48;
@@ -32,7 +33,7 @@ class Game extends Modele
         $this->players = [];
         $this->winners = [];
     }
-  
+
     public static function Objectify($data): Game
     {
         $Game = new Game(0);
@@ -55,10 +56,22 @@ class Game extends Modele
     {
         if(!$this->notInGame($player))
             throw new Exception("Ce joueurs est déjà dans la partie");
-        array_push($this->players, $player);
-        $this->scores[$player->getUsername()] = 0;
-        if(!isset($this->currentPlayer))
-            $this->currentPlayer=current($this->players);
+        else {
+            array_push($this->players, $player);
+            $this->scores[$player->getUsername()] = 0;
+
+            if (!isset($this->currentPlayer))
+                $this->currentPlayer = current($this->players);
+        }
+    }
+
+
+    public function addPlayersArray(array $players): void
+    {
+        foreach ($players as $player){
+            $user= User::Objectify($player);
+            $this->addPlayer($user);
+        }
     }
 
     public function addPoints(int $nb, User $player): void
@@ -129,6 +142,51 @@ class Game extends Modele
             else
                 $this->removePoints((int) $this->currentQuestion->getLevel(),$this->currentPlayer);
         $this->nextPlayer();    
+    }
+
+    /**
+     * @return User
+     */
+    public function getMaster(): User
+    {
+        return $this->Master;
+    }
+
+    /**
+     * @param User $Master
+     */
+    public function setMaster(User $Master): void
+    {
+        try {
+            if($this->inGame($Master))
+            {
+                if (($key = array_search($Master, $this->players)) !== false) {
+                    array_splice($this->players, $key, 1);
+                }
+                $this->Master=$Master;
+            }
+        }catch(Exception $e){
+            $this->Master=$Master;
+        }
+
+
+        $this->Master = $Master;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAnsweredQuestion(): array
+    {
+        return $this->answeredQuestion;
+    }
+
+    /**
+     * @param array $answeredQuestion
+     */
+    public function setAnsweredQuestion(array $answeredQuestion): void
+    {
+        $this->answeredQuestion = $answeredQuestion;
     }
 
     /**
@@ -208,15 +266,14 @@ class Game extends Modele
     /**
      * @param array $scores
      */
-    public function setScores(array $scores): void
+    public function setScores($scores): void
     {
-        $this->scores = $scores;
+        $this->scores = (array) $scores;
     }
 
 
     public function allDataSet(): bool
     {
-        // TODO: Implement allDataSet() method.
         return isset($id) && isset($this->players);
     }
 }

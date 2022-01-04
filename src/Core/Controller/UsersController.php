@@ -34,7 +34,7 @@ class UsersController extends AbstractControllerBdd
     {
         $request = $this->connection->prepare('SELECT * FROM user WHERE username = :username');
 
-        $request->bindValue(':username', $username, PDO::PARAM_INT);
+        $request->bindValue(':username', $username);
 
         $request->execute();
 

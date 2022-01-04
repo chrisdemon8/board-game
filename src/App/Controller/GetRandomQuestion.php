@@ -23,12 +23,14 @@ class GetRandomQuestion extends AbstractController
         $user2->setUsername('chris');
         $user3=new User();
         $user3->setUsername('chrisdemon8');
-        $gameCont->newGame(165411354,$user,$user2,$user3);
-        $question=$gameCont->getQuestion($level);
+        $users=[];
+        array_push($users,$user,$user2,$user3);
+        $gameCont->newGame(165411354,$users);
+      //  $question=$gameCont->getQuestion($level);
         //$gameCont
-        $answer=$question->getAnswers()[0];
-        $gameCont->responseManual(true);
-        $gameCont->getGame()->addPoints(50,$user2);
+       // $answer=$question->getAnswers()[0];
+       // $gameCont->responseManual(true);
+       // $gameCont->getGame()->addPoints(50,$user2);
         echo '<pre>';
        // print_r($Question);
 
