@@ -53,11 +53,25 @@ class ChatController implements MessageComponentInterface
                     }
                 }
 
+
+                $currentGame = $this->games[$data->channel];
+
+                $UserController = new UsersController();
+                $user = $UserController->getUserByUsername($data->username);
+ 
+
+                try { 
+                    $currentGame->inGame($user);
+                } catch (\Exception $th) {
+                    $alreadyExist = true;  
+                    var_dump($th->getMessage()); 
+                }
+ 
                 if (!$alreadyExist) {
-                    $this->subscriptions[$conn->resourceId] = $data->channel;
+ 
+                    $this->subscriptions[$conn->resourceId] = $data->channel; 
 
-                    $currentGame = $this->games[$data->channel];
-
+                    $currentGame->increaseConnected();
                     // on renvoie les info à tout les souscrivants au channel pour actualise l'affichage quand qqun souscrit pour actualiser le nombre de joueur connecté
                     // mieux gérer avec le futur objet game 
                     if (isset($this->subscriptions[$conn->resourceId])) {
@@ -66,28 +80,28 @@ class ChatController implements MessageComponentInterface
                         foreach ($this->subscriptions as $id => $channel) {
                             if ($channel == $target) {
 
-                                $currentGame->increaseConnected(); 
-
-                                // ICI stock de certaine info de l'objet game
-                                $objSend["currentNumberPlayer"] = $currentGame->getConnectedPlayer();  
-                                var_dump($currentGame->getConnectedPlayer()); 
-                                $objSend["numberPlayer"] = count($currentGame->getPlayers());
+                                $objSend["type"]="subcription";   
+                                $objSend["currentNumberPlayer"] = $currentGame->getConnectedPlayer(); 
+                                $objSend["numberPlayer"] = count($currentGame->getPlayers()) + 1;
                                 $objSend["games"] = $currentGame->jsonSerialize();
 
                                 $this->users[$id]['connection']->send(json_encode($objSend));
                             }
                         }
                     }
-                }
-
+                }  
                 break;
             case "message":
                 if (isset($this->subscriptions[$conn->resourceId])) {
                     $target = $this->subscriptions[$conn->resourceId];
                     echo 'partie concernée ' . $target . ' | ';
+
+                    $json["type"]="message"; 
+                    $json["msg"] = $data->message;
+                    
                     foreach ($this->subscriptions as $id => $channel) {
                         if ($channel == $target && $id != $conn->resourceId) {
-                            $this->users[$id]['connection']->send($data->message);
+                            $this->users[$id]['connection']->send(json_encode($json));
                         }
                     }
                 }
@@ -106,7 +120,7 @@ class ChatController implements MessageComponentInterface
                 $GameObj->setWinners($game->winners);
                 $GameObj->setScores($game->scores);
                 $GameObj->setMaster(User::Objectify($game->Master));
-                /*echo '<pre>';
+               /* echo '<pre>';
                 print_r($GameObj);*/
                 $this->games[$partyId] = $GameObj;
                 break;
@@ -142,7 +156,7 @@ class ChatController implements MessageComponentInterface
             $channel = $this->subscriptions[$conn->resourceId];
             $currentGame = $this->games[$channel];
             $currentGame->decreaseConnected();
-        }
+        }  
 
         unset($this->users[$conn->resourceId]);
         unset($this->subscriptions[$conn->resourceId]);

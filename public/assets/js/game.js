@@ -28,24 +28,26 @@ conn.onmessage = function (e) {
 
     console.log(jsonData);
 
-    let textNumberPlayer = jsonData["numberPlayer"];
-    let textCurrentNumberPlayer = jsonData["currentNumberPlayer"];
+    switch (jsonData["type"]) {
+        case "subcription":
+            let textNumberPlayer = jsonData["numberPlayer"];
+            let textCurrentNumberPlayer = jsonData["currentNumberPlayer"];
 
-    numberPlayer.textContent = textNumberPlayer;
-    currentNumberPlayer.textContent = textCurrentNumberPlayer;
-
-    /*
-    for (var key in jsonData) {
-        console.log(jsonData[key]);
-    }*/
+            numberPlayer.textContent = textNumberPlayer;
+            currentNumberPlayer.textContent = textCurrentNumberPlayer;
+            break; 
+        default:
+            break;
+    }
+ 
 };
 
 function subscribe(channel) {
     console.log("join : ", channel)
-    conn.send(JSON.stringify({ command: "subscribe", channel: channel , username: currentUsername}));
+    conn.send(JSON.stringify({ command: "subscribe", channel: channel, username: currentUsername }));
 }
 
- 
+
 function getCookie(cname) {
     var name = cname + "=";
     var ca = document.cookie.split(';');
