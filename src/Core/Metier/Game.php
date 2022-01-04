@@ -99,7 +99,7 @@ class Game extends Modele
 
     public function inGame(User $player): bool
     {
-        if (!in_array($player, $this->players))
+        if (!in_array($player, $this->players) && $player!=$this->Master)
             throw new Exception("Ce joueurs n'est pas dans la partie");
         return true;
     }
