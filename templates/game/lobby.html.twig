@@ -7,18 +7,20 @@
 {% block css %}
 	<link rel="stylesheet" href="/assets/css/basicpage.css"/>
 	<link rel="stylesheet" href="/assets/css/lobby.css"/>
+	<link rel="stylesheet" href="/assets/css/board.css"/>
 {% endblock %}
 
 
 {% block body %}
 	<div style="display:none;" id="fast">{{ session.user.username }}</div>
-		
 
-		<div class="container">
-			<h1>Party :
-				<span id="partyId">
-					{{ id }}</span>
-			</h1>
+
+	<div class="container">
+		<h1>Party :
+			<span id="partyId">
+				{{ id }}</span>
+		</h1>
+		<div id="lobby">
 
 			<div>
 				En attente des joueurs :
@@ -34,14 +36,18 @@
 			<button id='lauchGame'>Lancer la partie</button>
 
 		</div>
+		<div id="board"> 
+		</div>
 
-		<script></script>
+	</div>
+
+	<script></script>
 
 
-	{% endblock %}
+{% endblock %}
 
 
-	{% block bottom_js %}
-		<script type="text/javascript" src="/assets/js/game.js"></script>
+{% block bottom_js %}
+	<script type="text/javascript" src="/assets/js/game.js"></script>
 
-	{% endblock %}
+{% endblock %}

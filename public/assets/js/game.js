@@ -2,13 +2,9 @@ let currentUsername = document.getElementById("fast").innerText;
 
 let conn = new WebSocket('ws://framework.local:8080');
 
-/*
-0	CONNECTING	La socket a été créée. La connexion n'est pas encore ouverte.
-1	OPEN	La connexion est ouverte et prête pour la communication.
-2	CLOSING	La connexion est en cours de fermeture.
-3	CLOSED	La connexion est fermée ou n'a pas pu être ouverte.
-*/
+let lobby = document.getElementById("lobby");
 
+let board = document.getElementById("board");
 
 let partyId = document.getElementById("partyId").innerHTML.trim();
 
@@ -18,29 +14,72 @@ conn.onopen = function (e) {
 };
 
 
+let createGameButton = document.getElementById("lauchGame");
+createGameButton.disabled = true;
+
+
 conn.onmessage = function (e) {
 
-    let numberPlayer = document.getElementById("numberPlayer");
+    let webSockeData = JSON.parse(e.data);
 
-    let currentNumberPlayer = document.getElementById("currentNumberPlayer");
 
-    let jsonData = JSON.parse(e.data);
 
-    console.log(jsonData);
-
-    switch (jsonData["type"]) {
+    switch (webSockeData["type"]) {
         case "subcription":
-            let textNumberPlayer = jsonData["numberPlayer"];
-            let textCurrentNumberPlayer = jsonData["currentNumberPlayer"];
-
-            numberPlayer.textContent = textNumberPlayer;
-            currentNumberPlayer.textContent = textCurrentNumberPlayer;
-            break; 
+            changeLobby(webSockeData);
+            break;
         default:
             break;
     }
- 
+
 };
+
+
+
+function changeLobby(jsonData) {
+    let textNumberPlayer = jsonData["numberPlayer"];
+    let textCurrentNumberPlayer = jsonData["currentNumberPlayer"];
+
+    console.log(jsonData);
+    let gameObject = jsonData['games'];
+
+    numberPlayer.textContent = textNumberPlayer;
+    currentNumberPlayer.textContent = textCurrentNumberPlayer;
+
+    if (textNumberPlayer == textCurrentNumberPlayer) {
+        createGameButton.disabled = false; 
+        createGameButton.addEventListener("click", lauchGame(gameObject)); 
+    }
+
+}
+
+
+function cleanElement(elementHTML) {
+    elementHTML.innerHTML = "";
+}
+
+
+function lauchGame(gameObject) {
+    cleanElement(lobby);
+    createBoard(gameObject);
+}
+
+
+function createBoard(gameObject) {
+    let box;
+
+    for (let player = 0; player < gameObject["players"].length; player++) {
+        ligne = document.createElement("DIV");
+
+        for (let i = 0; i < 40; i++) {
+            box = document.createElement("DIV");
+            box.classList.add("square");
+            ligne.appendChild(box);
+        }
+
+        board.appendChild(ligne);
+    }
+}
 
 function subscribe(channel) {
     console.log("join : ", channel)
