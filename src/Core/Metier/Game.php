@@ -16,6 +16,7 @@ class Game extends Modele
     protected User $Master;
     protected Question $currentQuestion;
     protected array $answeredQuestion;
+    protected int $connectedPlayer;
     const winPoint = 48;
 
     public function nextPlayer():void{
@@ -32,6 +33,7 @@ class Game extends Modele
         $this->id = $id;
         $this->players = [];
         $this->winners = [];
+        $this->connectedPlayer=0;
     }
 
     public static function Objectify($data): Game
@@ -144,6 +146,36 @@ class Game extends Modele
         $this->nextPlayer();    
     }
 
+    public function increaseConnected(){
+        $this->connectedPlayer++;
+        if($this->connectedPlayer>sizeof($this->players))
+            throw new Exception('Impossible nombre de joueur');
+    }
+
+    public function decreaseConnected(){
+        $this->connectedPlayer--;
+        if($this->connectedPlayer<0)
+            throw new Exception('Impossible nombre de joueur');
+    }
+
+    /**
+     * @return int
+     */
+    public function getConnectedPlayer(): int
+    {
+        return $this->connectedPlayer;
+    }
+
+    /**
+     * @param int $connectedPlayer
+     */
+    public function setConnectedPlayer(int $connectedPlayer): void
+    {
+        $this->connectedPlayer = $connectedPlayer;
+    }
+
+
+
     /**
      * @return User
      */
@@ -157,19 +189,19 @@ class Game extends Modele
      */
     public function setMaster(User $Master): void
     {
-        try {
+       /* try {
             if($this->inGame($Master))
             {
                 if (($key = array_search($Master, $this->players)) !== false) {
                     array_splice($this->players, $key, 1);
                 }
+
                 $this->Master=$Master;
             }
         }catch(Exception $e){
             $this->Master=$Master;
         }
-
-
+*/
         $this->Master = $Master;
     }
 
@@ -204,6 +236,8 @@ class Game extends Modele
     {
         $this->winners = $winners;
     }
+
+
 
 
     /**
