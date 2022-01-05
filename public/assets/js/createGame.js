@@ -126,6 +126,7 @@ function change(val) {
 
 
         let selectUser = document.createElement("input");
+        selectUser.type = 'text';
         selectUser.id = 'username' + i;
         selectUser.addEventListener(
             'change',
@@ -298,6 +299,8 @@ function submitForm() {
         'players': jsonPlayer,
         'colors': jsonColor
     }
+
+    console.log(jsonData);
 
     if (valid) {
 
