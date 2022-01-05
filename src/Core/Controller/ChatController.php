@@ -138,16 +138,36 @@ class ChatController implements MessageComponentInterface
 
                     $gameController = new GameController();
                     $gameController->setGame($currentGame);
- 
-                    $gameController->responseManual($data->response); 
 
-                    var_dump($currentGame); 
-   
+                    $gameController->responseManual($data->response);
+
+                    var_dump($currentGame);
+
                     if (isset($this->subscriptions[$conn->resourceId])) {
                         $target = $this->subscriptions[$conn->resourceId];
                         foreach ($this->subscriptions as $id => $channel) {
                             if ($channel == $target) {
                                 $objSend["type"] = "next";
+                                $objSend["games"] = $currentGame->jsonSerialize();
+                                $this->users[$id]['connection']->send(json_encode($objSend));
+                            }
+                        }
+                    } else
+                        echo "Partie non existante";
+                }
+                break; 
+            case "showAnswer":
+                if (isset($this->games[$data->channel])) {
+                    $currentGame = $this->games[$data->channel];
+
+                    $gameController = new GameController();
+                    $gameController->setGame($currentGame);
+                    
+                    if (isset($this->subscriptions[$conn->resourceId])) {
+                        $target = $this->subscriptions[$conn->resourceId];
+                        foreach ($this->subscriptions as $id => $channel) {
+                            if ($channel == $target) {
+                                $objSend["type"] = "showAnswer";
                                 $objSend["games"] = $currentGame->jsonSerialize();
                                 $this->users[$id]['connection']->send(json_encode($objSend));
                             }

@@ -6,15 +6,32 @@ let lobby = document.getElementById("lobby");
 
 let board = document.getElementById("board");
 
+let boardStatus = document.getElementById("boardStatus");
+
+let scoreboard = document.getElementById("scoreboard");
+
 let info = document.getElementById("info");
 
 let difficulty = document.getElementById("difficulty");
+
+let roundPlayer = document.getElementById("roundPlayer");
+
+let answerForPlayer = document.getElementById("answerForPlayer");
+answerForPlayer.style.display = "none";
+
+roundPlayer.style.display = "none";
 
 difficulty.style.display = "none";
 
 let question = document.getElementById("question");
 
 question.style.display = "none";
+
+let possibleAnswer = document.getElementById("possibleAnswer");
+
+possibleAnswer.style.display = "none";
+
+let answer = document.getElementById("answer");
 
 let difficultyPseudo = document.getElementById("pseudo");
 
@@ -27,6 +44,9 @@ let spanCurrentPlayer = document.getElementById("currentPlayer");
 
 let goodButton = document.getElementById("good");
 let badButton = document.getElementById("bad");
+let showAnswer = document.getElementById("showAnswer");
+
+showAnswer.addEventListener("click", () => { showAnswerFunction() });
 
 goodButton.addEventListener("click", () => { evalAnswer(true) });
 badButton.addEventListener("click", () => { evalAnswer(false) });
@@ -81,6 +101,9 @@ conn.onmessage = function(e) {
         case "next":
             changeBoard(webSockeData);
             break;
+        case "showAnswer":
+            changeBoard(webSockeData);
+            break;
         default:
             break;
     }
@@ -95,7 +118,6 @@ function changeLobby(jsonData) {
     let textNumberPlayer = jsonData["numberPlayer"];
     let textCurrentNumberPlayer = jsonData["currentNumberPlayer"];
 
-    console.log(jsonData);
     let gameObject = jsonData['games'];
 
     numberPlayer.textContent = textNumberPlayer;
@@ -121,10 +143,9 @@ function lauchGame(gameObject) {
 
 function createBoard(gameObject) {
 
-    console.log(gameObject);
     info.innerHTML = "";
     board.innerHTML = "";
-
+    roundPlayer.style.display = "block";
 
     spanCurrentPlayer.textContent = gameObject["currentPlayer"]["username"];
 
@@ -133,18 +154,49 @@ function createBoard(gameObject) {
     score.textContent = "";
 
 
+    if (gameObject["winners"].length > 0) {
+        console.log("Le gagnant est : " + gameObject["winners"][0]["username"]);
+    }
+
 
     divTitle = document.createElement("DIV");
 
     if (gameObject["Master"]["username"] == currentUsername) {
-        pMaster = document.createElement("P");
-        pMaster.textContent += "Vous (" + currentUsername + ") êtes le maître du jeu ! ";
 
+        // ajout du master
+        let divMaster = document.createElement("DIV");
+        divMaster.classList.add("circle");
+
+        let pMaster = document.createElement("P");
+        pMaster.classList.add("circle-inner");
+
+        pMaster.textContent = currentUsername.substring(0, 2);
+
+        divMaster.style.backgroundColor = "blue";
+        divMaster.style.border = "6px solid red";
+        divMaster.id = "divMaster";
+        divMaster.appendChild(pMaster);
+        divTitle.appendChild(divMaster);
+
+        // Ajout des joueurs
         gameObject["players"].forEach(element => {
-            pMaster.textContent += "Autre joueurs :" + element["username"] + " ";
-        });
+            let divPlayer = document.createElement("DIV");
+            divPlayer.classList.add("circle");
+            divPlayer.style.backgroundColor = "grey";
+            divPlayer.id = element["username"];
+            let pPlayer = document.createElement("P");
+            pPlayer.classList.add("circle-inner");
+            pPlayer.textContent = element["username"].substring(0, 2);
 
-        divTitle.appendChild(pMaster);
+            if (gameObject["currentPlayer"]["username"] == element["username"]) {
+                divPlayer.style.border = "6px solid #58a700";
+            } else {
+                divPlayer.style.border = "";
+            }
+
+            divPlayer.appendChild(pPlayer);
+            divTitle.appendChild(divPlayer);
+        });
 
         if (gameObject["currentQuestion"] != null) {
             difficulty.style.display = "none";
@@ -154,14 +206,55 @@ function createBoard(gameObject) {
             changeBoard(dataObject);
         }
     } else {
-        pPlayer = document.createElement("P");
-        pPlayer.textContent = gameObject["Master"]["username"] + " est le maître du jeu.";
-        gameObject["players"].forEach(element => {
-            if (element["username"] == currentUsername) {
-                pPlayer.textContent += " Connecté en tant que : " + currentUsername + ".";
-            } else
-                pPlayer.textContent += "Autre joueurs :" + element["username"];
 
+
+        // ajout du master
+        let divMaster = document.createElement("DIV");
+        divMaster.classList.add("circle");
+
+        let pMaster = document.createElement("P");
+        pMaster.classList.add("circle-inner");
+
+        pMaster.textContent = gameObject["Master"]["username"].substring(0, 2);
+        divMaster.style.backgroundColor = "grey";
+        divMaster.style.border = "6px solid red";
+        divMaster.id = "divMaster";
+        divMaster.appendChild(pMaster);
+        divTitle.appendChild(divMaster);
+
+
+
+        gameObject["players"].forEach(element => {
+
+            // ajout joueurs interface
+            let divPlayer = document.createElement("DIV");
+            divPlayer.classList.add("circle");
+            divPlayer.id = element["username"];
+
+            let pPlayer = document.createElement("P");
+            pPlayer.classList.add("circle-inner");
+
+
+
+            if (element["username"] == currentUsername) {
+                pPlayer.textContent = currentUsername.substring(0, 2);
+                divPlayer.style.backgroundColor = "blue";
+            } else {
+                pPlayer.textContent = element["username"].substring(0, 2);
+                divPlayer.style.backgroundColor = "grey";
+            }
+
+            if (gameObject["currentPlayer"]["username"] == element["username"]) {
+                divPlayer.style.border = "6px solid #58a700";
+            } else {
+                divPlayer.style.border = "";
+            }
+
+            divPlayer.appendChild(pPlayer);
+            divTitle.appendChild(divPlayer);
+            // fin ajout
+
+            //chargement de la partie 
 
             if (typeof gameObject["currentQuestion"] !== 'undefined') {
                 difficulty.style.display = "none";
@@ -181,7 +274,7 @@ function createBoard(gameObject) {
             }
         });
 
-        divTitle.appendChild(pPlayer);
+
     }
 
     info.appendChild(divTitle);
@@ -203,12 +296,29 @@ function createBoard(gameObject) {
         board.appendChild(ligne);
     }
 
+    scoreboard.innerHTML = "";
     for (const [key, value] of Object.entries(gameObject["scores"])) {
 
+        let scoreDiv = document.createElement("DIV");
+        scoreDiv.classList.add("scoreboard");
+
+
+        let playerP = document.createElement("P");
+        playerP.textContent = key;
+        let scoreP = document.createElement("P");
+        scoreP.textContent = value;
+
+        scoreDiv.appendChild(playerP);
+        scoreDiv.appendChild(scoreP);
+
+        scoreboard.appendChild(scoreDiv);
+
+
         score.textContent += key + " : " + value + " / ";
+
+
         if (gameObject["Master"]["username"] != key) {
             let boxPosition = document.getElementById(key + "&" + value);
-            console.log(key + "&" + value)
             boxPosition.textContent = "LA";
         }
     }
@@ -225,38 +335,103 @@ function changeBoard(dataObject) {
 
             if (currentUsername == gameObject["Master"]["username"]) {
                 master.style.display = "block";
+
+                answer.textContent = "Réponse(s) : ";
+                gameObject["currentQuestion"]['answers'].forEach(element => {
+                    answer.textContent += element["label_answer"] + " / ";
+                });
+
+            }
+
+            console.log(gameObject["currentQuestion"]['answers'].length);
+
+            if (gameObject["currentQuestion"]['answers'].length > 1) {
+
+                possibleAnswer.style.display = "block";
+                possibleAnswer.textContent = "Réponse possible : ";
+                gameObject["currentQuestion"]['answers'].forEach(element => {
+                    possibleAnswer.textContent += element["label_answer"] + " / ";
+                });
+            }
+            break;
+        case 'showAnswer':
+            console.log("ici");
+            if (currentUsername != gameObject["Master"]["username"]) {
+
+                answerForPlayer.style.display = "block";
+                answerForPlayer.textContent = "Réponse : ";
+                gameObject["currentQuestion"]['answers'].forEach(element => {
+                    if (element["valid"])
+                        answerForPlayer.textContent += element["label_answer"];
+                });
             }
             break;
         case 'next':
-            if (currentUsername == gameObject["currentPlayer"]["username"]) {
 
-                if (typeof gameObject["currentQuestion"] === 'undefined') {
-                    difficulty.style.display = "block";
-                    difficultyPseudo.textContent = currentUsername;
-                } else
-                    console.log("pas de question courante");
-            }
+            if (gameObject["winners"].length == 0) {
+                if (currentUsername == gameObject["currentPlayer"]["username"]) {
 
-            score.textContent = "";
-
-            let allBox = document.getElementsByClassName("square");
-
-            for (let box of allBox) {
-                box.textContent = "";
-            }
-
-            for (const [key, value] of Object.entries(gameObject["scores"])) {
-
-                score.textContent += key + " : " + value + " / ";
-                if (gameObject["Master"]["username"] != key) {
-                    let boxPosition = document.getElementById(key + "&" + value);
-                    console.log(key + "&" + value)
-                    boxPosition.textContent = "LA";
+                    if (typeof gameObject["currentQuestion"] === 'undefined') {
+                        difficulty.style.display = "block";
+                        difficultyPseudo.textContent = currentUsername;
+                    } else
+                        console.log("pas de question courante");
                 }
-            }
 
-            if (currentUsername == gameObject["Master"]["username"]) {
-                master.style.display = "none";
+                score.textContent = "";
+
+                let allBox = document.getElementsByClassName("square");
+
+                let allProfilPlayer = document.getElementsByClassName("circle");
+
+                for (let profil of allProfilPlayer) {
+                    profil.style.border = "";
+                }
+
+
+                let boxMaster = document.getElementById("divMaster");
+                boxMaster.style.border = "6px solid red";
+
+                let currentBox = document.getElementById(gameObject["currentPlayer"]["username"]);
+                currentBox.style.border = "6px solid #58a700";
+
+                for (let box of allBox) {
+                    box.textContent = "";
+                }
+
+                scoreboard.innerHTML = "";
+                for (const [key, value] of Object.entries(gameObject["scores"])) {
+
+                    let scoreDiv = document.createElement("DIV");
+                    scoreDiv.classList.add("scoreboard");
+
+
+                    let playerP = document.createElement("P");
+                    playerP.textContent = key;
+                    let scoreP = document.createElement("P");
+                    scoreP.textContent = value;
+
+                    scoreDiv.appendChild(playerP);
+                    scoreDiv.appendChild(scoreP);
+
+                    scoreboard.appendChild(scoreDiv);
+
+                    score.textContent += key + " : " + value + " / ";
+                    if (gameObject["Master"]["username"] != key) {
+                        let boxPosition = document.getElementById(key + "&" + value);
+                        boxPosition.textContent = "LA";
+                    }
+                }
+
+                if (currentUsername == gameObject["Master"]["username"]) {
+                    master.style.display = "none";
+                }
+            } else {
+                console.log(gameObject)
+                boardStatus.innerHTML = "";
+
+                boardStatus.textContent = "Le gagnant est : " + gameObject["winners"][0];
+                console.log("Il y a un gagnant");
             }
             break;
         default:
@@ -274,17 +449,14 @@ function evalAnswer(response) {
     console.log(response)
 }
 
-
-
+function showAnswerFunction() {
+    conn.send(JSON.stringify({ command: "showAnswer", channel: partyId }));
+}
 
 function subscribe(channel) {
     console.log("join : ", channel)
     conn.send(JSON.stringify({ command: "subscribe", channel: channel, username: currentUsername }));
 }
-
-
-
-
 
 function getCookie(cname) {
     var name = cname + "=";

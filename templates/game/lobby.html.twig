@@ -15,10 +15,10 @@
 
 
 	<div class="container">
-		<h1>Party :
+		<h2>Party :
 			<span id="partyId">
 				{{ id }}</span>
-		</h1>
+		</h2>
 		<div id="lobby">
 
 			<div>
@@ -35,34 +35,52 @@
 			<button id='lauchGame'>Lancer la partie</button>
 
 		</div>
-		<div id="info"></div>
-		<div>C'est au tour de :
-			<span id="currentPlayer"></span>
-		</div>
-		<div id="question"></div>
-		<div id="master">
-			<button id='showAnswer'>Afficher la réponse</button>
-			<div id="answer"></div>
-			<button id='good'>Réponse juste</button>
-			<button id='bad'>Réponse fausse</button>
-		</div>
-		<div id="score"></div>
-		<div id="difficulty">
-			<h2>
-				<span id="pseudo"></span>
-				c'est à vous !</h2>
-			<p>
-				Choisissez votre niveau
-			</p>
-			<button id='1'>1</button>
-			<button id='2'>2</button>
-			<button id='3'>3</button>
-			<button id='4'>4</button>
-			<button id='5'>5</button>
-			<button id='6'>6</button>
+
+		<div id="boardStatus">
+			<div id="info"></div>
+			<div id="roundPlayer">C'est au tour de :
+				<span id="currentPlayer"></span>
+			</div>
+			<div id="question"></div>
+			<div id="possibleAnswer"></div>
+			<div id="answerForPlayer"></div>
+			<div id="master">
+				<button id='showAnswer'>Afficher la réponse</button>
+				<div id="answer"></div>
+				<button id='good'>Réponse juste</button>
+				<button id='bad'>Réponse fausse</button>
+			</div>
+
+			<div id="score"></div>
+			<div id="difficulty">
+				<h2>
+					<span id="pseudo"></span>
+					c'est à vous !</h2>
+				<p>
+					Choisissez votre niveau
+				</p>
+				<button id='1'>1</button>
+				<button id='2'>2</button>
+				<button id='3'>3</button>
+				<button id='4'>4</button>
+				<button id='5'>5</button>
+				<button id='6'>6</button>
+			</div>
 		</div>
 		<div id="board"></div>
 
+	</div>
+
+	<a href="#open-modal" class="floatButton">
+		<p class="my-float">Score</p>
+	</a>
+
+	<div id="open-modal" class="modal-window">
+		<div>
+			<a href="#" title="Close" class="modal-close">Close</a>
+			<h1>Score !</h1>
+			<div id="scoreboard"></div> 
+		</div>
 	</div>
 
 	<script></script>

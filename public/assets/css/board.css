@@ -20,3 +20,132 @@
 .player {
     flex: 1;
 }
+
+.floatButton {
+    display: none;
+}
+
+#info {
+    display: flex;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 600px) {
+    .scoreboardDesktop {
+        display: none;
+    }
+    .floatButton {
+        display: block;
+        position: fixed;
+        text-decoration: none;
+        width: 60px;
+        height: 60px;
+        bottom: 30px;
+        right: 30px;
+        background-color: #58a700;
+        color: #FFF;
+        border-radius: 50px;
+        text-align: center;
+        box-shadow: 2px 2px 3px #999;
+    }
+    .my-float {
+        text-decoration: none;
+        margin-top: 22px;
+        color: white;
+    }
+}
+
+
+/*  MODAL */
+
+.modal-window {
+    position: fixed;
+    background-color: rgba(255, 255, 255, 0.25);
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 999;
+    visibility: hidden;
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.3s;
+}
+
+.modal-window:target {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.modal-window>div {
+    width: 80%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 2em;
+    background: rgb(223, 221, 221);
+}
+
+.modal-window header {
+    font-weight: bold;
+}
+
+.modal-window h1 {
+    font-size: 150%;
+    margin: 0 0 15px;
+}
+
+.modal-close {
+    color: #aaa;
+    line-height: 50px;
+    font-size: 80%;
+    position: absolute;
+    right: 0;
+    text-align: center;
+    top: 0;
+    width: 70px;
+    text-decoration: none;
+}
+
+.modal-close:hover {
+    color: black;
+}
+
+.modal-window>div {
+    border-radius: 1rem;
+}
+
+.modal-window div:not(:last-of-type) {
+    margin-bottom: 0px;
+}
+
+small {
+    color: lightgray;
+}
+
+.scoreboard {
+    display: flex;
+    justify-content: space-between;
+}
+
+
+/* SHOW USER */
+
+.circle {
+    display: inline-block;
+    margin: 10px;
+    border-radius: 50%;
+}
+
+.circle-inner {
+    color: white;
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    text-decoration: none;
+    height: 50px;
+    width: 50px;
+    font-size: 20px;
+}
