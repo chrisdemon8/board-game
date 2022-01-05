@@ -139,9 +139,14 @@ class ChatController implements MessageComponentInterface
                     $gameController = new GameController();
                     $gameController->setGame($currentGame);
 
-                    $gameController->responseManual($data->response);
+                    try {
+                        $gameController->responseManual($data->response);
+                    } catch (Exception $e) {
+                        echo  $e->getMessage(); 
+                    }
+                    
 
-                    var_dump($currentGame);
+                    //var_dump($currentGame);
 
                     if (isset($this->subscriptions[$conn->resourceId])) {
                         $target = $this->subscriptions[$conn->resourceId];

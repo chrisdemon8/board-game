@@ -166,9 +166,10 @@ function createBoard(gameObject) {
     score.textContent = "";
 
 
+    /*
     if (gameObject["winners"].length > 0) {
         console.log("Le gagnant est : " + gameObject["winners"][0]["username"]);
-    }
+    }*/
 
 
     divTitle = document.createElement("DIV");
@@ -330,7 +331,13 @@ function createBoard(gameObject) {
 
 
         if (gameObject["Master"]["username"] != key) {
-            let boxPosition = document.getElementById(key + "&" + value);
+            console.log(value);
+            let currentNumberBox;
+            if (value >= 48)
+                currentNumberBox = 47;
+            else
+                currentNumberBox = value;
+            let boxPosition = document.getElementById(key + "&" + currentNumberBox);
             boxPosition.textContent = "LA";
         }
     }
@@ -380,71 +387,71 @@ function changeBoard(dataObject) {
             break;
         case 'next':
 
-            if (gameObject["winners"].length == 0) {
-                if (currentUsername == gameObject["currentPlayer"]["username"]) {
+            //if (gameObject["winners"].length == 0) {
+            if (currentUsername == gameObject["currentPlayer"]["username"]) {
 
-                    if (typeof gameObject["currentQuestion"] === 'undefined') {
-                        difficulty.style.display = "block";
-                        difficultyPseudo.textContent = currentUsername;
-                    } else
-                        console.log("pas de question courante");
+                if (typeof gameObject["currentQuestion"] === 'undefined') {
+                    difficulty.style.display = "block";
+                    difficultyPseudo.textContent = currentUsername;
+                } else
+                    console.log("pas de question courante");
+            }
+
+            score.textContent = "";
+
+            let allBox = document.getElementsByClassName("square");
+
+            let allProfilPlayer = document.getElementsByClassName("circle");
+
+            for (let profil of allProfilPlayer) {
+                profil.style.border = "";
+            }
+
+
+            let boxMaster = document.getElementById("divMaster");
+            boxMaster.style.border = "6px solid red";
+
+            let currentBox = document.getElementById(gameObject["currentPlayer"]["username"]);
+            currentBox.style.border = "6px solid #58a700";
+
+            for (let box of allBox) {
+                box.textContent = "";
+            }
+
+            scoreboard.innerHTML = "";
+            for (const [key, value] of Object.entries(gameObject["scores"])) {
+
+                let scoreDiv = document.createElement("DIV");
+                scoreDiv.classList.add("scoreboard");
+
+
+                let playerP = document.createElement("P");
+                playerP.textContent = key;
+                let scoreP = document.createElement("P");
+                scoreP.textContent = value;
+
+                scoreDiv.appendChild(playerP);
+                scoreDiv.appendChild(scoreP);
+
+                scoreboard.appendChild(scoreDiv);
+
+                score.textContent += key + " : " + value + " / ";
+                if (gameObject["Master"]["username"] != key) {
+                    let boxPosition = document.getElementById(key + "&" + value);
+                    boxPosition.textContent = "LA";
                 }
+            }
 
-                score.textContent = "";
-
-                let allBox = document.getElementsByClassName("square");
-
-                let allProfilPlayer = document.getElementsByClassName("circle");
-
-                for (let profil of allProfilPlayer) {
-                    profil.style.border = "";
-                }
-
-
-                let boxMaster = document.getElementById("divMaster");
-                boxMaster.style.border = "6px solid red";
-
-                let currentBox = document.getElementById(gameObject["currentPlayer"]["username"]);
-                currentBox.style.border = "6px solid #58a700";
-
-                for (let box of allBox) {
-                    box.textContent = "";
-                }
-
-                scoreboard.innerHTML = "";
-                for (const [key, value] of Object.entries(gameObject["scores"])) {
-
-                    let scoreDiv = document.createElement("DIV");
-                    scoreDiv.classList.add("scoreboard");
-
-
-                    let playerP = document.createElement("P");
-                    playerP.textContent = key;
-                    let scoreP = document.createElement("P");
-                    scoreP.textContent = value;
-
-                    scoreDiv.appendChild(playerP);
-                    scoreDiv.appendChild(scoreP);
-
-                    scoreboard.appendChild(scoreDiv);
-
-                    score.textContent += key + " : " + value + " / ";
-                    if (gameObject["Master"]["username"] != key) {
-                        let boxPosition = document.getElementById(key + "&" + value);
-                        boxPosition.textContent = "LA";
-                    }
-                }
-
-                if (currentUsername == gameObject["Master"]["username"]) {
-                    master.style.display = "none";
-                }
-            } else {
+            if (currentUsername == gameObject["Master"]["username"]) {
+                master.style.display = "none";
+            }
+            /*} else {
                 console.log(gameObject)
                 boardStatus.innerHTML = "";
 
                 boardStatus.textContent = "Le gagnant est : " + gameObject["winners"][0];
                 console.log("Il y a un gagnant");
-            }
+            }*/
             break;
         default:
             break;
