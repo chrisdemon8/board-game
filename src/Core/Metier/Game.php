@@ -238,7 +238,7 @@ class Game extends Modele
                 }
 
                 if (($key = array_search($Master, $this->scores)) !== false) {
-                    array_splice($this->players, $key, 1);
+                    array_splice($this->scores, $key, 1);
                 }
 
                 $this->Master = $Master;
