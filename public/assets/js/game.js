@@ -67,6 +67,18 @@ let difficulty6 = document.getElementById("6");
 
 let partyId = document.getElementById("partyId").innerHTML.trim();
 
+let href = "framework.local/game/" + partyId;
+
+function creerQRC() {
+    console.log('yeye');
+    var qrcode = 'https://chart.googleapis.com/chart?cht=qr&chl=' + encodeURIComponent(href) + '&chs=200x200&choe=UTF-8&chld=L|0';
+    document
+        .getElementById("qrcode").src = qrcode;
+    console.log(qrcode);
+}
+
+creerQRC();
+
 difficulty1.addEventListener("click", () => { difficultyQuestion(1) });
 difficulty2.addEventListener("click", () => { difficultyQuestion(2) });
 difficulty3.addEventListener("click", () => { difficultyQuestion(3) });

@@ -21,13 +21,30 @@ class Game extends Modele
 
     public function nextPlayer(): void
     {
+        if(sizeof($this->winners)==sizeof($this->players)-1)
+            throw new Exception('Partie terminée');
         unset($this->currentQuestion);
-
         $temporaryPlayer = next($this->players);
-        if ($temporaryPlayer == false)
+        if ($temporaryPlayer == false){
             $this->currentPlayer = reset($this->players);
-        else
+            $this->nextInWinner();
+        }
+        else{
             $this->currentPlayer = $temporaryPlayer;
+            $this->nextInWinner();
+        }
+    }
+
+    public function nextInWinner(){
+        if($this->inWinners($this->currentPlayer))
+            $this->nextPlayer();
+
+    }
+
+    public function inWinners(User $player) : bool{
+        if (in_array($player, $this->winners))
+            return true;
+        return false;
     }
 
     public function __construct(int $id)
@@ -89,9 +106,6 @@ class Game extends Modele
             $this->scores[$player->getUsername()] += $nb;
             if ($this->scores[$player->getUsername()] >= 48) {
                 array_push($this->winners, $player);
-                if (($key = array_search($player, $this->players)) !== false) {
-                    array_splice($this->players, $key, 1);
-                }
             }
         }
     }
