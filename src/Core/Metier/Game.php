@@ -237,8 +237,10 @@ class Game extends Modele
                     array_splice($this->players, $key, 1);
                 }
 
-                if (($key = array_search($Master, $this->scores)) !== false) {
-                    array_splice($this->scores, $key, 1);
+                foreach($this->scores as $keyUser => $value){
+                    if ($Master->getUsername() == $keyUser){
+                     unset($this->scores[$key]);
+                    }
                 }
 
                 $this->Master = $Master;
