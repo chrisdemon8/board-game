@@ -45,7 +45,7 @@ class CreateGame extends AbstractController
 
                 $user->setColor($colors[$key]);
                 array_push($userArray, $user);
-                $this->sendMailTo($user->getEmail(), $value, $partyId);
+                //$this->sendMailTo($user->getEmail(), $value, $partyId);
             }
 
 

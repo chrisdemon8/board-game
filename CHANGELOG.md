@@ -3,23 +3,16 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
- 
+  
+## 05-01-2022
+ ## Added 
+- Ajout de la partie permettant l'intéraction entre les joueurs et la partie
+- Gestion du plateau de jeu et du système questions réponse avec maître du jeu en temps réel avec websocket
 
 ## 04-01-2022
  ## Added 
-- Ajout du mailer 
-
-## 03-01-2022
-## Added 
-- Ajout de la class Game ainsi que son controller
-
-
-
-## Amélioration possible ? 
-- Meilleur agencement des boutons pour le modal
-
-## 04-01-2022
-## Added 
+- Ajout du mailer  
+- Ajout de la class Game ainsi que son controller 
 - Ajout du lobby permettant la connexion des bons utilisateurs à une partie 
 
 

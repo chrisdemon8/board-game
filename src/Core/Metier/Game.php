@@ -21,6 +21,7 @@ class Game extends Modele
 
     public function nextPlayer(): void
     {
+        unset($this->currentQuestion);
 
         $temporaryPlayer = next($this->players);
         if ($temporaryPlayer == false)
@@ -62,7 +63,7 @@ class Game extends Modele
         if (!$this->notInGame($player))
             throw new Exception("Ce joueurs est déjà dans la partie");
         else {
-        
+
             array_push($this->players, $player);
             $this->scores[$player->getUsername()] = 0;
 
@@ -97,23 +98,27 @@ class Game extends Modele
 
     public function removePoints(int $nb, User $player): void
     {
-        if ($this->inGame($player))
-            $this->scores[$player->getUsername()] += $nb;
+        if ($this->inGame($player)) {
+            $this->scores[$player->getUsername()] -= $nb;
+            if ($this->scores[$player->getUsername()] < 0)
+                $this->scores[$player->getUsername()] = 0;
+        }
     }
 
-    public function inPlayer(User $player):bool{
- 
+    public function inPlayer(User $player): bool
+    {
+
         foreach ($this->players as $localPlayer) {
-            if($localPlayer->getUsername() ==$player->getUsername()){
-                return true; 
+            if ($localPlayer->getUsername() == $player->getUsername()) {
+                return true;
             }
         }
 
-        return false; 
+        return false;
     }
 
     public function inGame(User $player): bool
-    { 
+    {
         if (!$this->inPlayer($player))
             if (isset($this->Master)) {
                 if ($player->getUsername() != $this->Master->getUsername())

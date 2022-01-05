@@ -110,6 +110,52 @@ class ChatController implements MessageComponentInterface
                     }
                 }
                 break;
+            case "question":
+                if (isset($this->games[$data->channel])) {
+                    $currentGame = $this->games[$data->channel];
+
+                    $gameController = new GameController();
+                    $gameController->setGame($currentGame);
+
+                    $gameController->getQuestion($data->level);
+
+                    if (isset($this->subscriptions[$conn->resourceId])) {
+                        $target = $this->subscriptions[$conn->resourceId];
+                        foreach ($this->subscriptions as $id => $channel) {
+                            if ($channel == $target) {
+                                $objSend["type"] = "question";
+                                $objSend["games"] = $currentGame->jsonSerialize();
+                                $this->users[$id]['connection']->send(json_encode($objSend));
+                            }
+                        }
+                    } else
+                        echo "Partie non existante";
+                }
+                break;
+            case "eval":
+                if (isset($this->games[$data->channel])) {
+                    $currentGame = $this->games[$data->channel];
+
+                    $gameController = new GameController();
+                    $gameController->setGame($currentGame);
+ 
+                    $gameController->responseManual($data->response); 
+
+                    var_dump($currentGame); 
+   
+                    if (isset($this->subscriptions[$conn->resourceId])) {
+                        $target = $this->subscriptions[$conn->resourceId];
+                        foreach ($this->subscriptions as $id => $channel) {
+                            if ($channel == $target) {
+                                $objSend["type"] = "next";
+                                $objSend["games"] = $currentGame->jsonSerialize();
+                                $this->users[$id]['connection']->send(json_encode($objSend));
+                            }
+                        }
+                    } else
+                        echo "Partie non existante";
+                }
+                break;
             case "create":
                 $jsonDataGame =  json_decode($data->message);
 
