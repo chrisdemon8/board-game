@@ -5,7 +5,7 @@ let snackbar = document.getElementById("snackbar");
 let currentUsername = document.getElementById("username").value;
 
 let number = select.options[choice].value;
-
+let users;
 let playerName = document.getElementById("playerName");
 
 
@@ -125,13 +125,15 @@ function change(val) {
         label.textContent = 'Joueur ' + i;
 
 
-        let selectUser = document.createElement("SELECT");
+        let selectUser = document.createElement("input");
         selectUser.id = 'username' + i;
         selectUser.addEventListener(
             'change',
             function() { changeUser(this); },
             false
         );
+
+
 
 
         var myHeaders = new Headers();
@@ -152,26 +154,51 @@ function change(val) {
                     if (json.status === "success") {
                         //console.log(json.res);
                         dataUsers = json.res;
+                        users = json.res;
+
+                        let option = document.createElement("ul");
+                        //option.value = "0";
+                        //option.text = "Choisir un joueur";
+                        //selectUser.appendChild(option);
+
+                        selectUser.addEventListener(
+                            'keyup',
+                            () => {
+                                option.innerHTML = '';
+                                dataUsers.forEach(element => {
+                                    if (element.username.includes(selectUser.value)) {
+                                        li = document.createElement("li");
+                                        li.textContent = element.username;
+                                        li.addEventListener('click', () => {
+                                            selectUser.value = element.username;
+                                            option.innerHTML = '';
+                                        });
+                                        li.style.cursor = 'pointer';
+                                        option.append(li);
+                                    }
+                                });
+                                selectUser.after(option);
+                                if (selectUser.value == '') {
+                                    option.innerHTML = '';
+                                }
+                            },
+                            false
+                        );
 
 
-                        let option = document.createElement("option");
-                        option.value = "0";
-                        option.text = "Choisir un joueur";
-                        selectUser.appendChild(option);
 
+                        /* for (let i = 0; i < dataUsers.length; i++) {
 
-                        for (let i = 0; i < dataUsers.length; i++) {
+                             if (dataUsers[i].username != currentUsername) {
 
-                            if (dataUsers[i].username != currentUsername) {
+                                 let option = document.createElement("option");
+                                 option.value = dataUsers[i].username;
+                                 option.text = dataUsers[i].username;
+                                 option.classList.add(dataUsers[i].username);
+                                 selectUser.appendChild(option);
 
-                                let option = document.createElement("option");
-                                option.value = dataUsers[i].username;
-                                option.text = dataUsers[i].username;
-                                option.classList.add(dataUsers[i].username);
-                                selectUser.appendChild(option);
-
-                            }
-                        }
+                             }
+                         }*/
                     } else {
                         showSnackBar(5000, "Erreur :" + json.exception, "snackerror");
                     }
@@ -207,6 +234,23 @@ function change(val) {
 let createGameButton = document.getElementById("createGame");
 createGameButton.addEventListener("click", submitForm);
 
+let inPlayers = (dataUsers, username) => {
+    test = false;
+    dataUsers.forEach(user => {
+        if (user.username == username)
+            test = true;
+    })
+    return test;
+}
+
+let alreadyPlayers = (AlreadyUser, username) => {
+    test = false;
+    AlreadyUser.forEach(user => {
+        if (user == username)
+            test = true;
+    })
+    return test;
+}
 
 function submitForm() {
 
@@ -215,8 +259,6 @@ function submitForm() {
     let choice0 = selectColor0.selectedIndex;
     let color0 = selectColor0.options[choice0].value;
 
-
-
     let valid = true;
     let choice = select.selectedIndex;
     let number = select.options[choice].value;
@@ -224,18 +266,20 @@ function submitForm() {
     let jsonPlayer = {};
     jsonPlayer[0] = currentUsername;
 
+    let already = [];
+
     let jsonColor = {};
     jsonColor[0] = color0;
 
     for (let i = 1; i <= number; i++) {
         let player = document.getElementById("username" + i);
         let color = document.getElementById("color" + i);
-
-        if (player.value == "0") {
-            showSnackBar(3000, "Veuillez sélectionner chaques joueurs.", "snackerror");
+        if (!inPlayers(users, player.value) || alreadyPlayers(already, player.value)) {
+            showSnackBar(3000, "Veuillez sélectionner chaques joueurs correctement.", "snackerror");
             valid = false;
         } else {
             jsonPlayer[i] = player.value;
+            already[i] = player.value;
         }
 
         if (color.value == "0") {
@@ -254,7 +298,6 @@ function submitForm() {
         'players': jsonPlayer,
         'colors': jsonColor
     }
-
 
     if (valid) {
 

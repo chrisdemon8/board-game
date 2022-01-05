@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
  ## Added 
 - Ajout de la partie permettant l'intéraction entre les joueurs et la partie
 - Gestion du plateau de jeu et du système questions réponse avec maître du jeu en temps réel avec websocket
+- Ajout de l'auto-complete
 
 ## 04-01-2022
  ## Added 

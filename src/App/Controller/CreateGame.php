@@ -38,6 +38,7 @@ class CreateGame extends AbstractController
             $colors = $data['jsonData']['colors'];
 
             $userArray = [];
+            $mailArray = [];
             $partyId = $numberPlayer . rand();
             foreach ($players as $key => $value) {
                 $userController = new UsersController();
@@ -45,9 +46,11 @@ class CreateGame extends AbstractController
 
                 $user->setColor($colors[$key]);
                 array_push($userArray, $user);
-                //$this->sendMailTo($user->getEmail(), $value, $partyId);
+                //array_push($mailArray, $user->getEmail());
+                $mailArray[$user->getUsername()]=$user->getEmail();
+                
             }
-
+            $this->sendMailsTo($mailArray, $partyId);
 
 
             // fonction sendMail et QRCODE pour join la party 
@@ -96,19 +99,21 @@ class CreateGame extends AbstractController
         }
     }
 
-    public function sendMailTo(string $mail, string $receiver, string $msg)
+    public function sendMailsTo(array $mails, string $msg)
     {
         try {
             // Sender and recipient settings
             $this->mailer->setFrom(Config::get('MAIL'), 'Game Master');
-            $this->mailer->addAddress($mail, $receiver);
+            foreach($mails as $key => $value){
+                $this->mailer->addAddress($value, $key);
+            }
+
 
             // Setting the email content
             $this->mailer->IsHTML(true);
             $this->mailer->Subject = "Your game id";
-            $this->mailer->Body = '<h2>Helllo Good Game</h2> <div>' . $msg . '<div>';
+            $this->mailer->Body = '<h2>Hello Good Game</h2> <a href="http://framework.local/game/'.$msg.'">Votre lien<a>';
             $this->mailer->AltBody = 'Your id : ' . $msg;
-
             $this->mailer->send();
             //echo "Email message sent.";
         } catch (Mexcpetion $e) {
