@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 06-01-2022
  ## Added 
 - Finalisation du design
-- Gestion de la win pas encore testé mais normalement ça marche
+- Gestion de la win
 
 
 
