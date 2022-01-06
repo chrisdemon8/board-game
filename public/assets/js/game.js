@@ -166,194 +166,246 @@ function createBoard(gameObject) {
     }*/
 
 
-    divTitle = document.createElement("DIV");
-
-    if (gameObject["Master"]["username"] == currentUsername) {
-
-        // ajout du master
-        let divMaster = document.createElement("DIV");
-        divMaster.classList.add("circle");
-
-        let pMaster = document.createElement("P");
-        pMaster.classList.add("circle-inner");
-
-        pMaster.textContent = currentUsername.substring(0, 2);
-
-        divMaster.style.backgroundColor = "blue";
-        divMaster.style.border = "6px solid red";
-        divMaster.id = "divMaster";
-        divMaster.appendChild(pMaster);
-        divTitle.appendChild(divMaster);
-
-        // Ajout des joueurs
-        gameObject["players"].forEach(element => {
-            let divPlayer = document.createElement("DIV");
-            divPlayer.classList.add("circle");
-            divPlayer.style.backgroundColor = "grey";
-            divPlayer.id = element["username"];
-            let pPlayer = document.createElement("P");
-            pPlayer.classList.add("circle-inner");
-            pPlayer.textContent = element["username"].substring(0, 2);
-
-            if (gameObject["currentPlayer"]["username"] == element["username"]) {
-                divPlayer.style.border = "6px solid #58a700";
-            } else {
-                divPlayer.style.border = "";
-            }
-
-            divPlayer.appendChild(pPlayer);
-            divTitle.appendChild(divPlayer);
-        });
-
-        if (gameObject["currentQuestion"] != null) {
-            difficulty.style.display = "none";
-            dataObject = {};
-            dataObject["type"] = "question";
-            dataObject["games"] = gameObject;
-            changeBoard(dataObject);
-        }
-    } else {
+    if (gameObject["players"].length - 1 > gameObject["winners"].length) {
 
 
-        // ajout du master
-        let divMaster = document.createElement("DIV");
-        divMaster.classList.add("circle");
-
-        let pMaster = document.createElement("P");
-        pMaster.classList.add("circle-inner");
-
-        pMaster.textContent = gameObject["Master"]["username"].substring(0, 2);
-        divMaster.style.backgroundColor = "grey";
-        divMaster.style.border = "6px solid red";
-        divMaster.id = "divMaster";
-        divMaster.appendChild(pMaster);
-        divTitle.appendChild(divMaster);
+        divTitle = document.createElement("DIV");
 
 
+        if (gameObject["Master"]["username"] == currentUsername) {
 
-        gameObject["players"].forEach(element => {
+            // ajout du master
+            let divMaster = document.createElement("DIV");
+            divMaster.classList.add("circle");
 
-            // ajout joueurs interface
-            let divPlayer = document.createElement("DIV");
-            divPlayer.classList.add("circle");
-            divPlayer.id = element["username"];
+            let pMaster = document.createElement("P");
+            pMaster.classList.add("circle-inner");
 
-            let pPlayer = document.createElement("P");
-            pPlayer.classList.add("circle-inner");
+            pMaster.textContent = currentUsername.substring(0, 2);
 
+            divMaster.style.backgroundColor = "blue";
+            divMaster.style.border = "6px solid red";
+            divMaster.id = "divMaster";
+            divMaster.appendChild(pMaster);
+            divTitle.appendChild(divMaster);
 
-
-            if (element["username"] == currentUsername) {
-                pPlayer.textContent = currentUsername.substring(0, 2);
-                divPlayer.style.backgroundColor = "blue";
-            } else {
-                pPlayer.textContent = element["username"].substring(0, 2);
+            // Ajout des joueurs
+            gameObject["players"].forEach(element => {
+                let divPlayer = document.createElement("DIV");
+                divPlayer.classList.add("circle");
                 divPlayer.style.backgroundColor = "grey";
-            }
+                divPlayer.id = element["username"];
+                let pPlayer = document.createElement("P");
+                pPlayer.classList.add("circle-inner");
+                pPlayer.textContent = element["username"].substring(0, 2);
 
-            if (gameObject["currentPlayer"]["username"] == element["username"]) {
-                divPlayer.style.border = "6px solid #58a700";
-            } else {
-                divPlayer.style.border = "";
-            }
+                if (gameObject["currentPlayer"]["username"] == element["username"]) {
+                    divPlayer.style.border = "6px solid #58a700";
+                } else {
+                    divPlayer.style.border = "";
+                }
 
-            divPlayer.appendChild(pPlayer);
-            divTitle.appendChild(divPlayer);
-            // fin ajout
+                divPlayer.appendChild(pPlayer);
+                divTitle.appendChild(divPlayer);
+            });
 
-            //chargement de la partie 
-
-            if (typeof gameObject["currentQuestion"] !== 'undefined') {
+            if (gameObject["currentQuestion"] != null) {
                 difficulty.style.display = "none";
                 dataObject = {};
                 dataObject["type"] = "question";
                 dataObject["games"] = gameObject;
                 changeBoard(dataObject);
             }
-
-            if (currentUsername == gameObject["currentPlayer"]["username"]) {
-
-                if (typeof gameObject["currentQuestion"] === 'undefined') {
-                    difficulty.style.display = "flex";
-                    difficultyPseudo.textContent = currentUsername.charAt(0).toUpperCase() + currentUsername.slice(1);
-                } else
-                    console.log("pas de question courante");
-            }
-        });
+        } else {
 
 
-    }
+            // ajout du master
+            let divMaster = document.createElement("DIV");
+            divMaster.classList.add("circle");
 
-    info.appendChild(divTitle);
+            let pMaster = document.createElement("P");
+            pMaster.classList.add("circle-inner");
 
-    let box;
-    for (let player = 0; player < gameObject["players"].length; player++) {
+            pMaster.textContent = gameObject["Master"]["username"].substring(0, 2);
+            divMaster.style.backgroundColor = "grey";
+            divMaster.style.border = "6px solid red";
+            divMaster.id = "divMaster";
+            divMaster.appendChild(pMaster);
+            divTitle.appendChild(divMaster);
 
-        let username = gameObject["players"][player]["username"];
-        let colorPlayer = listColor[gameObject["players"][player]["color"]];
-        ligne = document.createElement("DIV");
-        ligne.classList.add("player");
-        for (let i = 0; i < 48; i++) {
-            box = document.createElement("DIV");
-            box.classList.add("square");
-            box.id = username + "&" + i;
-            box.style.backgroundColor = colorPlayer;
-            ligne.appendChild(box);
+
+
+            gameObject["players"].forEach(element => {
+
+                // ajout joueurs interface
+                let divPlayer = document.createElement("DIV");
+                divPlayer.classList.add("circle");
+                divPlayer.id = element["username"];
+
+                let pPlayer = document.createElement("P");
+                pPlayer.classList.add("circle-inner");
+
+
+
+                if (element["username"] == currentUsername) {
+                    pPlayer.textContent = currentUsername.substring(0, 2);
+                    divPlayer.style.backgroundColor = "blue";
+                } else {
+                    pPlayer.textContent = element["username"].substring(0, 2);
+                    divPlayer.style.backgroundColor = "grey";
+                }
+
+                if (gameObject["currentPlayer"]["username"] == element["username"]) {
+                    divPlayer.style.border = "6px solid #58a700";
+                } else {
+                    divPlayer.style.border = "";
+                }
+
+                divPlayer.appendChild(pPlayer);
+                divTitle.appendChild(divPlayer);
+                // fin ajout
+
+                //chargement de la partie 
+
+                if (typeof gameObject["currentQuestion"] !== 'undefined') {
+                    difficulty.style.display = "none";
+                    dataObject = {};
+                    dataObject["type"] = "question";
+                    dataObject["games"] = gameObject;
+                    changeBoard(dataObject);
+                }
+
+                if (currentUsername == gameObject["currentPlayer"]["username"]) {
+
+                    if (typeof gameObject["currentQuestion"] === 'undefined') {
+                        difficulty.style.display = "flex";
+                        difficultyPseudo.textContent = currentUsername.charAt(0).toUpperCase() + currentUsername.slice(1);
+                    } else
+                        console.log("pas de question courante");
+                }
+            });
+
+
         }
 
-        board.appendChild(ligne);
-    }
-
-    scoreboardDesktop.innerHTML = "";
-    scoreboard.innerHTML = "";
-    for (const [key, value] of Object.entries(gameObject["scores"])) {
+        info.appendChild(divTitle);
 
 
-
-
-
-        let scoreDiv = document.createElement("DIV");
-        scoreDiv.classList.add("scoreboard");
-
-
-        let playerP = document.createElement("P");
-        playerP.textContent = key;
-        let scoreP = document.createElement("P");
-        scoreP.textContent = value;
-
-        scoreDiv.appendChild(playerP);
-        scoreDiv.appendChild(scoreP);
-
+        let box;
         for (let player = 0; player < gameObject["players"].length; player++) {
 
             let username = gameObject["players"][player]["username"];
             let colorPlayer = listColor[gameObject["players"][player]["color"]];
+            ligne = document.createElement("DIV");
+            ligne.classList.add("player");
+            for (let i = 0; i < 48; i++) {
+                box = document.createElement("DIV");
+                box.classList.add("square");
+                box.id = username + "&" + i;
+                box.style.backgroundColor = colorPlayer;
+                ligne.appendChild(box);
+            }
 
-            if (key == username) {
-                scoreDiv.style.background = colorPlayer;
+            board.appendChild(ligne);
+        }
 
+        scoreboardDesktop.innerHTML = "";
+        scoreboard.innerHTML = "";
+        for (const [key, value] of Object.entries(gameObject["scores"])) {
+
+
+
+
+
+            let scoreDiv = document.createElement("DIV");
+            scoreDiv.classList.add("scoreboard");
+
+
+            let playerP = document.createElement("P");
+            playerP.textContent = key;
+            let scoreP = document.createElement("P");
+            scoreP.textContent = value;
+
+            scoreDiv.appendChild(playerP);
+            scoreDiv.appendChild(scoreP);
+
+            for (let player = 0; player < gameObject["players"].length; player++) {
+
+                let username = gameObject["players"][player]["username"];
+                let colorPlayer = listColor[gameObject["players"][player]["color"]];
+
+                if (key == username) {
+                    scoreDiv.style.background = colorPlayer;
+
+                }
+            }
+
+            scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
+            scoreboard.appendChild(scoreDiv);
+
+
+
+
+            if (gameObject["Master"]["username"] != key) {
+                console.log(value);
+                let currentNumberBox;
+                if (value >= 48)
+                    currentNumberBox = 47;
+                else
+                    currentNumberBox = value;
+                let boxPosition = document.getElementById(key + "&" + currentNumberBox);
+                let pawn = document.createElement("SPAN");
+                pawn.classList.add("pawn");
+                pawn.textContent = "♟";
+                boxPosition.appendChild(pawn);
             }
         }
 
-        scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
-        scoreboard.appendChild(scoreDiv);
+    } else {
+
+        console.log(gameObject)
+        boardStatus.innerHTML = "";
+
+        board.style.display = "none";
 
 
+        boardStatus.textContent = "Le gagnant est : " + gameObject["winners"][0]['username'];
 
 
-        if (gameObject["Master"]["username"] != key) {
-            console.log(value);
-            let currentNumberBox;
-            if (value >= 48)
-                currentNumberBox = 47;
-            else
-                currentNumberBox = value;
-            let boxPosition = document.getElementById(key + "&" + currentNumberBox);
-            let pawn = document.createElement("SPAN");
-            pawn.classList.add("pawn");
-            pawn.textContent = "♟";
-            boxPosition.appendChild(pawn);
+        let scoreboardDesktopParent = document.getElementById("scoreboardDesktopParent");
+        scoreboardDesktopParent.style.display = "contents";
+
+
+        scoreboard.innerHTML = "";
+        scoreboardDesktop.innerHTML = "";
+        for (const [key, value] of Object.entries(gameObject["scores"])) {
+
+            let scoreDiv = document.createElement("DIV");
+            scoreDiv.classList.add("scoreboard");
+
+            let playerP = document.createElement("P");
+            playerP.textContent = key;
+            let scoreP = document.createElement("P");
+            scoreP.textContent = value;
+
+            scoreDiv.appendChild(playerP);
+            scoreDiv.appendChild(scoreP);
+
+            for (let player = 0; player < gameObject["players"].length; player++) {
+
+                let username = gameObject["players"][player]["username"];
+                let colorPlayer = listColor[gameObject["players"][player]["color"]];
+
+                if (key == username) {
+                    scoreDiv.style.background = colorPlayer;
+
+                }
+            }
+            scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
+            scoreboard.appendChild(scoreDiv);
+
         }
+
     }
 }
 
@@ -492,8 +544,15 @@ function changeBoard(dataObject) {
                 console.log(gameObject)
                 boardStatus.innerHTML = "";
 
-                boardStatus.textContent = "Le gagnant est : " + gameObject["winners"][0];
-                console.log("Il y a un gagnant");
+                board.style.display = "none";
+
+
+                boardStatus.textContent = "Le gagnant est : " + gameObject["winners"][0]['username'];
+
+
+                let scoreboardDesktopParent = document.getElementById("scoreboardDesktopParent");
+                scoreboardDesktopParent.style.display = "contents";
+
 
                 scoreboard.innerHTML = "";
                 scoreboardDesktop.innerHTML = "";
