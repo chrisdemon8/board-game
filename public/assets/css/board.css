@@ -2,6 +2,10 @@
     height: 50px;
     width: 50px;
     border: 2px solid white;
+    font-size: 14px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .container {
@@ -13,16 +17,34 @@
     flex-direction: column;
 }
 
-#board {
-    display: flex;
+button {
+    background-color: #58a700;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 8px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
 }
 
-.player {
-    flex: 1;
+button:hover {
+    background-color: #58cc02;
+    cursor: pointer;
 }
 
 .floatButton {
     display: none;
+}
+
+#board {
+    margin-top: 15px;
+    max-width: 100%;
+}
+
+.player {
+    display: flex;
 }
 
 #info {
@@ -30,8 +52,86 @@
     justify-content: center;
 }
 
-@media only screen and (max-width: 600px) {
-    .scoreboardDesktop {
+#scoreboardDesktop {
+    width: 400px;
+    background-color: lightgray;
+    font-size: 20px;
+}
+
+#scoreboardDesktop>div {
+    padding: 0 30px 0 30px;
+    font-style: bold;
+}
+
+#scoreboardDesktopParent {
+    justify-content: center;
+    display: contents;
+}
+
+#question {
+    font-size: 24px;
+    text-align: center;
+}
+
+#answerForPlayer {
+    text-align: center;
+    font-size: 20px;
+}
+
+#difficulty {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.title {
+    font-size: 20px;
+    margin: 0;
+}
+
+.pawn {
+    color: black;
+    font-size: 25px;
+    content: "\265F";
+}
+
+.divAnswer {
+    background-color: #235390;
+    /* Green */
+    border: none;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+.divAnswer>p {
+    color: white;
+}
+
+#possibleAnswer {
+    justify-content: space-around;
+}
+
+#master {
+    margin-top: 5px;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+@media only screen and (max-width: 900px) {
+    #board {
+        display: flex;
+        max-width: 100%;
+    }
+    .player {
+        flex: 1;
+        display: block;
+    }
+    #scoreboardDesktopParent {
         display: none;
     }
     .floatButton {
@@ -128,6 +228,7 @@ small {
 .scoreboard {
     display: flex;
     justify-content: space-between;
+    padding: 0 30px 0 30px;
 }
 
 

@@ -4,10 +4,16 @@ Tous les changements de ce projet seront documentés dans ce fichier.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).*
   
-## A FAIRE 
-- Finir design 
-- Gérer la win 
+## A FAIRE  
 - Faire en sorte de se co à plusieurs game (optionnel)
+
+
+## 06-01-2022
+ ## Added 
+- Finalisation du design
+- Gestion de la win pas encore testé mais normalement ça marche
+
+
 
 ## 05-01-2022
  ## Added 

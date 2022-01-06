@@ -29,46 +29,50 @@
 			</div>
 
 			<img id="qrcode">
-				
-			</img>
 
-			<button id='lauchGame'>Lancer la partie</button>
+		</img>
 
-		</div>
+		<button id='lauchGame'>Lancer la partie</button>
+
+	</div>
+
+	<div class="container">
 
 		<div id="boardStatus">
 			<div id="info"></div>
-			<div id="roundPlayer">C'est au tour de :
-				<span id="currentPlayer"></span>
-			</div>
 			<div id="question"></div>
 			<div id="possibleAnswer"></div>
 			<div id="answerForPlayer"></div>
 			<div id="master">
 				<button id='showAnswer'>Afficher la réponse</button>
 				<div id="answer"></div>
-				<button id='good'>Réponse juste</button>
-				<button id='bad'>Réponse fausse</button>
+				<di>
+					<button id='good'>Réponse juste</button>
+					<button id='bad'>Réponse fausse</button>
+				</div>
 			</div>
-
-			<div id="score"></div>
 			<div id="difficulty">
-				<h2>
+				<p class="title">
 					<span id="pseudo"></span>
-					c'est à vous !</h2>
+					c'est à vous !</p>
 				<p>
 					Choisissez votre niveau
 				</p>
-				<button id='1'>1</button>
-				<button id='2'>2</button>
-				<button id='3'>3</button>
-				<button id='4'>4</button>
-				<button id='5'>5</button>
-				<button id='6'>6</button>
+				<div>
+					<button id='1'>1</button>
+					<button id='2'>2</button>
+					<button id='3'>3</button>
+					<button id='4'>4</button>
+					<button id='5'>5</button>
+					<button id='6'>6</button>
+				</div>
 			</div>
 		</div>
 		<div id="board"></div>
-
+		<div id="scoreboardDesktopParent">
+			<h2>Score !</h2>
+			<div id="scoreboardDesktop"></div>
+		</div>
 	</div>
 
 	<a href="#open-modal" class="floatButton">
@@ -78,19 +82,13 @@
 	<div id="open-modal" class="modal-window">
 		<div>
 			<a href="#" title="Close" class="modal-close">Close</a>
-			<h1>Score !</h1>
-			<div id="scoreboard"></div> 
+			<h2>Score !</h2>
+			<div id="scoreboard"></div>
 		</div>
 	</div>
 
 	<script></script>
-
-
 {% endblock %}
-
-
 {% block bottom_js %}
 	<script type="text/javascript" src="/assets/js/game.js"></script>
-
-
 {% endblock %}

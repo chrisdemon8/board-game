@@ -61,7 +61,7 @@ let listColorObject = {};
 
 let listUserObject = {};
 
-let listColor = ['noir', 'bleu', 'jaune', 'rouge', 'violet', 'vert'];
+let listColor = ['rose', 'bleu', 'jaune', 'rouge', 'violet', 'vert'];
 
 function disableOption() {
     options = document.getElementsByTagName("option");
