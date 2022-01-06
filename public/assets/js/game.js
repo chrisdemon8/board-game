@@ -311,6 +311,9 @@ function createBoard(gameObject) {
 
         scoreboardDesktop.innerHTML = "";
         scoreboard.innerHTML = "";
+
+
+
         for (const [key, value] of Object.entries(gameObject["scores"])) {
 
 
@@ -378,6 +381,74 @@ function createBoard(gameObject) {
 
         scoreboard.innerHTML = "";
         scoreboardDesktop.innerHTML = "";
+
+
+
+        gameObject["winners"].forEach(element => {
+            let scoreDiv = document.createElement("DIV");
+            scoreDiv.classList.add("scoreboard");
+
+
+
+            let username = element["username"];
+
+
+            let playerP = document.createElement("P");
+            playerP.textContent = element["username"];
+            let scoreP = document.createElement("P");
+            scoreP.textContent = gameObject["scores"][username];
+
+            scoreDiv.appendChild(playerP);
+            scoreDiv.appendChild(scoreP);
+
+            let colorPlayer = listColor[element["color"]];
+
+            scoreDiv.style.background = colorPlayer;
+
+            scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
+            scoreboard.appendChild(scoreDiv);
+
+        });
+
+
+        gameObject["players"].forEach(player => {
+
+            let bool = false;
+            gameObject["winners"].forEach(winner => {
+                if (winner['username'] == player['username'])
+                    bool = true;
+            });
+
+            if (!bool) {
+                let scoreDiv = document.createElement("DIV");
+                scoreDiv.classList.add("scoreboard");
+
+
+
+                let username = player["username"];
+
+
+                let playerP = document.createElement("P");
+                playerP.textContent = player["username"];
+                let scoreP = document.createElement("P");
+                scoreP.textContent = gameObject["scores"][username];
+
+                scoreDiv.appendChild(playerP);
+                scoreDiv.appendChild(scoreP);
+
+                let colorPlayer = listColor[player["color"]];
+
+                scoreDiv.style.background = colorPlayer;
+
+                scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
+                scoreboard.appendChild(scoreDiv);
+            }
+        });
+
+
+
+
+        /*
         for (const [key, value] of Object.entries(gameObject["scores"])) {
 
             let scoreDiv = document.createElement("DIV");
@@ -404,7 +475,7 @@ function createBoard(gameObject) {
             scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
             scoreboard.appendChild(scoreDiv);
 
-        }
+        }*/
 
     }
 }
@@ -523,7 +594,7 @@ function changeBoard(dataObject) {
                     scoreboard.appendChild(scoreDiv);
 
                     if (gameObject["Master"]["username"] != key) {
-                        let boxPosition = document.getElementById(key + "&" + value);
+                        let boxPosition = document.getElementById(key + "&" + value - 1);
                         let pawn = document.createElement("SPAN");
                         pawn.classList.add("pawn");
                         pawn.textContent = "♟";
@@ -556,6 +627,73 @@ function changeBoard(dataObject) {
 
                 scoreboard.innerHTML = "";
                 scoreboardDesktop.innerHTML = "";
+
+
+
+                gameObject["winners"].forEach(element => {
+                    let scoreDiv = document.createElement("DIV");
+                    scoreDiv.classList.add("scoreboard");
+
+
+
+                    let username = element["username"];
+
+
+                    let playerP = document.createElement("P");
+                    playerP.textContent = element["username"];
+                    let scoreP = document.createElement("P");
+                    scoreP.textContent = gameObject["scores"][username];
+
+                    scoreDiv.appendChild(playerP);
+                    scoreDiv.appendChild(scoreP);
+
+                    let colorPlayer = listColor[element["color"]];
+
+                    scoreDiv.style.background = colorPlayer;
+
+                    scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
+                    scoreboard.appendChild(scoreDiv);
+
+                });
+
+
+                gameObject["players"].forEach(player => {
+
+                    let bool = false;
+                    gameObject["winners"].forEach(winner => {
+                        if (winner['username'] == player['username'])
+                            bool = true;
+                    });
+
+                    if (!bool) {
+                        let scoreDiv = document.createElement("DIV");
+                        scoreDiv.classList.add("scoreboard");
+
+
+
+                        let username = player["username"];
+
+
+                        let playerP = document.createElement("P");
+                        playerP.textContent = player["username"];
+                        let scoreP = document.createElement("P");
+                        scoreP.textContent = gameObject["scores"][username];
+
+                        scoreDiv.appendChild(playerP);
+                        scoreDiv.appendChild(scoreP);
+
+                        let colorPlayer = listColor[player["color"]];
+
+                        scoreDiv.style.background = colorPlayer;
+
+                        scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
+                        scoreboard.appendChild(scoreDiv);
+                    }
+                });
+
+
+
+                /*
                 for (const [key, value] of Object.entries(gameObject["scores"])) {
 
                     let scoreDiv = document.createElement("DIV");
@@ -582,7 +720,7 @@ function changeBoard(dataObject) {
                     scoreboardDesktop.appendChild(scoreDiv.cloneNode(true));
                     scoreboard.appendChild(scoreDiv);
 
-                }
+                } */
 
             }
             break;
