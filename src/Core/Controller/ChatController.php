@@ -50,6 +50,7 @@ class ChatController implements MessageComponentInterface
                 foreach ($this->subscriptions as $key => $value) {
                     if ($this->users[$key]['username'] === $data->username) {
                         $alreadyExist = true;
+                        return;
                     }
                 }
 

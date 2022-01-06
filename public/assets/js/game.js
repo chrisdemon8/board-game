@@ -594,7 +594,15 @@ function changeBoard(dataObject) {
                     scoreboard.appendChild(scoreDiv);
 
                     if (gameObject["Master"]["username"] != key) {
-                        let boxPosition = document.getElementById(key + "&" + value - 1);
+                        console.log("VALUE : ");
+                        console.log(gameObject["scores"]);
+                        let currentNumberBox;
+
+                        if (value >= 48)
+                            currentNumberBox = 47;
+                        else
+                            currentNumberBox = value;
+                        let boxPosition = document.getElementById(key + "&" + currentNumberBox);
                         let pawn = document.createElement("SPAN");
                         pawn.classList.add("pawn");
                         pawn.textContent = "♟";
