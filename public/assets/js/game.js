@@ -116,6 +116,9 @@ conn.onmessage = function(e) {
         case "showAnswer":
             changeBoard(webSockeData);
             break;
+        case "redirect":
+            changeBoard(webSockeData);
+            break;
         default:
             break;
     }
@@ -733,6 +736,10 @@ function changeBoard(dataObject) {
                 } */
 
             }
+            break;
+        case "redirect":
+            console.log("ee")
+            window.location.href = "/";
             break;
         default:
             break;

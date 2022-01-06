@@ -50,6 +50,9 @@ class ChatController implements MessageComponentInterface
                 foreach ($this->subscriptions as $key => $value) {
                     if ($this->users[$key]['username'] === $data->username) {
                         $alreadyExist = true;
+                        $objSend["type"] = "redirect";
+                        var_dump($conn->resourceId);
+                        $this->users[$conn->resourceId]['connection']->send(json_encode($objSend));
                         return;
                     }
                 }
@@ -94,6 +97,9 @@ class ChatController implements MessageComponentInterface
                             }
                         }
                     }
+                } else {
+                    $objSend["type"] = "redirect";
+                    $this->users[$conn->resourceId]['connection']->send(json_encode($objSend));
                 }
                 break;
             case "message":
@@ -143,9 +149,9 @@ class ChatController implements MessageComponentInterface
                     try {
                         $gameController->responseManual($data->response);
                     } catch (Exception $e) {
-                        echo  $e->getMessage(); 
+                        echo  $e->getMessage();
                     }
-                    
+
 
                     //var_dump($currentGame);
 
@@ -161,14 +167,14 @@ class ChatController implements MessageComponentInterface
                     } else
                         echo "Partie non existante";
                 }
-                break; 
+                break;
             case "showAnswer":
                 if (isset($this->games[$data->channel])) {
                     $currentGame = $this->games[$data->channel];
 
                     $gameController = new GameController();
                     $gameController->setGame($currentGame);
-                    
+
                     if (isset($this->subscriptions[$conn->resourceId])) {
                         $target = $this->subscriptions[$conn->resourceId];
                         foreach ($this->subscriptions as $id => $channel) {
