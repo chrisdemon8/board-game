@@ -517,6 +517,7 @@ function changeBoard(dataObject) {
             }
             break;
         case 'showAnswer':
+            question.style.display = "none";
             console.log("ici");
             if (currentUsername != gameObject["Master"]["username"]) {
 
@@ -529,6 +530,7 @@ function changeBoard(dataObject) {
             }
             break;
         case 'next':
+            question.style.display = "none";
             if (gameObject["players"].length - 1 > gameObject["winners"].length) {
                 if (currentUsername == gameObject["currentPlayer"]["username"]) {
 
