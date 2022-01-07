@@ -155,6 +155,8 @@ function lauchGame(gameObject) {
 }
 
 
+let titleScore = document.createElement("H2"); 
+
 function createBoard(gameObject) {
 
     info.innerHTML = "";
@@ -166,6 +168,11 @@ function createBoard(gameObject) {
     if (gameObject["winners"].length > 0) {
         console.log("Le gagnant est : " + gameObject["winners"][0]["username"]);
     }*/
+
+ 
+    titleScore.textContent = "Score !"
+
+    scoreboardDesktopParent.insertBefore(titleScore, scoreboardDesktopParent.firstChild);
 
 
     if (gameObject["players"].length - 1 > gameObject["winners"].length) {
@@ -315,10 +322,7 @@ function createBoard(gameObject) {
         scoreboard.innerHTML = "";
 
 
-        let titleScore = document.createElement("H2"); 
-        titleScore.textContent = "Score !"
-  
-        scoreboardDesktopParent.insertBefore(titleScore, scoreboardDesktopParent.firstChild);
+
 
         for (const [key, value] of Object.entries(gameObject["scores"])) {
 
@@ -491,8 +495,7 @@ function changeBoard(dataObject) {
             }
             break;
         case 'showAnswer':
-            question.style.display = "none";
-            console.log("ici");
+            //question.style.display = "none"; 
             if (currentUsername != gameObject["Master"]["username"]) {
 
                 answerForPlayer.style.display = "block";

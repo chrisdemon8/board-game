@@ -48,12 +48,17 @@ class ChatController implements MessageComponentInterface
                 $alreadyExist = false;
 
                 foreach ($this->subscriptions as $key => $value) {
+
+
                     if ($this->users[$key]['username'] === $data->username) {
-                        $alreadyExist = true;
-                        $objSend["type"] = "redirect";
-                        var_dump($conn->resourceId);
-                        $this->users[$conn->resourceId]['connection']->send(json_encode($objSend));
-                        return;
+                        if ($value === $data->channel) {
+
+                            $alreadyExist = true;
+                            $objSend["type"] = "redirect";
+                            var_dump($conn->resourceId);
+                            $this->users[$conn->resourceId]['connection']->send(json_encode($objSend));
+                            return;
+                        }
                     }
                 }
 
