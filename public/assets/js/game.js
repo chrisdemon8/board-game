@@ -9,8 +9,7 @@ let board = document.getElementById("board");
 let boardStatus = document.getElementById("boardStatus");
 
 let scoreboard = document.getElementById("scoreboard");
-
-
+ 
 let scoreboardDesktop = document.getElementById("scoreboardDesktop");
 
 
@@ -316,6 +315,10 @@ function createBoard(gameObject) {
         scoreboard.innerHTML = "";
 
 
+        let titleScore = document.createElement("H2"); 
+        titleScore.textContent = "Score !"
+  
+        scoreboardDesktopParent.insertBefore(titleScore, scoreboardDesktopParent.firstChild);
 
         for (const [key, value] of Object.entries(gameObject["scores"])) {
 
