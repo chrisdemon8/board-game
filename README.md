@@ -51,7 +51,7 @@
 
 ## Manuel d'installation
 
-Creer un fichier app.env.local dans public/assets/sql avec dedans 
+Creer un fichier app.env.local dans /config/ avec dedans 
 <?php
 return [
     'APP_ENV'=> 'dev',
@@ -62,10 +62,27 @@ return [
     'MAIL_PASSWORD'=>'Votre mot de passe mail'
 ];
 
-Génerez votre bdd grace au scripts dans App/bdd
+Génerez votre bdd grace au scripts dans public/assets/sql
 
-utilisez composer et faites composer i dans /board-game
+utilisez composer et faites composer i à la racine du projet (emplacement du composer.json)
 
 Démarez les websocket avec 'php .\SocketServerCommand.php' dans board-game/src/Command
+
+Compte pour se connecter sur le site : 
+username : admin   (role admin)
+password : admin 
+
+username : valou    (role admin)
+password : azerty 
+
+username : chrisdemon8  (role user)
+password : azerty 
+
+username : flo      (role user)
+password : azerty 
+
+username : allan        (role user)
+password : azerty 
+
 
 et c'est partis !

@@ -4,14 +4,13 @@
     align-items: center;
     height: 100%;
     flex-direction: column;
-
 }
 
 .tablediv {
     overflow-x: auto;
     max-width: 95%;
+    margin-bottom: 50px;
 }
-
 
 table {
     font-family: arial, sans-serif;
@@ -43,7 +42,6 @@ tr:nth-child(even) {
     background-color: #c54b47;
 }
 
-
 input[type=text],
 select {
     width: 100%;
@@ -54,7 +52,6 @@ select {
     border-radius: 4px;
     box-sizing: border-box;
 }
-
 
 button {
     margin: 5px;
@@ -74,7 +71,9 @@ button:hover {
     cursor: pointer;
 }
 
+
 /* The Modal (background) */
+
 .modal {
     display: none;
     /* Hidden by default */
@@ -98,7 +97,9 @@ button:hover {
     /* Black w/ opacity */
 }
 
+
 /* Modal Content */
+
 .modal-content {
     background-color: #fefefe;
     margin: auto;
@@ -108,7 +109,9 @@ button:hover {
     width: 80%;
 }
 
+
 /* The Close Button */
+
 .close {
     color: #aaaaaa;
     float: right;
@@ -125,8 +128,7 @@ button:hover {
 
 .valid {
     background-color: #58cc02;
-    color :black;
-
+    color: black;
 }
 
 .valid:hover {
