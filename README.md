@@ -11,17 +11,6 @@
 - Opera 
 - Edge Chromium
 
-
-## Rendu du projet PHP
-- La base de données SQL ce trouve dans le répertoire public/assets/sql
-- La base de données fournie donne accès à un jeu de données pour pouvoir essayer le site
-- Le site respecte les consignes et donne accès à un espace de management des questions et des utilisateurs pour les admin
-- De plus pour les utilisateurs non admin il y a la possibilité de modifié son profil sur la page profil
-- Le site possède une gestion des routes sur la base du framework fait en cours
-- Le site possède une gestion des sessions
-- Le site possède une architecture Modèle (src/Core/Metier) un répertoire Controller (src/Core/Controller) un répertoire service (src/App/Controller) un répertoire pour les vues (/templates) plus un ensemble d'asset pour le bon fonctionnement des vues (/public/assets)
-- Le site possède pour certaine page des appels AJAX.
-
 ## Github 
 - https://github.com/chrisdemon8/board-game
 
@@ -62,7 +51,7 @@
 
 ## Manuel d'installation
 
-Creer un fichier app.env.local dans config avec dedans 
+Creer un fichier app.env.local dans public/assets/sql avec dedans 
 <?php
 return [
     'APP_ENV'=> 'dev',
