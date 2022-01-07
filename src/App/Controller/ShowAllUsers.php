@@ -13,6 +13,9 @@ class ShowAllUsers extends AbstractController
 
     public function __invoke(): string
     {
+        if (!isset($_SESSION['user']) || $_SESSION['user']->getRole() != 1)
+            header('Location: /');
+
         try {
             $this->userCont = new UsersController();
             $users = $this->userCont->getAllUsers();

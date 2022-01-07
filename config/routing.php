@@ -1,8 +1,6 @@
 <?php
 
-use App\Controller\Homepage;
-use App\Controller\Question;
-use App\Controller\ShowUser;
+use App\Controller\Homepage;  
 use App\Controller\ShowAllUsers;
 use App\Controller\ShowAllQuestions;
 use App\Controller\AddUser;
@@ -21,15 +19,13 @@ use App\Controller\DeleteQuestion;
 use App\Controller\UpdateQuestion;
 use App\Controller\UpdateAnswer;
 use App\Controller\AddAnswer;
-use App\Controller\AddQuestion;
-use App\Controller\ChatPage;
+use App\Controller\AddQuestion; 
 use App\Controller\CreateGame;
 use App\Controller\DeleteAnswer;
 use App\Controller\GetUsers;
 use App\Controller\NotFound;
 use App\Controller\UpdateUserAdmin;
-use App\Controller\Game;
-use App\Controller\GetRandomQuestion;
+use App\Controller\Game; 
 use Framework\Routing\Route;
 
 return [
@@ -49,9 +45,7 @@ return [
     new Route('GET', '/game/{partyId}', Game::class),
     new Route('POST', '/getQuestion', GetQuestion::class),
     new Route('POST', '/addQuestion', AddQuestion::class),
-    new Route('GET', '/deconnexion', Disconnected::class),
-    new Route('GET', '/question/{id}', Question::class),
-    new Route('GET', '/user/{id}', ShowUser::class),
+    new Route('GET', '/deconnexion', Disconnected::class),  
     new Route('GET', '/allUsers', ShowAllUsers::class),
     new Route('GET', '/allQuestions', ShowAllQuestions::class),
     new Route('POST', '/addUser', AddUser::class),
@@ -60,8 +54,6 @@ return [
     new Route('POST', '/deleteUser', DeleteUser::class),
     new Route('POST', '/updateUser', UpdateUser::class),
     new Route('GET', '/inscription', Inscription::class),
-    new Route('GET', '/connexion', Connexion::class),
-    new Route('GET', '/chatpage', ChatPage::class),
-    new Route('GET', '/getRandomQuestion/{level}', GetRandomQuestion::class),
+    new Route('GET', '/connexion', Connexion::class), 
 
 ];
